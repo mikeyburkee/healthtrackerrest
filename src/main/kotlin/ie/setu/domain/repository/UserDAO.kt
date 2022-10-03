@@ -26,4 +26,16 @@ class UserDAO {
     fun save(user: User){
         users.add(user)
     }
+
+    fun delete(user: User){
+        users.remove(user)
+    }
+
+    fun updateUser(id: Int, user: User){
+        val foundUser = findById(id)
+        if (foundUser != null){
+            foundUser.name = user.name
+            foundUser.email = user.email
+        }
+    }
 }

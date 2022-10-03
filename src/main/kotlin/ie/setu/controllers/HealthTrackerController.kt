@@ -35,4 +35,22 @@ object HealthTrackerController {
         ctx.json(user)
     }
 
+    fun deleteUser(ctx: Context){
+        val user = userDao.findById(ctx.pathParam("user-id").toInt())
+        if (user != null) {
+            userDao.delete(user)
+        }
+    }
+
+    fun updateUser(ctx: Context){
+        val userId = ctx.pathParam("user-id").toInt()
+        val foundUser = userDao.findById(userId)
+        if (foundUser != null) {
+            val mapper = jacksonObjectMapper()
+            val user = mapper.readValue<User>(ctx.body())
+            userDao.updateUser(userId, user)
+            ctx.json(user)
+        }
+    }
+
 }
