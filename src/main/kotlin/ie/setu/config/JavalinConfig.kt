@@ -25,6 +25,9 @@ class JavalinConfig {
                 path("{user-id}"){
                     get(HealthTrackerController::getUserByUserId)
                 }
+                path("/email/{email}"){
+                    get(HealthTrackerController::getUserByEmail)
+                }
             }
         }
     }
