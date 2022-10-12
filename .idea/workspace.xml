@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aa37cfe4-8870-49e3-9ba9-6bf0e8ba7609" name="Changes" comment="Add update by id. Added delete by Id">
+    <list default="true" id="aa37cfe4-8870-49e3-9ba9-6bf0e8ba7609" name="Changes" comment="Add Heroku deployment code and plugins">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ie/setu/config/DbConfig.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ie/setu/domain/db/Users.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ie/setu/utils/DBUtilities.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ie/setu/config/JavalinConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ie/setu/config/JavalinConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ie/setu/App.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ie/setu/App.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ie/setu/controllers/HealthTrackerController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ie/setu/controllers/HealthTrackerController.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ie/setu/domain/repository/UserDAO.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ie/setu/domain/repository/UserDAO.kt" afterDir="false" />
     </list>
@@ -20,6 +23,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Class" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
@@ -100,7 +104,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1664707567472</updated>
-      <workItem from="1664707568981" duration="14625000" />
+      <workItem from="1664707568981" duration="18058000" />
     </task>
     <task id="LOCAL-00001" summary="Add findByEmail function">
       <created>1664715203680</created>
@@ -130,7 +134,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664829450704</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Add Heroku deployment code and plugins">
+      <created>1665600262663</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1665600262663</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -152,6 +163,7 @@
     <MESSAGE value="Add delete by Id. Added findByEmail function" />
     <MESSAGE value="Added update by id" />
     <MESSAGE value="Add update by id. Added delete by Id" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add update by id. Added delete by Id" />
+    <MESSAGE value="Add Heroku deployment code and plugins" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Heroku deployment code and plugins" />
   </component>
 </project>

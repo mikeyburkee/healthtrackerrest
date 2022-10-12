@@ -36,10 +36,7 @@ object HealthTrackerController {
     }
 
     fun deleteUser(ctx: Context){
-        val user = userDao.findById(ctx.pathParam("user-id").toInt())
-        if (user != null) {
-            userDao.delete(user)
-        }
+        userDao.delete(ctx.pathParam("user-id").toInt())
     }
 
     fun updateUser(ctx: Context){
