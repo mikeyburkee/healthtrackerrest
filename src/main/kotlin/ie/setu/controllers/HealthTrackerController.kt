@@ -47,9 +47,9 @@ object HealthTrackerController {
         val foundUser = userDao.findById(userId)
         if (foundUser != null) {
             val mapper = jacksonObjectMapper()
-            val user = mapper.readValue<User>(ctx.body())
-            userDao.updateUser(userId, user)
-            ctx.json(user)
+            val userUpdates = mapper.readValue<User>(ctx.body())
+            userDao.update(userId, userUpdates)
+            ctx.json(userUpdates)
         }
     }
 

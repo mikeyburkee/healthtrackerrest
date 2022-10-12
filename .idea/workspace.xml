@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aa37cfe4-8870-49e3-9ba9-6bf0e8ba7609" name="Changes" comment="Added update by id">
+    <list default="true" id="aa37cfe4-8870-49e3-9ba9-6bf0e8ba7609" name="Changes" comment="Add update by id. Added delete by Id">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ie/setu/config/JavalinConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ie/setu/config/JavalinConfig.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ie/setu/controllers/HealthTrackerController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ie/setu/controllers/HealthTrackerController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ie/setu/domain/User.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ie/setu/domain/User.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/ie/setu/domain/repository/UserDAO.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ie/setu/domain/repository/UserDAO.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,13 +53,38 @@
       <recent name="C:\Users\Micha\SETU\agile-workspace\healthtrackerrest\src\main\kotlin" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Maven.deploy-heroku">
     <configuration name="AppKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ie.setu.AppKt" />
       <module name="healthtrackerrest" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="deploy-heroku" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="heroku:deploy" />
+              </list>
+            </option>
+            <option name="pomFileName" value="pom.xml" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
@@ -75,7 +100,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1664707567472</updated>
-      <workItem from="1664707568981" duration="10590000" />
+      <workItem from="1664707568981" duration="14625000" />
     </task>
     <task id="LOCAL-00001" summary="Add findByEmail function">
       <created>1664715203680</created>
@@ -98,7 +123,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664827758702</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Add update by id. Added delete by Id">
+      <created>1664829450704</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1664829450704</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -118,8 +150,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add findByEmail function" />
     <MESSAGE value="Add delete by Id. Added findByEmail function" />
-    <MESSAGE value="Add update by id. Added delete by Id" />
     <MESSAGE value="Added update by id" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added update by id" />
+    <MESSAGE value="Add update by id. Added delete by Id" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add update by id. Added delete by Id" />
   </component>
 </project>

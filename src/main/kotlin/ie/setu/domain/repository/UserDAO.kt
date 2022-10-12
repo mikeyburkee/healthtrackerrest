@@ -31,7 +31,7 @@ class UserDAO {
         users.remove(user)
     }
 
-    fun updateUser(id: Int, user: User){
+    fun update(id: Int, user: User){
         val foundUser = findById(id)
         if (foundUser != null){
             foundUser.name = user.name
