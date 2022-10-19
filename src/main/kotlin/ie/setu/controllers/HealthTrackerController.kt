@@ -46,6 +46,15 @@ object HealthTrackerController {
         }
     }
 
+    @OpenApi(
+        summary = "Add User",
+        operationId = "addUser",
+        tags = ["User"],
+        path = "/api/users",
+        method = HttpMethod.POST,
+        pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
+        responses  = [OpenApiResponse("200")]
+    )
     fun addUser(ctx: Context) {
         val mapper = jacksonObjectMapper()
         val user = mapper.readValue<User>(ctx.body())
