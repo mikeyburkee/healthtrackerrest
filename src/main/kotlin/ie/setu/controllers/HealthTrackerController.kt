@@ -23,6 +23,15 @@ object HealthTrackerController {
         ctx.json(userDao.getAll())
     }
 
+    @OpenApi(
+        summary = "Get user by ID",
+        operationId = "getUserById",
+        tags = ["User"],
+        path = "/api/users/{user-id}",
+        method = HttpMethod.GET,
+        pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
+        responses  = [OpenApiResponse("200", [OpenApiContent(User::class)])]
+    )
     fun getUserByUserId(ctx: Context) {
         val user = userDao.findById(ctx.pathParam("user-id").toInt())
         if (user != null) {
