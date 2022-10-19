@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aa37cfe4-8870-49e3-9ba9-6bf0e8ba7609" name="Changes" comment="Add update User">
+    <list default="true" id="aa37cfe4-8870-49e3-9ba9-6bf0e8ba7609" name="Changes" comment="Add OpenAPI capabilities to JavalinConfig and depenedcny to POM">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ie/setu/controllers/HealthTrackerController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ie/setu/controllers/HealthTrackerController.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +98,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1664707567472</updated>
-      <workItem from="1664707568981" duration="19180000" />
+      <workItem from="1664707568981" duration="19692000" />
     </task>
     <task id="LOCAL-00001" summary="Add findByEmail function">
       <created>1664715203680</created>
@@ -170,7 +170,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666200244891</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Add OpenAPI capabilities to JavalinConfig and depenedcny to POM">
+      <created>1666200867084</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1666200867084</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -198,6 +205,7 @@
     <MESSAGE value="Add save User" />
     <MESSAGE value="Add delete User" />
     <MESSAGE value="Add update User" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add update User" />
+    <MESSAGE value="Add OpenAPI capabilities to JavalinConfig and depenedcny to POM" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add OpenAPI capabilities to JavalinConfig and depenedcny to POM" />
   </component>
 </project>
