@@ -44,6 +44,15 @@ object HealthTrackerController {
         ctx.json(user)
     }
 
+    @OpenApi(
+        summary = "Delete user by ID",
+        operationId = "deleteUserById",
+        tags = ["User"],
+        path = "/api/users/{user-id}",
+        method = HttpMethod.DELETE,
+        pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
+        responses  = [OpenApiResponse("204")]
+    )
     fun deleteUser(ctx: Context){
         userDao.delete(ctx.pathParam("user-id").toInt())
     }
