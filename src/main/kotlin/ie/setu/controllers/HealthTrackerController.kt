@@ -30,6 +30,15 @@ object HealthTrackerController {
         }
     }
 
+    @OpenApi(
+        summary = "Get user by Email",
+        operationId = "getUserByEmail",
+        tags = ["User"],
+        path = "/api/users/email/{email}",
+        method = HttpMethod.GET,
+        pathParams = [OpenApiParam("email", Int::class, "The user email")],
+        responses  = [OpenApiResponse("200", [OpenApiContent(User::class)])]
+    )
     fun getUserByEmail(ctx: Context){
         val user = userDao.findByEmail(ctx.pathParam("email"))
         if (user != null){
