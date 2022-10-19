@@ -82,6 +82,12 @@
             <artifactId>kotlin-logging</artifactId>
             <version>1.12.5</version>
         </dependency>
+        <!-- used bundle to enable openapi swagger documentation -->
+        <dependency>
+            <groupId>io.javalin</groupId>
+            <artifactId>javalin-bundle</artifactId>
+            <version>4.6.1</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aa37cfe4-8870-49e3-9ba9-6bf0e8ba7609" name="Changes" comment="Add Heroku deployment code and plugins">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ie/setu/config/DbConfig.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ie/setu/domain/db/Users.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ie/setu/utils/DBUtilities.kt" afterDir="false" />
+    <list default="true" id="aa37cfe4-8870-49e3-9ba9-6bf0e8ba7609" name="Changes" comment="Add update User">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ie/setu/App.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ie/setu/App.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ie/setu/controllers/HealthTrackerController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ie/setu/controllers/HealthTrackerController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ie/setu/domain/repository/UserDAO.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ie/setu/domain/repository/UserDAO.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +39,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Micha/Documents/agilesw/healthtracker-console-v2.0/healthtracker",
+    "last_opened_file_path": "C:/Users/Micha/Documents/agilesw/lab5Sols/health-tracker-rest-2.1/health-tracker-rest-2.1",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -104,7 +98,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1664707567472</updated>
-      <workItem from="1664707568981" duration="18058000" />
+      <workItem from="1664707568981" duration="19180000" />
     </task>
     <task id="LOCAL-00001" summary="Add findByEmail function">
       <created>1664715203680</created>
@@ -141,7 +135,42 @@
       <option name="project" value="LOCAL" />
       <updated>1665600262663</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Add get All users and get user by User Id">
+      <created>1665610609637</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1665610609637</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Add find by email">
+      <created>1666200003750</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1666200003750</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Add save User">
+      <created>1666200106996</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1666200106996</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Add delete User">
+      <created>1666200155049</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1666200155049</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Add update User">
+      <created>1666200244890</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1666200244891</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -164,6 +193,11 @@
     <MESSAGE value="Added update by id" />
     <MESSAGE value="Add update by id. Added delete by Id" />
     <MESSAGE value="Add Heroku deployment code and plugins" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Heroku deployment code and plugins" />
+    <MESSAGE value="Add get All users and get user by User Id" />
+    <MESSAGE value="Add find by email" />
+    <MESSAGE value="Add save User" />
+    <MESSAGE value="Add delete User" />
+    <MESSAGE value="Add update User" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add update User" />
   </component>
 </project>
