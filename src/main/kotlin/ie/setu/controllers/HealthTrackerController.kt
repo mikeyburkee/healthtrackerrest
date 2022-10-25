@@ -1,15 +1,20 @@
 package ie.setu.controllers
 
-import ie.setu.domain.User
-import ie.setu.domain.repository.UserDAO
-import io.javalin.http.Context
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.joda.JodaModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import ie.setu.domain.Activity
+import ie.setu.domain.User
+import ie.setu.domain.repository.ActivityDAO
+import ie.setu.domain.repository.UserDAO
+import io.javalin.http.Context
 import io.javalin.plugin.openapi.annotations.*
 
 object HealthTrackerController {
 
     private val userDao = UserDAO()
+    private val activityDAO = ActivityDAO()
 
     @OpenApi(
         summary = "Get all users",
@@ -40,22 +45,6 @@ object HealthTrackerController {
     }
 
     @OpenApi(
-        summary = "Get user by Email",
-        operationId = "getUserByEmail",
-        tags = ["User"],
-        path = "/api/users/email/{email}",
-        method = HttpMethod.GET,
-        pathParams = [OpenApiParam("email", Int::class, "The user email")],
-        responses  = [OpenApiResponse("200", [OpenApiContent(User::class)])]
-    )
-    fun getUserByEmail(ctx: Context){
-        val user = userDao.findByEmail(ctx.pathParam("email"))
-        if (user != null){
-            ctx.json(user)
-        }
-    }
-
-    @OpenApi(
         summary = "Add User",
         operationId = "addUser",
         tags = ["User"],
@@ -69,6 +58,22 @@ object HealthTrackerController {
         val user = mapper.readValue<User>(ctx.body())
         userDao.save(user)
         ctx.json(user)
+    }
+
+    @OpenApi(
+        summary = "Get user by Email",
+        operationId = "getUserByEmail",
+        tags = ["User"],
+        path = "/api/users/email/{email}",
+        method = HttpMethod.GET,
+        pathParams = [OpenApiParam("email", Int::class, "The user email")],
+        responses  = [OpenApiResponse("200", [OpenApiContent(User::class)])]
+    )
+    fun getUserByEmail(ctx: Context) {
+        val user = userDao.findByEmail(ctx.pathParam("email"))
+        if (user != null) {
+            ctx.json(user)
+        }
     }
 
     @OpenApi(
@@ -94,14 +99,45 @@ object HealthTrackerController {
         responses  = [OpenApiResponse("204")]
     )
     fun updateUser(ctx: Context){
-        val userId = ctx.pathParam("user-id").toInt()
-        val foundUser = userDao.findById(userId)
-        if (foundUser != null) {
-            val mapper = jacksonObjectMapper()
-            val userUpdates = mapper.readValue<User>(ctx.body())
-            userDao.update(userId, userUpdates)
-            ctx.json(userUpdates)
+        val mapper = jacksonObjectMapper()
+        val userUpdates = mapper.readValue<User>(ctx.body())
+        userDao.update(
+            id = ctx.pathParam("user-id").toInt(),
+            user=userUpdates)
+    }
+
+    //--------------------------------------------------------------
+    // ActivityDAOI specifics
+    //-------------------------------------------------------------
+
+    fun getAllActivities(ctx: Context) {
+        //mapper handles the deserialization of Joda date into a String.
+        val mapper = jacksonObjectMapper()
+            .registerModule(JodaModule())
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+        ctx.json(mapper.writeValueAsString( activityDAO.getAll() ))
+    }
+
+    fun getActivitiesByUserId(ctx: Context) {
+        if (userDao.findById(ctx.pathParam("user-id").toInt()) != null) {
+            val activities = activityDAO.findByUserId(ctx.pathParam("user-id").toInt())
+            if (activities.isNotEmpty()) {
+                //mapper handles the deserialization of Joda date into a String.
+                val mapper = jacksonObjectMapper()
+                    .registerModule(JodaModule())
+                    .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+                ctx.json(mapper.writeValueAsString(activities))
+            }
         }
     }
 
+    fun addActivity(ctx: Context) {
+        //mapper handles the serialisation of Joda date into a String.
+        val mapper = jacksonObjectMapper()
+            .registerModule(JodaModule())
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+        val activity = mapper.readValue<Activity>(ctx.body())
+        activityDAO.save(activity)
+        ctx.json(activity)
+    }
 }
