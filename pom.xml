@@ -43,23 +43,24 @@
             <version>${junit.platform.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- removing the following 3 dependencies when adding javalin bundle for Swagger docs-->
         <!-- Adding Javalin dependency -->
-        <dependency>
+        <!--dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
             <version>4.6.1</version>
-        </dependency>
+        </dependency-->
         <!-- These Logging Dependencies are required; warning appears otherwise when running -->
-        <dependency>
+        <!--dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>2.0.0-alpha7</version>
-        </dependency>
-        <dependency>
+        </dependency-->
+        <!--dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.0-alpha7</version>
-        </dependency>
+        </dependency-->
         <!-- json dependency for localhost running -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -95,6 +96,12 @@
             <groupId>io.javalin</groupId>
             <artifactId>javalin-bundle</artifactId>
             <version>4.6.1</version>
+        </dependency>
+        <!-- json dependency for serialising joda date time -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-joda</artifactId>
+            <version>2.13.3</version>
         </dependency>
     </dependencies>
 
