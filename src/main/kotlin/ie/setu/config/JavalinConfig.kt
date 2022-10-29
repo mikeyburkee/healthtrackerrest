@@ -37,28 +37,29 @@ class JavalinConfig {
     private fun registerRoutes(app: Javalin) {
         app.routes {
             path("/api/users") {
-                get(UserController::getAllUsers)
-                post(UserController::addUser)
+
+                get(UserController::getAllUsers) // api tester complete
+                post(UserController::addUser) // api tester complete
                 path("{user-id}"){
-                    get(UserController::getUserByUserId)
-                    delete(UserController::deleteUser)
-                    patch(UserController::updateUser)
+                    get(UserController::getUserByUserId) // api tester complete
+                    delete(UserController::deleteUser) // api tester complete
+                    patch(UserController::updateUser) // api tester complete
                     path("activities"){
-                        get(ActivityController::getActivitiesByUserId)
-                        delete(ActivityController::deleteActivityByUserId)
+                        get(ActivityController::getActivitiesByUserId) // api tester complete
+                        delete(ActivityController::deleteActivityByUserId) // api tester complete
                     }
                 }
                 path("/email/{email}"){
-                    get(HealthTrackerController::getUserByEmail)
+                    get(HealthTrackerController::getUserByEmail) // api tester complete
                 }
             }
             path("/api/activities") {
-                get(ActivityController::getAllActivities)
-                post(ActivityController::addActivity)
+                get(ActivityController::getAllActivities) // api tester complete
+                post(ActivityController::addActivity) // api tester complete
                 path("{activity-id}") {
-                    get(ActivityController::getActivitiesByActivityId)
-                    delete(ActivityController::deleteActivityByActivityId)
-                    patch(ActivityController::updateActivity)
+                    get(ActivityController::getActivitiesByActivityId) // api tester complete
+                    delete(ActivityController::deleteActivityByActivityId) // api tester complete
+                    patch(ActivityController::updateActivity) // api tester complete
                 }
             }
         }
