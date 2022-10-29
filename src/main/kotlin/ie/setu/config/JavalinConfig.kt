@@ -1,6 +1,8 @@
 package ie.setu.config
 
+import ie.setu.controllers.ActivityController
 import ie.setu.controllers.HealthTrackerController
+import ie.setu.controllers.UserController
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
 import io.javalin.plugin.openapi.OpenApiOptions
@@ -35,14 +37,15 @@ class JavalinConfig {
     private fun registerRoutes(app: Javalin) {
         app.routes {
             path("/api/users") {
-                get(HealthTrackerController::getAllUsers)
-                post(HealthTrackerController::addUser)
+                get(UserController::getAllUsers)
+                post(UserController::addUser)
                 path("{user-id}"){
-                    get(HealthTrackerController::getUserByUserId)
-                    delete(HealthTrackerController::deleteUser)
-                    patch(HealthTrackerController::updateUser)
+                    get(UserController::getUserByUserId)
+                    delete(UserController::deleteUser)
+                    patch(UserController::updateUser)
                     path("activities"){
-                        get(HealthTrackerController::getActivitiesByUserId)
+                        get(ActivityController::getActivitiesByUserId)
+                        delete(ActivityController::deleteActivityByUserId)
                     }
                 }
                 path("/email/{email}"){
@@ -50,8 +53,13 @@ class JavalinConfig {
                 }
             }
             path("/api/activities") {
-                get(HealthTrackerController::getAllActivities)
-                post(HealthTrackerController::addActivity)
+                get(ActivityController::getAllActivities)
+                post(ActivityController::addActivity)
+                path("{activity-id}") {
+                    get(ActivityController::getActivitiesByActivityId)
+                    delete(ActivityController::deleteActivityByActivityId)
+                    patch(ActivityController::updateActivity)
+                }
             }
         }
     }
@@ -60,7 +68,7 @@ class JavalinConfig {
         OpenApiOptions(
             Info().apply {
                 title("Health Tracker App")
-                version("1.0")
+                version("2.0")
                 description("Health Tracker API")
             }
         ).apply {
