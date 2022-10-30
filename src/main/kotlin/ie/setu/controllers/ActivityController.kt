@@ -27,8 +27,14 @@ object ActivityController {
         responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)])]
     )
     fun getAllActivities(ctx: Context) {
-        //mapper handles the deserialization of Joda date into a String.
-        ctx.json(mapJSONDate().writeValueAsString( activityDAO.getAll() ))
+        val activities = activityDAO.getAll()
+        if (activities.size != 0) {
+            ctx.status(200)
+        }
+        else{
+            ctx.status(404)
+        }
+        ctx.json(activities)
     }
 
     @OpenApi(

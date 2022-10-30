@@ -73,10 +73,10 @@ class ActivityCotrollerTest {
             val response = retrieveAllActivities()
             if (response.status == 200){
                 val retrievedActivities = jsonNodeToObject<Array<Activity>>(response)
-                Assertions.assertNotEquals(0, retrievedActivities.size)
+                assertNotEquals(0, retrievedActivities.size)
             }
             else{
-                Assertions.assertEquals(404, response.status)
+                assertEquals(404, response.status)
             }
         }
 
@@ -96,12 +96,12 @@ class ActivityCotrollerTest {
 
             //Assert and Act - retrieve the three added activities by user id
             val response = retrieveActivitiesByUserId(addedUser.id)
-            Assertions.assertEquals(200, response.status)
+            assertEquals(200, response.status)
             val retrievedActivities = jsonNodeToObject<Array<Activity>>(response)
-            Assertions.assertEquals(3, retrievedActivities.size)
+            assertEquals(3, retrievedActivities.size)
 
             //After - delete the added user and assert a 204 is returned (activities are cascade deleted)
-            Assertions.assertEquals(204, deleteUser(addedUser.id).status)
+            assertEquals(204, deleteUser(addedUser.id).status)
         }
 
         @Test
