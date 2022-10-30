@@ -13,6 +13,7 @@ import ie.setu.domain.repository.ActivityDAO
 import ie.setu.helpers.activities
 import ie.setu.helpers.populateActivityTable
 import ie.setu.helpers.populateUserTable
+import org.junit.jupiter.api.Disabled
 import kotlin.test.assertEquals
 
 //retrieving some test data from Fixtures
@@ -40,6 +41,7 @@ class ActivityDAOTest {
                 //Arrange - create and populate tables with three users and three activities
                 val userDAO = populateUserTable()
                 val activityDAO = populateActivityTable()
+
                 //Act & Assert
                 assertEquals(3, activityDAO.getAll().size)
                 assertEquals(activity1, activityDAO.findByActivityId(activity1.id))
@@ -165,7 +167,7 @@ class ActivityDAOTest {
     inner class DeleteActivities {
 
         @Test
-        fun `deleting a non-existant activity (by id) in table results in no deletion`() {
+        fun `deleting a non-existent activity (by id) in table results in no deletion`() {
             transaction {
 
                 //Arrange - create and populate tables with three users and three activities
@@ -176,6 +178,8 @@ class ActivityDAOTest {
                 assertEquals(3, activityDAO.getAll().size)
                 activityDAO.deleteByActivityId(4)
                 assertEquals(3, activityDAO.getAll().size)
+
+
             }
         }
 
