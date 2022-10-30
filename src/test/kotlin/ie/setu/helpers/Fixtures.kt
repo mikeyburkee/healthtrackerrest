@@ -1,17 +1,30 @@
 package ie.setu.helpers
 
+import ie.setu.config.DbConfig
 import ie.setu.domain.Activity
 import ie.setu.domain.User
 import ie.setu.domain.db.Activities
 import ie.setu.domain.db.Users
 import ie.setu.domain.repository.ActivityDAO
 import ie.setu.domain.repository.UserDAO
+import ie.setu.repository.user1
+import ie.setu.repository.user2
+import ie.setu.repository.user3
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.joda.time.DateTime
 
 val nonExistingEmail = "112233445566778testUser@xxxxx.xx"
 val validName = "Test User 1"
 val validEmail = "testuser1@test.com"
+
+val updatedName = "Updated Name"
+val updatedEmail = "Updated Email"
+
+val updatedDescription = "Updated Description"
+val updatedDuration = 30.0
+val updatedCalories = 945
+val updatedStarted = DateTime.parse("2020-06-11T05:59:27.258Z")
+
 
 val users = arrayListOf<User>(
     User(name = "Alice Wonderland", email = "alice@wonderland.com", id = 1),
