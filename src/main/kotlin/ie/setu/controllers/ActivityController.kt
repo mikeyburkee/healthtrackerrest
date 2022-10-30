@@ -8,6 +8,7 @@ import ie.setu.domain.Activity
 import ie.setu.domain.User
 import ie.setu.domain.repository.ActivityDAO
 import ie.setu.domain.repository.UserDAO
+import ie.setu.utils.jsonToObject
 import ie.setu.utils.mapJSONDate
 import io.javalin.http.Context
 import io.javalin.plugin.openapi.annotations.*
@@ -27,9 +28,7 @@ object ActivityController {
     )
     fun getAllActivities(ctx: Context) {
         //mapper handles the deserialization of Joda date into a String.
-        val mapper = mapJSONDate()
-        ctx.json(mapper.writeValueAsString( activityDAO.getAll() ))
-
+        ctx.json(mapJSONDate().writeValueAsString( activityDAO.getAll() ))
     }
 
     @OpenApi(
@@ -45,10 +44,15 @@ object ActivityController {
         if (userDao.findById(ctx.pathParam("user-id").toInt()) != null) {
             val activities = activityDAO.findByUserId(ctx.pathParam("user-id").toInt())
             if (activities.isNotEmpty()) {
-                //mapper handles the deserialization of Joda date into a String.
-                val mapper = mapJSONDate()
-                ctx.json(mapper.writeValueAsString(activities))
+                ctx.json(activities)
+                ctx.status(200)
             }
+            else{
+                ctx.status(404)
+            }
+        }
+        else{
+            ctx.status(404)
         }
     }
 
@@ -62,12 +66,17 @@ object ActivityController {
         responses  = [OpenApiResponse("200")]
     )
     fun addActivity(ctx: Context) {
-        //mapper handles the serialisation of Joda date into a String.
-        val mapper = mapJSONDate()
-
-        val activity = mapper.readValue<Activity>(ctx.body())
-        activityDAO.save(activity)
-        ctx.json(activity)
+        val activity : Activity = jsonToObject(ctx.body())
+        val userId = userDao.findById(activity.userId)
+        if (userId != null) {
+            val activityId = activityDAO.save(activity)
+            activity.id = activityId
+            ctx.json(activity)
+            ctx.status(201)
+        }
+        else{
+            ctx.status(404)
+        }
     }
 
     @OpenApi(
@@ -82,8 +91,11 @@ object ActivityController {
     fun getActivitiesByActivityId(ctx: Context) {
         val activity = activityDAO.findByActivityId((ctx.pathParam("activity-id").toInt()))
         if (activity != null){
-            val mapper = mapJSONDate()
-            ctx.json(mapper.writeValueAsString(activity))
+            ctx.json(activity)
+            ctx.status(200)
+        }
+        else{
+            ctx.status(404)
         }
     }
 
@@ -97,7 +109,10 @@ object ActivityController {
         responses  = [OpenApiResponse("204")]
     )
     fun deleteActivityByActivityId(ctx: Context){
-        activityDAO.deleteByActivityId(ctx.pathParam("activity-id").toInt())
+        if (activityDAO.deleteByActivityId(ctx.pathParam("activity-id").toInt()) != 0)
+            ctx.status(204)
+        else
+            ctx.status(404)
     }
 
     @OpenApi(
@@ -110,7 +125,10 @@ object ActivityController {
         responses  = [OpenApiResponse("204")]
     )
     fun deleteActivityByUserId(ctx: Context){
-        activityDAO.deleteByUserId(ctx.pathParam("user-id").toInt())
+        if (activityDAO.deleteByUserId(ctx.pathParam("user-id").toInt()) != 0)
+            ctx.status(204)
+        else
+            ctx.status(404)
     }
 
     @OpenApi(
@@ -123,10 +141,12 @@ object ActivityController {
         responses  = [OpenApiResponse("204")]
     )
     fun updateActivity(ctx: Context){
-        val mapper = mapJSONDate()
-        val activity = mapper.readValue<Activity>(ctx.body())
-            activityDAO.updateByActivityId(
-            activityId = ctx.pathParam("activity-id").toInt(),
-            activityDTO=activity)
+        val activity : Activity = jsonToObject(ctx.body())
+        if (activityDAO.updateByActivityId(
+                activityId = ctx.pathParam("activity-id").toInt(),
+                activityToUpdate =activity) != 0)
+            ctx.status(204)
+        else
+            ctx.status(404)
     }
 }
