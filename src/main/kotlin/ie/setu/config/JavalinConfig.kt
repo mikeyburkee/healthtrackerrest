@@ -1,10 +1,11 @@
 package ie.setu.config
 
 import ie.setu.controllers.ActivityController
-import ie.setu.controllers.HealthTrackerController
 import ie.setu.controllers.UserController
+import ie.setu.utils.jsonObjectMapper
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
+import io.javalin.plugin.json.JavalinJackson
 import io.javalin.plugin.openapi.OpenApiOptions
 import io.javalin.plugin.openapi.OpenApiPlugin
 import io.javalin.plugin.openapi.ui.ReDocOptions
@@ -18,6 +19,9 @@ class JavalinConfig {
         val app = Javalin.create {
             it.registerPlugin(getConfiguredOpenApiPlugin())
             it.defaultContentType = "application/json"
+            //added this jsonMapper for our integration tests - serialise objects to json
+            it.jsonMapper(JavalinJackson(jsonObjectMapper()))
+            it.enableWebjars()
         }.apply {
             exception(Exception::class.java) { e, _ -> e.printStackTrace() }
             error(404) { ctx -> ctx.json("404 - Not Found") }
@@ -50,7 +54,7 @@ class JavalinConfig {
                     }
                 }
                 path("/email/{email}"){
-                    get(HealthTrackerController::getUserByEmail) // api tester complete
+                    get(UserController::getUserByEmail) // api tester complete
                 }
             }
             path("/api/activities") {
@@ -62,6 +66,7 @@ class JavalinConfig {
                     patch(ActivityController::updateActivity) // api tester complete
                 }
             }
+
         }
     }
 
