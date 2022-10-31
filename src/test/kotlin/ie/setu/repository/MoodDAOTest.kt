@@ -49,4 +49,79 @@ class MoodDAOTest {
         }
     }
 
+    @Nested
+    inner class ReadMoods {
+
+        @Test
+        fun `getting all moods from a populated table returns all rows`() {
+            transaction {
+                //Arrange - create and populate tables with three users and three activities
+                val userDAO = populateUserTable()
+                val moodDAO = populateMoodTable()
+                //Act & Assert
+                assertEquals(3, moodDAO.getAll().size)
+            }
+        }
+
+        @Test
+        fun `get mood by user id that has no moods, results in no record returned`() {
+            transaction {
+                //Arrange - create and populate tables with three users and three activities
+                val userDAO = populateUserTable()
+                val moodDAO = populateActivityTable()
+                //Act & Assert
+                assertEquals(0, moodDAO.findByUserId(3).size)
+            }
+        }
+
+        @Test
+        fun `get mood by user id that exists, results in a correct mood(s) returned`() {
+            transaction {
+                //Arrange - create and populate tables with three users and three activities
+                val userDAO = populateUserTable()
+                val moodDAO = populateMoodTable()
+                //Act & Assert
+                assertEquals(mood1, moodDAO.findByUserId(1).get(0))
+                assertEquals(mood2, moodDAO.findByUserId(1).get(1))
+                assertEquals(mood3, moodDAO.findByUserId(2).get(0))
+            }
+        }
+
+        @Test
+        fun `get all moods over empty table returns none`() {
+            transaction {
+
+                //Arrange - create and setup moodDAO object
+                SchemaUtils.create(Moods)
+                val moodDAO = MoodDAO()
+
+                //Act & Assert
+                assertEquals(0, moodDAO.getAll().size)
+            }
+        }
+
+        @Test
+        fun `get mood by mood id that has no records, results in no record returned`() {
+            transaction {
+                //Arrange - create and populate tables with three users and three activities
+                val userDAO = populateUserTable()
+                val moodDAO = populateMoodTable()
+                //Act & Assert
+                assertEquals(null, moodDAO.findByMoodId(4))
+            }
+        }
+
+        @Test
+        fun `get mood by mood id that exists, results in a correct mood returned`() {
+            transaction {
+                //Arrange - create and populate tables with three users and three activities
+                val userDAO = populateUserTable()
+                val moodDAO = populateMoodTable()
+                //Act & Assert
+                assertEquals(mood1, moodDAO.findByMoodId(1))
+                assertEquals(mood3, moodDAO.findByMoodId(3))
+            }
+        }
+    }
+
 }
