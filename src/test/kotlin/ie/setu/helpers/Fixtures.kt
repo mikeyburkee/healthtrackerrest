@@ -2,12 +2,15 @@ package ie.setu.helpers
 
 import ie.setu.domain.Activity
 import ie.setu.domain.Mood
+import ie.setu.domain.Sleep
 import ie.setu.domain.User
 import ie.setu.domain.db.Activities
 import ie.setu.domain.db.Moods
+import ie.setu.domain.db.Sleeps
 import ie.setu.domain.db.Users
 import ie.setu.domain.repository.ActivityDAO
 import ie.setu.domain.repository.MoodDAO
+import ie.setu.domain.repository.SleepDAO
 import ie.setu.domain.repository.UserDAO
 import ie.setu.repository.user1
 import ie.setu.repository.user2
@@ -23,12 +26,14 @@ val updatedName = "Updated Name"
 val updatedEmail = "Updated Email"
 
 val updatedDescription = "Updated Description"
-val updatedDuration = 30.0
+val updatedDuration = 3.66
 val updatedCalories = 945
 val updatedStarted = DateTime.parse("2020-06-11T05:59:27.258Z")
 
 val updatedRating = 1
 val updatedDateEntry = updatedStarted
+
+val updatedWakeUpTime = updatedStarted
 
 val users = arrayListOf<User>(
     User(name = "Alice Wonderland", email = "alice@wonderland.com", id = 1),
@@ -47,6 +52,12 @@ val moods = arrayListOf<Mood>(
     Mood(id = 1, description = "Happy", rating = 7, dateEntry = DateTime.now(), userId = 1),
     Mood(id = 2, description = "Ok", rating = 6, dateEntry = DateTime.now(), userId = 1),
     Mood(id = 3, description = "Over the moon", rating = 9, dateEntry = DateTime.now(), userId = 2)
+)
+
+val sleeps = arrayListOf<Sleep>(
+    Sleep(id = 1, description = "Unbroken", duration = 6.0, rating = 7, wakeUpTime = DateTime.now(), userId = 1),
+    Sleep(id = 2, description = "Bad", duration = 4.5, rating = 4, wakeUpTime = DateTime.now(), userId = 1),
+    Sleep(id = 3, description = "Fantastic", duration = 8.0, rating = 9, wakeUpTime = DateTime.now(), userId = 2)
 )
 
 fun populateUserTable(): UserDAO {
@@ -73,4 +84,13 @@ fun populateMoodTable(): MoodDAO {
     moodDAO.save(moods.get(1))
     moodDAO.save(moods.get(2))
     return moodDAO
+}
+
+fun populateSleepTable(): SleepDAO {
+    SchemaUtils.create(Sleeps)
+    val sleepDAO = SleepDAO()
+    sleepDAO.save(sleeps.get(0))
+    sleepDAO.save(sleeps.get(1))
+    sleepDAO.save(sleeps.get(2))
+    return sleepDAO
 }
