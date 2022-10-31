@@ -2,6 +2,7 @@ package ie.setu.config
 
 import ie.setu.controllers.ActivityController
 import ie.setu.controllers.MoodController
+import ie.setu.controllers.SleepController
 import ie.setu.controllers.UserController
 import ie.setu.utils.jsonObjectMapper
 import io.javalin.Javalin
@@ -54,8 +55,12 @@ class JavalinConfig {
                         delete(ActivityController::deleteActivityByUserId) // api tester complete
                     }
                     path("moods"){
-                        get(MoodController::getMoodsByUserId)
-                        delete(MoodController::deleteMoodByUserId)
+                        get(MoodController::getMoodsByUserId) // api tester complete
+                        delete(MoodController::deleteMoodByUserId) // api tester complete
+                    }
+                    path("sleeps"){
+                        get(SleepController::getSleepsByUserId) //TODO api tester
+                        delete(SleepController::deleteSleepByUserId) //TODO api tester
                     }
                 }
                 path("/email/{email}"){
@@ -72,12 +77,21 @@ class JavalinConfig {
                 }
             }
             path("/api/moods"){
-                get(MoodController::getAllMoods)
-                post(MoodController::addMood)
+                get(MoodController::getAllMoods) // api tester complete
+                post(MoodController::addMood) // api tester complete
                 path("{mood-id}") {
-                    get(MoodController::getMoodsByMoodId)
-                    delete(MoodController::deleteMoodByMoodId)
-                    patch(MoodController::updateMood)
+                    get(MoodController::getMoodsByMoodId) // api tester complete
+                    delete(MoodController::deleteMoodByMoodId) // api tester complete
+                    patch(MoodController::updateMood) // api tester complete
+                }
+            }
+            path("/api/sleeps"){
+                get(SleepController::getAllSleeps) //TODO api tester
+                post(SleepController::addSleep) //TODO api tester
+                path("{sleep-id}") {
+                    get(SleepController::getSleepsBySleepId) //TODO api tester
+                    delete(SleepController::deleteSleepBySleepId) //TODO api tester
+                    patch(SleepController::updateSleep) //TODO api tester
                 }
             }
         }
