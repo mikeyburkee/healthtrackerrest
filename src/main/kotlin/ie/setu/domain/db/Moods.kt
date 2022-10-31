@@ -9,7 +9,7 @@ import org.jetbrains.exposed.sql.Table
 object Moods : Table("moods") {
     val id = integer("id").autoIncrement().primaryKey()
     val description = varchar("description", 100)
-    val mood_value = integer("mood_value")
-    val logged = datetime("started")
+    val rating = integer("rating")
+    val dateEntry = datetime("date_entry")
     val userId = integer("user_id").references(Users.id, onDelete = ReferenceOption.CASCADE)
 }

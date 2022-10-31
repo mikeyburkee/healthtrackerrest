@@ -43,8 +43,8 @@ class MoodDAO {
         return transaction {
             Moods.insert {
                 it[description] = mood.description
-                it[mood_value] = mood.mood_value
-                it[logged] = mood.logged
+                it[rating] = mood.rating
+                it[dateEntry] = mood.dateEntry
                 it[userId] = mood.userId
             }
         } get Moods.id
@@ -55,8 +55,8 @@ class MoodDAO {
             Moods.update ({
                 Moods.id eq moodId}) {
                 it[description] = moodToUpdate.description
-                it[mood_value] = moodToUpdate.mood_value
-                it[logged] = moodToUpdate.logged
+                it[rating] = moodToUpdate.rating
+                it[dateEntry] = moodToUpdate.dateEntry
                 it[userId] = moodToUpdate.userId
             }
         }

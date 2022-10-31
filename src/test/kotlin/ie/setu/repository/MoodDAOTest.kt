@@ -137,8 +137,8 @@ class MoodDAOTest {
                 val moodDAO = populateMoodTable()
 
                 //Act & Assert
-                val mood3updated = Mood(id = 3, description = "Very bad", mood_value = 1,
-                    logged = DateTime.now(), userId = 2)
+                val mood3updated = Mood(id = 3, description = "Very bad", rating = 1,
+                    dateEntry = DateTime.now(), userId = 2)
                 moodDAO.updateByMoodId(mood3updated.id, mood3updated)
                 assertEquals(mood3updated, moodDAO.findByMoodId(3))
             }
@@ -153,8 +153,8 @@ class MoodDAOTest {
                 val moodDAO = populateMoodTable()
 
                 //Act & Assert
-                val mood4updated = Mood(id = 4, description = "happy", mood_value = 7,
-                    logged = DateTime.now(), userId = 2)
+                val mood4updated = Mood(id = 4, description = "happy", rating = 7,
+                    dateEntry = DateTime.now(), userId = 2)
                 moodDAO.updateByMoodId(4, mood4updated)
                 assertEquals(null, moodDAO.findByMoodId(4))
                 assertEquals(3, moodDAO.getAll().size)

@@ -26,7 +26,7 @@ fun mapToActivity(it: ResultRow) = Activity(
 fun mapToMood(it: ResultRow) = Mood(
     id = it[Moods.id],
     description = it[Moods.description],
-    mood_value = it[Moods.mood_value],
-    logged = it[Moods.logged],
+    rating = it[Moods.rating],
+    dateEntry = it[Moods.dateEntry],
     userId = it[Moods.userId]
 )

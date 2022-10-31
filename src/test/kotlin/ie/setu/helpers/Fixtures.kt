@@ -27,10 +27,6 @@ val updatedDuration = 30.0
 val updatedCalories = 945
 val updatedStarted = DateTime.parse("2020-06-11T05:59:27.258Z")
 
-val updatedMoodValue = 1
-val updatedLogged = DateTime.parse("2020-06-11T05:59:27.258Z")
-
-
 val users = arrayListOf<User>(
     User(name = "Alice Wonderland", email = "alice@wonderland.com", id = 1),
     User(name = "Bob Cat", email = "bob@cat.ie", id = 2),
@@ -45,9 +41,9 @@ val activities = arrayListOf<Activity>(
 )
 
 val moods = arrayListOf<Mood>(
-    Mood(id = 1, description = "Happy", mood_value = 7, logged = DateTime.now(), userId = 1),
-    Mood(id = 2, description = "Ok", mood_value = 6, logged = DateTime.now(), userId = 1),
-    Mood(id = 3, description = "Over the moon", mood_value = 9, logged = DateTime.now(), userId = 2)
+    Mood(id = 1, description = "Happy", rating = 7, dateEntry = DateTime.now(), userId = 1),
+    Mood(id = 2, description = "Ok", rating = 6, dateEntry = DateTime.now(), userId = 1),
+    Mood(id = 3, description = "Over the moon", rating = 9, dateEntry = DateTime.now(), userId = 2)
 )
 
 fun populateUserTable(): UserDAO {
