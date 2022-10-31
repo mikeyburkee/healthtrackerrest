@@ -20,9 +20,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
 //retrieving some test data from Fixtures
-private val activity1 = moods.get(0)
-private val activity2 = moods.get(1)
-private val activity3 = moods.get(2)
+private val mood1 = moods.get(0)
+private val mood2 = moods.get(1)
+private val mood3 = moods.get(2)
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MoodControllerTest {
@@ -35,7 +35,7 @@ class MoodControllerTest {
     inner class CreateMoods {
 
         @Test
-        fun `add an activity when a user exists for it, returns a 201 response`() {
+        fun `add an mood when a user exists for it, returns a 201 response`() {
 
             //Arrange - add a user and an associated mood that we plan to do a delete on
             val addedUser: User = jsonToObject(addUser(validName, validEmail).body.toString())
@@ -169,7 +169,7 @@ class MoodControllerTest {
             //Arrange - check there is no user for -1 id
             assertEquals(404, retrieveUserById(userId).status)
 
-            //Act & Assert - attempt to update the details of an activity/user that doesn't exist
+            //Act & Assert - attempt to update the details of an mood/user that doesn't exist
             assertEquals(
                 404, updateMood(
                     moodID, updatedDescription, updatedRating,
@@ -181,7 +181,7 @@ class MoodControllerTest {
         @Test
         fun `updating a mood by mood id when it exists, returns 204 response`() {
 
-            //Arrange - add a user and an associated activity that we plan to do an update on
+            //Arrange - add a user and an associated mood that we plan to do an update on
             val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
             val addMoodResponse = addMood(
                 moods[0].description,
@@ -190,7 +190,7 @@ class MoodControllerTest {
             assertEquals(201, addMoodResponse.status)
             val addedMood = jsonNodeToObject<Mood>(addMoodResponse)
 
-            //Act & Assert - update the added activity and assert a 204 is returned
+            //Act & Assert - update the added mood and assert a 204 is returned
             val updatedMoodResponse = updateMood(addedMood.id, updatedDescription,
                 updatedRating, updatedDateEntry, addedUser.id)
             assertEquals(204, updatedMoodResponse.status)
@@ -204,6 +204,70 @@ class MoodControllerTest {
 
             //After - delete the user
             deleteUser(addedUser.id)
+        }
+    }
+
+    @Nested
+    inner class DeleteMoods {
+
+        @Test
+        fun `deleting a mood by mood id when it doesn't exist, returns a 404 response`() {
+            //Act & Assert - attempt to delete a mood that doesn't exist
+            assertEquals(404, deleteMoodByMoodId(-1).status)
+        }
+
+        @Test
+        fun `deleting moods by user id when it doesn't exist, returns a 404 response`() {
+            //Act & Assert - attempt to delete moods by user that doesn't exist
+            assertEquals(404, deleteMoodsByUserId(-1).status)
+        }
+
+        @Test
+        fun `deleting a mood by id when it exists, returns a 204 response`() {
+
+            //Arrange - add a user and an associated mood that we plan to do a delete on
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addMoodResponse = addMood(
+                moods[0].description, moods[0].rating,
+                moods[0].dateEntry, addedUser.id)
+            assertEquals(201, addMoodResponse.status)
+
+            //Act & Assert - delete the added mood and assert a 204 is returned
+            val addedMood = jsonNodeToObject<Mood>(addMoodResponse)
+            assertEquals(204, deleteMoodByMoodId(addedMood.id).status)
+
+            //After - delete the user
+            deleteUser(addedUser.id)
+        }
+
+        @Test
+        fun `deleting all moods by userid when it exists, returns a 204 response`() {
+
+            //Arrange - add a user and 3 associated moods that we plan to do a cascade delete
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addMoodResponse1 = addMood(
+                moods[0].description, moods[0].rating,
+                moods[0].dateEntry, addedUser.id)
+            assertEquals(201, addMoodResponse1.status)
+            val addMoodResponse2 = addMood(
+                moods[1].description, moods[1].rating,
+                moods[1].dateEntry, addedUser.id)
+            assertEquals(201, addMoodResponse2.status)
+            val addMoodResponse3 = addMood(
+                moods[2].description, moods[2].rating,
+                moods[2].dateEntry, addedUser.id)
+            assertEquals(201, addMoodResponse3.status)
+
+            //Act & Assert - delete the added user and assert a 204 is returned
+            assertEquals(204, deleteUser(addedUser.id).status)
+
+            //Act & Assert - attempt to retrieve the deleted moods
+            val addedMood1 = jsonNodeToObject<Mood>(addMoodResponse1)
+            val addedMood2 = jsonNodeToObject<Mood>(addMoodResponse2)
+            val addedMood3 = jsonNodeToObject<Mood>(addMoodResponse3)
+            assertEquals(404, retrieveMoodByMoodId(addedMood1.id).status)
+            assertEquals(404, retrieveMoodByMoodId(addedMood2.id).status)
+            assertEquals(404, retrieveMoodByMoodId(addedMood3.id).status)
         }
     }
 
