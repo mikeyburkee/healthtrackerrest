@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import ie.setu.domain.db.Sleeps
 import ie.setu.domain.Sleep
+import ie.setu.domain.db.Activities
+import ie.setu.domain.repository.ActivityDAO
 import ie.setu.domain.repository.SleepDAO
 import ie.setu.helpers.*
 import org.junit.jupiter.api.Disabled
@@ -45,6 +47,81 @@ class SleepDAOTest {
                 assertEquals(sleep1, sleepDAO.findBySleepId(sleep1.id))
                 assertEquals(sleep2, sleepDAO.findBySleepId(sleep2.id))
                 assertEquals(sleep3, sleepDAO.findBySleepId(sleep3.id))
+            }
+        }
+    }
+
+    @Nested
+    inner class ReadSleeps {
+
+        @Test
+        fun `getting all activites from a populated table returns all rows`() {
+            transaction {
+                //Arrange - create and populate tables with three users and three sleeps
+                val userDAO = populateUserTable()
+                val sleepDAO = populateSleepTable()
+                //Act & Assert
+                assertEquals(3, sleepDAO.getAll().size)
+            }
+        }
+
+        @Test
+        fun `get sleep by user id that has no sleeps, results in no record returned`() {
+            transaction {
+                //Arrange - create and populate tables with three users and three sleeps
+                val userDAO = populateUserTable()
+                val sleepDAO = populateSleepTable()
+                //Act & Assert
+                assertEquals(0, sleepDAO.findByUserId(3).size)
+            }
+        }
+
+        @Test
+        fun `get sleep by user id that exists, results in a correct activitie(s) returned`() {
+            transaction {
+                //Arrange - create and populate tables with three users and three sleeps
+                val userDAO = populateUserTable()
+                val sleepDAO = populateSleepTable()
+                //Act & Assert
+                assertEquals(sleep1, sleepDAO.findByUserId(1).get(0))
+                assertEquals(sleep2, sleepDAO.findByUserId(1).get(1))
+                assertEquals(sleep3, sleepDAO.findByUserId(2).get(0))
+            }
+        }
+
+        @Test
+        fun `get all sleeps over empty table returns none`() {
+            transaction {
+
+                //Arrange - create and setup sleepDAO object
+                SchemaUtils.create(Sleeps)
+                val sleepDAO = SleepDAO()
+
+                //Act & Assert
+                assertEquals(0, sleepDAO.getAll().size)
+            }
+        }
+
+        @Test
+        fun `get sleep by sleep id that has no records, results in no record returned`() {
+            transaction {
+                //Arrange - create and populate tables with three users and three sleeps
+                val userDAO = populateUserTable()
+                val sleepDAO = populateSleepTable()
+                //Act & Assert
+                assertEquals(null, sleepDAO.findBySleepId(4))
+            }
+        }
+
+        @Test
+        fun `get sleep by sleep id that exists, results in a correct sleep returned`() {
+            transaction {
+                //Arrange - create and populate tables with three users and three sleeps
+                val userDAO = populateUserTable()
+                val sleepDAO = populateSleepTable()
+                //Act & Assert
+                assertEquals(sleep1, sleepDAO.findBySleepId(1))
+                assertEquals(sleep3, sleepDAO.findBySleepId(3))
             }
         }
     }
