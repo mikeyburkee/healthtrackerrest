@@ -45,9 +45,9 @@ val activities = arrayListOf<Activity>(
 )
 
 val moods = arrayListOf<Mood>(
-    Mood(id = 1, description = "Running", mood_value = 7, logged = DateTime.now(), userId = 1),
-    Mood(id = 2, description = "Hopping", mood_value = 6, logged = DateTime.now(), userId = 1),
-    Mood(id = 3, description = "Walking", mood_value = 9, logged = DateTime.now(), userId = 2)
+    Mood(id = 1, description = "Happy", mood_value = 7, logged = DateTime.now(), userId = 1),
+    Mood(id = 2, description = "Ok", mood_value = 6, logged = DateTime.now(), userId = 1),
+    Mood(id = 3, description = "Over the moon", mood_value = 9, logged = DateTime.now(), userId = 2)
 )
 
 fun populateUserTable(): UserDAO {
