@@ -3,7 +3,6 @@ package ie.setu.repository
 import ie.setu.domain.db.Users
 import ie.setu.domain.User
 import ie.setu.domain.repository.UserDAO
-import ie.setu.helpers.dePopulateUserTable
 import ie.setu.helpers.nonExistingEmail
 import ie.setu.helpers.populateUserTable
 import ie.setu.helpers.users
@@ -110,7 +109,6 @@ class UserDAOTest {
                 //Act & Assert
                 assertEquals(user2, userDAO.findByEmail(user2.email))
 
-                dePopulateUserTable(userDAO)
             }
         }
     }
