@@ -1,6 +1,5 @@
 package ie.setu.controllers
 
-import ie.setu.domain.Activity
 import ie.setu.domain.Mood
 import ie.setu.domain.User
 import ie.setu.domain.repository.MoodDAO
@@ -20,10 +19,10 @@ object MoodController {
         tags = ["Mood"],
         path = "/api/moods",
         method = HttpMethod.GET,
-        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)])]
+        responses = [OpenApiResponse("200", [OpenApiContent(Array<Mood>::class)])]
     )
     fun getAllMoods(ctx: Context) {
-        val moods = MoodController.moodDAO.getAll()
+        val moods = moodDAO.getAll()
         if (moods.size != 0) {
             ctx.status(200)
         }
@@ -40,11 +39,11 @@ object MoodController {
         path = "/api/users/{user-id}/moods",
         method = HttpMethod.GET,
         pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
-        responses  = [OpenApiResponse("200", [OpenApiContent(Activity::class)])]
+        responses  = [OpenApiResponse("200", [OpenApiContent(Mood::class)])]
     )
     fun getMoodsByUserId(ctx: Context) {
         if (userDao.findById(ctx.pathParam("user-id").toInt()) != null) {
-            val moods = MoodController.moodDAO.findByUserId(ctx.pathParam("user-id").toInt())
+            val moods = moodDAO.findByUserId(ctx.pathParam("user-id").toInt())
             if (moods.isNotEmpty()) {
                 ctx.json(moods)
                 ctx.status(200)
@@ -88,7 +87,7 @@ object MoodController {
         path = "/api/moods/{mood-id}",
         method = HttpMethod.GET,
         pathParams = [OpenApiParam("mood-id", Int::class, "The mood ID")],
-        responses  = [OpenApiResponse("200", [OpenApiContent(User::class)])]
+        responses  = [OpenApiResponse("200", [OpenApiContent(Mood::class)])]
     )
     fun getMoodsByMoodId(ctx: Context) {
         val mood = moodDAO.findByMoodId((ctx.pathParam("mood-id").toInt()))
