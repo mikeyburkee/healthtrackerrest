@@ -1,5 +1,6 @@
 package ie.setu.repository
 
+import ie.setu.domain.Activity
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -122,6 +123,43 @@ class SleepDAOTest {
                 //Act & Assert
                 assertEquals(sleep1, sleepDAO.findBySleepId(1))
                 assertEquals(sleep3, sleepDAO.findBySleepId(3))
+            }
+        }
+    }
+
+    @Nested
+    inner class UpdateSleeps {
+
+        @Test
+        fun `updating existing sleep in table results in successful update`() {
+            transaction {
+
+                //Arrange - create and populate tables with three users and three sleeps
+                val userDAO = populateUserTable()
+                val sleepDAO = populateSleepTable()
+
+                //Act & Assert
+                val sleep3updated = Sleep(id = 3, description = "Ok", duration = 6.5,
+                    rating = 6, wakeUpTime = DateTime.now(), userId = 2)
+                sleepDAO.updateBySleepId(sleep3updated.id, sleep3updated)
+                assertEquals(sleep3updated, sleepDAO.findBySleepId(3))
+            }
+        }
+
+        @Test
+        fun `updating non-existant sleep in table results in no updates`() {
+            transaction {
+
+                //Arrange - create and populate tables with three users and three sleeps
+                val userDAO = populateUserTable()
+                val sleepDAO = populateSleepTable()
+
+                //Act & Assert
+                val sleep4updated = Sleep(id = 4, description = "awful", duration = 3.5,
+                    rating = 1, wakeUpTime = DateTime.now(), userId = 2)
+                sleepDAO.updateBySleepId(4, sleep4updated)
+                assertEquals(null, sleepDAO.findBySleepId(4))
+                assertEquals(3, sleepDAO.getAll().size)
             }
         }
     }
