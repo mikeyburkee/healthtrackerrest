@@ -1,5 +1,6 @@
 package ie.setu.repository
 
+import ie.setu.domain.Activity
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -120,6 +121,43 @@ class MoodDAOTest {
                 //Act & Assert
                 assertEquals(mood1, moodDAO.findByMoodId(1))
                 assertEquals(mood3, moodDAO.findByMoodId(3))
+            }
+        }
+    }
+
+    @Nested
+    inner class UpdateMoods {
+
+        @Test
+        fun `updating existing mood in table results in successful update`() {
+            transaction {
+
+                //Arrange - create and populate tables with three users and three activities
+                val userDAO = populateUserTable()
+                val moodDAO = populateMoodTable()
+
+                //Act & Assert
+                val mood3updated = Mood(id = 3, description = "Very bad", mood_value = 1,
+                    logged = DateTime.now(), userId = 2)
+                moodDAO.updateByMoodId(mood3updated.id, mood3updated)
+                assertEquals(mood3updated, moodDAO.findByMoodId(3))
+            }
+        }
+
+        @Test
+        fun `updating non-existent mood in table results in no updates`() {
+            transaction {
+
+                //Arrange - create and populate tables with three users and three activities
+                val userDAO = populateUserTable()
+                val moodDAO = populateMoodTable()
+
+                //Act & Assert
+                val mood4updated = Mood(id = 4, description = "happy", mood_value = 7,
+                    logged = DateTime.now(), userId = 2)
+                moodDAO.updateByMoodId(4, mood4updated)
+                assertEquals(null, moodDAO.findByMoodId(4))
+                assertEquals(3, moodDAO.getAll().size)
             }
         }
     }
