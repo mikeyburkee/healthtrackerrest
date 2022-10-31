@@ -1,6 +1,7 @@
 package ie.setu.Controllers
 
 import ie.setu.config.DbConfig
+import ie.setu.domain.Activity
 import ie.setu.domain.Mood
 import ie.setu.domain.User
 import ie.setu.helpers.ServerContainer
@@ -31,12 +32,12 @@ class MoodControllerTest {
     private val origin = "http://localhost:" + app.port()
 
     @Nested
-    inner class CreateActivities {
+    inner class CreateMoods {
 
         @Test
         fun `add an activity when a user exists for it, returns a 201 response`() {
 
-            //Arrange - add a user and an associated activity that we plan to do a delete on
+            //Arrange - add a user and an associated mood that we plan to do a delete on
             val addedUser: User = jsonToObject(addUser(validName, validEmail).body.toString())
 
             val addMoodResponse = addMood(
@@ -45,7 +46,7 @@ class MoodControllerTest {
             )
             assertEquals(201, addMoodResponse.status)
 
-            //After - delete the user (Activity will cascade delete in the database)
+            //After - delete the user (Mood will cascade delete in the database)
             deleteUser(addedUser.id)
         }
 
@@ -61,8 +62,100 @@ class MoodControllerTest {
                 moods.get(0).dateEntry, userId
             )
             assertEquals(404, addMoodResponse.status)
-
         }
+    }
+
+    @Nested
+    inner class ReadMoods {
+
+        @Test
+        fun `get all moods from the database returns 200 or 404 response`() {
+            val response = retrieveAllMoods()
+            if (response.status == 200){
+                val retrievedMoods = jsonNodeToObject<Array<Mood>>(response)
+                assertNotEquals(0, retrievedMoods.size)
+            }
+            else{
+                assertEquals(404, response.status)
+            }
+        }
+
+        @Test
+        fun `get all moods by user id when user and moods exists returns 200 response`() {
+            //Arrange - add a user and 3 associated moods that we plan to retrieve
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            addMood(
+                moods[0].description, moods[0].rating,
+                moods[0].dateEntry, addedUser.id)
+            addMood(
+                moods[1].description, moods[1].rating,
+                moods[1].dateEntry, addedUser.id)
+            addMood(
+                moods[2].description, moods[2].rating,
+                moods[2].dateEntry, addedUser.id)
+
+            //Assert and Act - retrieve the three added moods by user id
+            val response = retrieveMoodsByUserId(addedUser.id)
+            assertEquals(200, response.status)
+            val retrievedMoods = jsonNodeToObject<Array<Mood>>(response)
+            assertEquals(3, retrievedMoods.size)
+
+            //After - delete the added user and assert a 204 is returned (moods are cascade deleted)
+            assertEquals(204, deleteUser(addedUser.id).status)
+        }
+
+        @Test
+        fun `get all moods by user id when no moods exist returns 404 response`() {
+            //Arrange - add a user
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+
+            //Assert and Act - retrieve the moods by user id
+            val response = retrieveMoodsByUserId(addedUser.id)
+            assertEquals(404, response.status)
+
+            //After - delete the added user and assert a 204 is returned
+            assertEquals(204, deleteUser(addedUser.id).status)
+        }
+
+        @Test
+        fun `get all moods by user id when no user exists returns 404 response`() {
+            //Arrange
+            val userId = -1
+
+            //Assert and Act - retrieve moods by user id
+            val response = retrieveMoodsByUserId(userId)
+            assertEquals(404, response.status)
+        }
+
+        @Test
+        fun `get mood by mood id when no mood exists returns 404 response`() {
+            //Arrange
+            val moodId = -1
+            //Assert and Act - attempt to retrieve the moods by moods id
+            val response = retrieveMoodByMoodId(moodId)
+            assertEquals(404, response.status)
+        }
+
+
+        @Test
+        fun `get mood by mood id when mood exists returns 200 response`() {
+            //Arrange - add a user and associated mood
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addMoodResponse = addMood(
+                moods[0].description,
+                moods[0].rating,
+                moods[0].dateEntry, addedUser.id)
+            assertEquals(201, addMoodResponse.status)
+            val addedMood = jsonNodeToObject<Mood>(addMoodResponse)
+
+            //Act & Assert - retrieve the mood by mood id
+            val response = retrieveMoodByMoodId(addedMood.id)
+            assertEquals(200, response.status)
+
+            //After - delete the added user and assert a 204 is returned
+            assertEquals(204, deleteUser(addedUser.id).status)
+        }
+
     }
 
     //helper function to retrieve all moods
