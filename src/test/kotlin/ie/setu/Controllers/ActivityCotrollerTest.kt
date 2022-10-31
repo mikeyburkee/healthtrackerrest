@@ -11,7 +11,6 @@ import kong.unirest.HttpResponse
 import kong.unirest.JsonNode
 import kong.unirest.Unirest
 import org.joda.time.DateTime
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
@@ -153,7 +152,7 @@ class ActivityCotrollerTest {
             assertEquals(200, response.status)
 
             //After - delete the added user and assert a 204 is returned
-            Assertions.assertEquals(204, deleteUser(addedUser.id).status)
+            assertEquals(204, deleteUser(addedUser.id).status)
         }
 
     }
@@ -167,10 +166,10 @@ class ActivityCotrollerTest {
             val activityID = -1
 
             //Arrange - check there is no user for -1 id
-            Assertions.assertEquals(404, retrieveUserById(userId).status)
+            assertEquals(404, retrieveUserById(userId).status)
 
             //Act & Assert - attempt to update the details of an activity/user that doesn't exist
-            Assertions.assertEquals(
+            assertEquals(
                 404, updateActivity(
                     activityID, updatedDescription, updatedDuration,
                     updatedCalories, updatedStarted, userId
@@ -187,19 +186,19 @@ class ActivityCotrollerTest {
                 activities[0].description,
                 activities[0].duration, activities[0].calories,
                 activities[0].started, addedUser.id)
-            Assertions.assertEquals(201, addActivityResponse.status)
+            assertEquals(201, addActivityResponse.status)
             val addedActivity = jsonNodeToObject<Activity>(addActivityResponse)
 
             //Act & Assert - update the added activity and assert a 204 is returned
             val updatedActivityResponse = updateActivity(addedActivity.id, updatedDescription,
                 updatedDuration, updatedCalories, updatedStarted, addedUser.id)
-            Assertions.assertEquals(204, updatedActivityResponse.status)
+            assertEquals(204, updatedActivityResponse.status)
 
             //Assert that the individual fields were all updated as expected
             val retrievedActivityResponse = retrieveActivityByActivityId(addedActivity.id)
             val updatedActivity = jsonNodeToObject<Activity>(retrievedActivityResponse)
             assertEquals(updatedDescription,updatedActivity.description)
-            Assertions.assertEquals(updatedDuration, updatedActivity.duration, 0.1)
+            assertEquals(updatedDuration, updatedActivity.duration, 0.1)
             assertEquals(updatedCalories, updatedActivity.calories)
             assertEquals(updatedStarted, updatedActivity.started )
 
@@ -213,14 +212,14 @@ class ActivityCotrollerTest {
 
         @Test
         fun `deleting an activity by activity id when it doesn't exist, returns a 404 response`() {
-            //Act & Assert - attempt to delete a user that doesn't exist
-            Assertions.assertEquals(404, deleteActivityByActivityId(-1).status)
+            //Act & Assert - attempt to delete a activity  that doesn't exist
+            assertEquals(404, deleteActivityByActivityId(-1).status)
         }
 
         @Test
         fun `deleting activities by user id when it doesn't exist, returns a 404 response`() {
-            //Act & Assert - attempt to delete a user that doesn't exist
-            Assertions.assertEquals(404, deleteActivitiesByUserId(-1).status)
+            //Act & Assert - attempt to delete activities by a user that that doesn't exist
+            assertEquals(404, deleteActivitiesByUserId(-1).status)
         }
 
         @Test
@@ -231,11 +230,11 @@ class ActivityCotrollerTest {
             val addActivityResponse = addActivity(
                 activities[0].description, activities[0].duration,
                 activities[0].calories, activities[0].started, addedUser.id)
-            Assertions.assertEquals(201, addActivityResponse.status)
+            assertEquals(201, addActivityResponse.status)
 
             //Act & Assert - delete the added activity and assert a 204 is returned
             val addedActivity = jsonNodeToObject<Activity>(addActivityResponse)
-            Assertions.assertEquals(204, deleteActivityByActivityId(addedActivity.id).status)
+            assertEquals(204, deleteActivityByActivityId(addedActivity.id).status)
 
             //After - delete the user
             deleteUser(addedUser.id)
@@ -249,26 +248,26 @@ class ActivityCotrollerTest {
             val addActivityResponse1 = addActivity(
                 activities[0].description, activities[0].duration,
                 activities[0].calories, activities[0].started, addedUser.id)
-            Assertions.assertEquals(201, addActivityResponse1.status)
+            assertEquals(201, addActivityResponse1.status)
             val addActivityResponse2 = addActivity(
                 activities[1].description, activities[1].duration,
                 activities[1].calories, activities[1].started, addedUser.id)
-            Assertions.assertEquals(201, addActivityResponse2.status)
+            assertEquals(201, addActivityResponse2.status)
             val addActivityResponse3 = addActivity(
                 activities[2].description, activities[2].duration,
                 activities[2].calories, activities[2].started, addedUser.id)
-            Assertions.assertEquals(201, addActivityResponse3.status)
+            assertEquals(201, addActivityResponse3.status)
 
             //Act & Assert - delete the added user and assert a 204 is returned
-            Assertions.assertEquals(204, deleteUser(addedUser.id).status)
+            assertEquals(204, deleteUser(addedUser.id).status)
 
             //Act & Assert - attempt to retrieve the deleted activities
             val addedActivity1 = jsonNodeToObject<Activity>(addActivityResponse1)
             val addedActivity2 = jsonNodeToObject<Activity>(addActivityResponse2)
             val addedActivity3 = jsonNodeToObject<Activity>(addActivityResponse3)
-            Assertions.assertEquals(404, retrieveActivityByActivityId(addedActivity1.id).status)
-            Assertions.assertEquals(404, retrieveActivityByActivityId(addedActivity2.id).status)
-            Assertions.assertEquals(404, retrieveActivityByActivityId(addedActivity3.id).status)
+            assertEquals(404, retrieveActivityByActivityId(addedActivity1.id).status)
+            assertEquals(404, retrieveActivityByActivityId(addedActivity2.id).status)
+            assertEquals(404, retrieveActivityByActivityId(addedActivity3.id).status)
         }
     }
 

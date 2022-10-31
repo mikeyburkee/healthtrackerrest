@@ -1,6 +1,7 @@
 package ie.setu.config
 
 import ie.setu.controllers.ActivityController
+import ie.setu.controllers.MoodController
 import ie.setu.controllers.UserController
 import ie.setu.utils.jsonObjectMapper
 import io.javalin.Javalin
@@ -52,6 +53,10 @@ class JavalinConfig {
                         get(ActivityController::getActivitiesByUserId) // api tester complete
                         delete(ActivityController::deleteActivityByUserId) // api tester complete
                     }
+                    path("moods"){
+                        get(MoodController::getMoodsByUserId)
+                        delete(MoodController::deleteMoodByUserId)
+                    }
                 }
                 path("/email/{email}"){
                     get(UserController::getUserByEmail) // api tester complete
@@ -66,7 +71,15 @@ class JavalinConfig {
                     patch(ActivityController::updateActivity) // api tester complete
                 }
             }
-
+            path("/api/moods"){
+                get(MoodController::getAllMoods)
+                post(MoodController::addMood)
+                path("{mood-id}") {
+                    get(MoodController::getMoodsByMoodId)
+                    delete(MoodController::deleteMoodByMoodId)
+                    patch(MoodController::updateMood)
+                }
+            }
         }
     }
 
