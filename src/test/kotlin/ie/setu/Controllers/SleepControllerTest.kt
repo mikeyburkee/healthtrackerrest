@@ -1,8 +1,6 @@
 package ie.setu.Controllers
 
 import ie.setu.config.DbConfig
-import ie.setu.controllers.SleepController.addSleep
-import ie.setu.domain.Activity
 import ie.setu.domain.Sleep
 import ie.setu.domain.User
 import ie.setu.helpers.ServerContainer
@@ -157,6 +155,120 @@ class SleepControllerTest {
             assertEquals(204, deleteUser(addedUser.id).status)
         }
 
+    }
+
+    @Nested
+    inner class UpdateSleeps {
+
+        @Test
+        fun `updating an sleep by sleep id when it doesn't exist, returns a 404 response`() {
+            val userId = -1
+            val sleepID = -1
+
+            //Arrange - check there is no user for -1 id
+            assertEquals(404, retrieveUserById(userId).status)
+
+            //Act & Assert - attempt to update the details of an sleep/user that doesn't exist
+            assertEquals(
+                404, updateSleep(
+                    sleepID, updatedDescription, updatedDuration,
+                    updatedCalories, updatedStarted, userId
+                ).status
+            )
+        }
+
+        @Test
+        fun `updating an sleep by sleep id when it exists, returns 204 response`() {
+
+            //Arrange - add a user and an associated sleep that we plan to do an update on
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addSleepResponse = addSleep(
+                sleeps[0].description,
+                sleeps[0].duration, sleeps[0].rating,
+                sleeps[0].wakeUpTime, addedUser.id)
+            assertEquals(201, addSleepResponse.status)
+            val addedSleep = jsonNodeToObject<Sleep>(addSleepResponse)
+
+            //Act & Assert - update the added sleep and assert a 204 is returned
+            val updatedSleepResponse = updateSleep(addedSleep.id, updatedDescription,
+                updatedDuration, updatedCalories, updatedStarted, addedUser.id)
+            assertEquals(204, updatedSleepResponse.status)
+
+            //Assert that the individual fields were all updated as expected
+            val retrievedSleepResponse = retrieveSleepBySleepId(addedSleep.id)
+            val updatedSleep = jsonNodeToObject<Sleep>(retrievedSleepResponse)
+            assertEquals(updatedDescription,updatedSleep.description)
+            assertEquals(updatedDuration, updatedSleep.duration, 0.1)
+            assertEquals(updatedCalories, updatedSleep.rating)
+            assertEquals(updatedStarted, updatedSleep.wakeUpTime )
+
+            //After - delete the user
+            deleteUser(addedUser.id)
+        }
+    }
+
+    @Nested
+    inner class DeleteSleeps {
+
+        @Test
+        fun `deleting an sleep by sleep id when it doesn't exist, returns a 404 response`() {
+            //Act & Assert - attempt to delete a sleep  that doesn't exist
+            assertEquals(404, deleteSleepBySleepId(-1).status)
+        }
+
+        @Test
+        fun `deleting sleeps by user id when it doesn't exist, returns a 404 response`() {
+            //Act & Assert - attempt to delete sleeps by a user that that doesn't exist
+            assertEquals(404, deleteSleepsByUserId(-1).status)
+        }
+
+        @Test
+        fun `deleting an sleep by id when it exists, returns a 204 response`() {
+
+            //Arrange - add a user and an associated sleep that we plan to do a delete on
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addSleepResponse = addSleep(
+                sleeps[0].description, sleeps[0].duration,
+                sleeps[0].rating, sleeps[0].wakeUpTime, addedUser.id)
+            assertEquals(201, addSleepResponse.status)
+
+            //Act & Assert - delete the added sleep and assert a 204 is returned
+            val addedSleep = jsonNodeToObject<Sleep>(addSleepResponse)
+            assertEquals(204, deleteSleepBySleepId(addedSleep.id).status)
+
+            //After - delete the user
+            deleteUser(addedUser.id)
+        }
+
+        @Test
+        fun `deleting all sleeps by userid when it exists, returns a 204 response`() {
+
+            //Arrange - add a user and 3 associated sleeps that we plan to do a cascade delete
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addSleepResponse1 = addSleep(
+                sleeps[0].description, sleeps[0].duration,
+                sleeps[0].rating, sleeps[0].wakeUpTime, addedUser.id)
+            assertEquals(201, addSleepResponse1.status)
+            val addSleepResponse2 = addSleep(
+                sleeps[1].description, sleeps[1].duration,
+                sleeps[1].rating, sleeps[1].wakeUpTime, addedUser.id)
+            assertEquals(201, addSleepResponse2.status)
+            val addSleepResponse3 = addSleep(
+                sleeps[2].description, sleeps[2].duration,
+                sleeps[2].rating, sleeps[2].wakeUpTime, addedUser.id)
+            assertEquals(201, addSleepResponse3.status)
+
+            //Act & Assert - delete the added user and assert a 204 is returned
+            assertEquals(204, deleteUser(addedUser.id).status)
+
+            //Act & Assert - attempt to retrieve the deleted sleeps
+            val addedSleep1 = jsonNodeToObject<Sleep>(addSleepResponse1)
+            val addedSleep2 = jsonNodeToObject<Sleep>(addSleepResponse2)
+            val addedSleep3 = jsonNodeToObject<Sleep>(addSleepResponse3)
+            assertEquals(404, retrieveSleepBySleepId(addedSleep1.id).status)
+            assertEquals(404, retrieveSleepBySleepId(addedSleep2.id).status)
+            assertEquals(404, retrieveSleepBySleepId(addedSleep3.id).status)
+        }
     }
     
     //helper function to retrieve all sleeps
