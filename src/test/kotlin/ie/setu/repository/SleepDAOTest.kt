@@ -1,6 +1,5 @@
 package ie.setu.repository
 
-import ie.setu.domain.Activity
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -10,8 +9,6 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import ie.setu.domain.db.Sleeps
 import ie.setu.domain.Sleep
-import ie.setu.domain.db.Activities
-import ie.setu.domain.repository.ActivityDAO
 import ie.setu.domain.repository.SleepDAO
 import ie.setu.helpers.*
 import org.junit.jupiter.api.Disabled
@@ -164,4 +161,70 @@ class SleepDAOTest {
         }
     }
 
+    @Nested
+    inner class DeleteActivities {
+
+        @Test
+        fun `deleting a non-existent sleep (by id) in table results in no deletion`() {
+            transaction {
+
+                //Arrange - create and populate tables with three users and three sleeps
+                val userDAO = populateUserTable()
+                val sleepDAO = populateSleepTable()
+
+                //Act & Assert
+                assertEquals(3, sleepDAO.getAll().size)
+                sleepDAO.deleteBySleepId(4)
+                assertEquals(3, sleepDAO.getAll().size)
+
+
+            }
+        }
+
+        @Test
+        fun `deleting an existing sleep (by id) in table results in record being deleted`() {
+            transaction {
+
+                //Arrange - create and populate tables with three users and three sleeps
+                val userDAO = populateUserTable()
+                val sleepDAO = populateSleepTable()
+
+                //Act & Assert
+                assertEquals(3, sleepDAO.getAll().size)
+                sleepDAO.deleteBySleepId(sleep3.id)
+                assertEquals(2, sleepDAO.getAll().size)
+            }
+        }
+
+
+        @Test
+        fun `deleting sleeps when none exist for user id results in no deletion`() {
+            transaction {
+
+                //Arrange - create and populate tables with three users and three sleeps
+                val userDAO = populateUserTable()
+                val sleepDAO = populateSleepTable()
+
+                //Act & Assert
+                assertEquals(3, sleepDAO.getAll().size)
+                sleepDAO.deleteByUserId(3)
+                assertEquals(3, sleepDAO.getAll().size)
+            }
+        }
+
+        @Test
+        fun `deleting sleeps when 1 or more exist for user id results in deletion`() {
+            transaction {
+
+                //Arrange - create and populate tables with three users and three sleeps
+                val userDAO = populateUserTable()
+                val sleepDAO = populateSleepTable()
+
+                //Act & Assert
+                assertEquals(3, sleepDAO.getAll().size)
+                sleepDAO.deleteByUserId(1)
+                assertEquals(1, sleepDAO.getAll().size)
+            }
+        }
+    }
 }
