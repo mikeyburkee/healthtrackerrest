@@ -6,7 +6,9 @@ import ie.setu.domain.db.Users
 import ie.setu.domain.Activity
 import ie.setu.domain.db.Activities
 import ie.setu.domain.Mood
+import ie.setu.domain.Sleep
 import ie.setu.domain.db.Moods
+import ie.setu.domain.db.Sleeps
 
 fun mapToUser(it: ResultRow) = User(
     id = it[Users.id],
@@ -29,4 +31,13 @@ fun mapToMood(it: ResultRow) = Mood(
     rating = it[Moods.rating],
     dateEntry = it[Moods.dateEntry],
     userId = it[Moods.userId]
+)
+
+fun mapToSleep(it: ResultRow) = Sleep(
+    id = it[Sleeps.id],
+    description = it[Sleeps.description],
+    duration = it[Sleeps.duration],
+    wakeUpTime = it[Sleeps.wakeUpTime],
+    rating = it[Sleeps.rating],
+    userId = it[Sleeps.userId]
 )
