@@ -162,4 +162,69 @@ class MoodDAOTest {
         }
     }
 
+    @Nested
+    inner class DeleteMoods {
+
+        @Test
+        fun `deleting a non-existent mood (by id) in table results in no deletion`() {
+            transaction {
+
+                //Arrange - create and populate tables with three users and three moods
+                val userDAO = populateUserTable()
+                val moodDAO = populateMoodTable()
+
+                //Act & Assert
+                assertEquals(3, moodDAO.getAll().size)
+                moodDAO.deleteByMoodId(4)
+                assertEquals(3, moodDAO.getAll().size)
+
+
+            }
+        }
+
+        @Test
+        fun `deleting an existing mood (by id) in table results in record being deleted`() {
+            transaction {
+
+                //Arrange - create and populate tables with three users and three activities
+                val userDAO = populateUserTable()
+                val moodDAO = populateMoodTable()
+
+                //Act & Assert
+                assertEquals(3, moodDAO.getAll().size)
+                moodDAO.deleteByMoodId(mood3.id)
+                assertEquals(2, moodDAO.getAll().size)
+            }
+        }
+
+        @Test
+        fun `deleting moods when none exist for user id results in no deletion`() {
+            transaction {
+
+                //Arrange - create and populate tables with three users and three moods
+                val userDAO = populateUserTable()
+                val moodDAO = populateMoodTable()
+
+                //Act & Assert
+                assertEquals(3, moodDAO.getAll().size)
+                moodDAO.deleteByUserId(3)
+                assertEquals(3, moodDAO.getAll().size)
+            }
+        }
+
+        @Test
+        fun `deleting moods when 1 or more exist for user id results in deletion`() {
+            transaction {
+
+                //Arrange - create and populate tables with three users and three moods
+                val userDAO = populateUserTable()
+                val moodDAO = populateMoodTable()
+
+                //Act & Assert
+                assertEquals(3, moodDAO.getAll().size)
+                moodDAO.deleteByUserId(1)
+                assertEquals(1, moodDAO.getAll().size)
+            }
+        }
+    }
 }
