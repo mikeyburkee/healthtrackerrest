@@ -2,6 +2,7 @@ package ie.setu.Controllers
 
 import ie.setu.config.DbConfig
 import ie.setu.controllers.SleepController.addSleep
+import ie.setu.domain.Activity
 import ie.setu.domain.Sleep
 import ie.setu.domain.User
 import ie.setu.helpers.ServerContainer
@@ -65,6 +66,99 @@ class SleepControllerTest {
         }
     }
 
+    @Nested
+    inner class ReadSleeps {
+
+        @Test
+        fun `get all sleeps from the database returns 200 or 404 response`() {
+            val response = retrieveAllSleeps()
+            if (response.status == 200){
+                val retrievedSleeps = jsonNodeToObject<Array<Sleep>>(response)
+                assertNotEquals(0, retrievedSleeps.size)
+            }
+            else{
+                assertEquals(404, response.status)
+            }
+        }
+
+        @Test
+        fun `get all sleeps by user id when user and sleeps exists returns 200 response`() {
+            //Arrange - add a user and 3 associated sleeps that we plan to retrieve
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            addSleep(
+                sleeps[0].description, sleeps[0].duration,
+                sleeps[0].rating, sleeps[0].wakeUpTime, addedUser.id)
+            addSleep(
+                sleeps[1].description, sleeps[1].duration,
+                sleeps[1].rating, sleeps[1].wakeUpTime, addedUser.id)
+            addSleep(
+                sleeps[2].description, sleeps[2].duration,
+                sleeps[2].rating, sleeps[2].wakeUpTime, addedUser.id)
+
+            //Assert and Act - retrieve the three added sleeps by user id
+            val response = retrieveSleepsByUserId(addedUser.id)
+            assertEquals(200, response.status)
+            val retrievedSleeps = jsonNodeToObject<Array<Sleep>>(response)
+            assertEquals(3, retrievedSleeps.size)
+
+            //After - delete the added user and assert a 204 is returned (sleeps are cascade deleted)
+            assertEquals(204, deleteUser(addedUser.id).status)
+        }
+
+        @Test
+        fun `get all sleeps by user id when no sleeps exist returns 404 response`() {
+            //Arrange - add a user
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+
+            //Assert and Act - retrieve the sleeps by user id
+            val response = retrieveSleepsByUserId(addedUser.id)
+            assertEquals(404, response.status)
+
+            //After - delete the added user and assert a 204 is returned
+            assertEquals(204, deleteUser(addedUser.id).status)
+        }
+
+        @Test
+        fun `get all sleeps by user id when no user exists returns 404 response`() {
+            //Arrange
+            val userId = -1
+
+            //Assert and Act - retrieve sleeps by user id
+            val response = retrieveSleepsByUserId(userId)
+            assertEquals(404, response.status)
+        }
+
+        @Test
+        fun `get sleep by sleep id when no sleep exists returns 404 response`() {
+            //Arrange
+            val sleepId = -1
+            //Assert and Act - attempt to retrieve the sleep by sleep id
+            val response = retrieveSleepBySleepId(sleepId)
+            assertEquals(404, response.status)
+        }
+
+
+        @Test
+        fun `get sleep by sleep id when sleep exists returns 200 response`() {
+            //Arrange - add a user and associated sleep
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addSleepResponse = addSleep(
+                sleeps[0].description,
+                sleeps[0].duration, sleeps[0].rating,
+                sleeps[0].wakeUpTime, addedUser.id)
+            assertEquals(201, addSleepResponse.status)
+            val addedSleep = jsonNodeToObject<Sleep>(addSleepResponse)
+
+            //Act & Assert - retrieve the sleep by sleep id
+            val response = retrieveSleepBySleepId(addedSleep.id)
+            assertEquals(200, response.status)
+
+            //After - delete the added user and assert a 204 is returned
+            assertEquals(204, deleteUser(addedUser.id).status)
+        }
+
+    }
+    
     //helper function to retrieve all sleeps
     private fun retrieveAllSleeps(): HttpResponse<JsonNode> {
         return Unirest.get(origin + "/api/sleeps").asJson()
