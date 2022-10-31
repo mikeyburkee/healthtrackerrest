@@ -158,6 +158,55 @@ class MoodControllerTest {
 
     }
 
+    @Nested
+    inner class UpdateMoods {
+
+        @Test
+        fun `updating an mood by mood id when it doesn't exist, returns a 404 response`() {
+            val userId = -1
+            val moodID = -1
+
+            //Arrange - check there is no user for -1 id
+            assertEquals(404, retrieveUserById(userId).status)
+
+            //Act & Assert - attempt to update the details of an activity/user that doesn't exist
+            assertEquals(
+                404, updateMood(
+                    moodID, updatedDescription, updatedRating,
+                    updatedDateEntry, userId
+                ).status
+            )
+        }
+
+        @Test
+        fun `updating a mood by mood id when it exists, returns 204 response`() {
+
+            //Arrange - add a user and an associated activity that we plan to do an update on
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addMoodResponse = addMood(
+                moods[0].description,
+                moods[0].rating,
+                moods[0].dateEntry, addedUser.id)
+            assertEquals(201, addMoodResponse.status)
+            val addedMood = jsonNodeToObject<Mood>(addMoodResponse)
+
+            //Act & Assert - update the added activity and assert a 204 is returned
+            val updatedMoodResponse = updateMood(addedMood.id, updatedDescription,
+                updatedRating, updatedDateEntry, addedUser.id)
+            assertEquals(204, updatedMoodResponse.status)
+
+            //Assert that the individual fields were all updated as expected
+            val retrievedMoodResponse = retrieveMoodByMoodId(addedMood.id)
+            val updatedMood = jsonNodeToObject<Mood>(retrievedMoodResponse)
+            assertEquals(updatedDescription,updatedMood.description)
+            assertEquals(updatedRating, updatedMood.rating)
+            assertEquals(updatedDateEntry, updatedMood.dateEntry )
+
+            //After - delete the user
+            deleteUser(addedUser.id)
+        }
+    }
+
     //helper function to retrieve all moods
     private fun retrieveAllMoods(): HttpResponse<JsonNode> {
         return Unirest.get(origin + "/api/moods").asJson()
