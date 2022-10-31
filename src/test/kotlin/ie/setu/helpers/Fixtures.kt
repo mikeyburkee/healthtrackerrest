@@ -1,11 +1,13 @@
 package ie.setu.helpers
 
-import ie.setu.config.DbConfig
 import ie.setu.domain.Activity
+import ie.setu.domain.Mood
 import ie.setu.domain.User
 import ie.setu.domain.db.Activities
+import ie.setu.domain.db.Moods
 import ie.setu.domain.db.Users
 import ie.setu.domain.repository.ActivityDAO
+import ie.setu.domain.repository.MoodDAO
 import ie.setu.domain.repository.UserDAO
 import ie.setu.repository.user1
 import ie.setu.repository.user2
@@ -25,6 +27,9 @@ val updatedDuration = 30.0
 val updatedCalories = 945
 val updatedStarted = DateTime.parse("2020-06-11T05:59:27.258Z")
 
+val updatedMoodValue = 1
+val updatedLogged = DateTime.parse("2020-06-11T05:59:27.258Z")
+
 
 val users = arrayListOf<User>(
     User(name = "Alice Wonderland", email = "alice@wonderland.com", id = 1),
@@ -37,6 +42,12 @@ val activities = arrayListOf<Activity>(
     Activity(id = 1, description = "Running", duration = 22.0, calories = 230, started = DateTime.now(), userId = 1),
     Activity(id = 2, description = "Hopping", duration = 10.5, calories = 80, started = DateTime.now(), userId = 1),
     Activity(id = 3, description = "Walking", duration = 12.0, calories = 120, started = DateTime.now(), userId = 2)
+)
+
+val moods = arrayListOf<Mood>(
+    Mood(id = 1, description = "Running", mood_value = 7, logged = DateTime.now(), userId = 1),
+    Mood(id = 2, description = "Hopping", mood_value = 6, logged = DateTime.now(), userId = 1),
+    Mood(id = 3, description = "Walking", mood_value = 9, logged = DateTime.now(), userId = 2)
 )
 
 fun populateUserTable(): UserDAO {
@@ -54,4 +65,13 @@ fun populateActivityTable(): ActivityDAO {
     activityDAO.save(activities.get(1))
     activityDAO.save(activities.get(2))
     return activityDAO
+}
+
+fun populateMoodTable(): MoodDAO {
+    SchemaUtils.create(Moods)
+    val moodDAO = MoodDAO()
+    moodDAO.save(moods.get(0))
+    moodDAO.save(moods.get(1))
+    moodDAO.save(moods.get(2))
+    return moodDAO
 }
