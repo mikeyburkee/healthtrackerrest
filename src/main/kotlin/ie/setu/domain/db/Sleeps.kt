@@ -1,8 +1,5 @@
 package ie.setu.domain.db
 
-import ie.setu.domain.db.Activities.autoIncrement
-import ie.setu.domain.db.Activities.primaryKey
-import ie.setu.domain.db.Activities.references
 import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.Table
 

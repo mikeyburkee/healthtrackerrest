@@ -1,7 +1,6 @@
 package ie.setu.Controllers
 
 import ie.setu.config.DbConfig
-import ie.setu.domain.Activity
 import ie.setu.domain.Mood
 import ie.setu.domain.User
 import ie.setu.helpers.ServerContainer
