@@ -169,7 +169,7 @@ class WaterControllerTest {
             assertEquals(
                 404, updateWater(
                     waterID, updatedVolume,
-                    updatedWakeUpTime, userId
+                    updatedDateEntry, userId
                 ).status
             )
         }
@@ -187,17 +187,81 @@ class WaterControllerTest {
 
             //Act & Assert - update the added water and assert a 204 is returned
             val updatedWaterResponse = updateWater(addedWater.id,
-                updatedVolume,updatedWakeUpTime, addedUser.id)
+                updatedVolume,updatedDateEntry, addedUser.id)
             assertEquals(204, updatedWaterResponse.status)
 
             //Assert that the individual fields were all updated as expected
             val retrievedWaterResponse = retrieveWaterByWaterId(addedWater.id)
             val updatedWater = jsonNodeToObject<Water>(retrievedWaterResponse)
             assertEquals(updatedVolume, updatedWater.volume, 0.1)
-            assertEquals(updatedWakeUpTime, updatedWater.dateEntry )
+            assertEquals(updatedDateEntry, updatedWater.dateEntry )
 
             //After - delete the user
             deleteUser(addedUser.id)
+        }
+    }
+
+    @Nested
+    inner class DeleteWaters {
+
+        @Test
+        fun `deleting an water by water id when it doesn't exist, returns a 404 response`() {
+            //Act & Assert - attempt to delete a water  that doesn't exist
+            assertEquals(404, deleteWaterByWaterId(-1).status)
+        }
+
+        @Test
+        fun `deleting waters by user id when it doesn't exist, returns a 404 response`() {
+            //Act & Assert - attempt to delete waters by a user that that doesn't exist
+            assertEquals(404, deleteWatersByUserId(-1).status)
+        }
+
+        @Test
+        fun `deleting an water by id when it exists, returns a 204 response`() {
+
+            //Arrange - add a user and an associated water that we plan to do a delete on
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addWaterResponse = addWater(
+                waters[0].volume,
+                waters[0].dateEntry, addedUser.id)
+            assertEquals(201, addWaterResponse.status)
+
+            //Act & Assert - delete the added water and assert a 204 is returned
+            val addedWater = jsonNodeToObject<Water>(addWaterResponse)
+            assertEquals(204, deleteWaterByWaterId(addedWater.id).status)
+
+            //After - delete the user
+            deleteUser(addedUser.id)
+        }
+
+        @Test
+        fun `deleting all waters by userid when it exists, returns a 204 response`() {
+
+            //Arrange - add a user and 3 associated waters that we plan to do a cascade delete
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addWaterResponse1 = addWater(
+                waters[0].volume,
+                waters[0].dateEntry, addedUser.id)
+            assertEquals(201, addWaterResponse1.status)
+            val addWaterResponse2 = addWater(
+                waters[1].volume,
+                waters[1].dateEntry, addedUser.id)
+            assertEquals(201, addWaterResponse2.status)
+            val addWaterResponse3 = addWater(
+                waters[2].volume,
+                waters[2].dateEntry, addedUser.id)
+            assertEquals(201, addWaterResponse3.status)
+
+            //Act & Assert - delete the added user and assert a 204 is returned
+            assertEquals(204, deleteUser(addedUser.id).status)
+
+            //Act & Assert - attempt to retrieve the deleted waters
+            val addedWater1 = jsonNodeToObject<Water>(addWaterResponse1)
+            val addedWater2 = jsonNodeToObject<Water>(addWaterResponse2)
+            val addedWater3 = jsonNodeToObject<Water>(addWaterResponse3)
+            assertEquals(404, retrieveWaterByWaterId(addedWater1.id).status)
+            assertEquals(404, retrieveWaterByWaterId(addedWater2.id).status)
+            assertEquals(404, retrieveWaterByWaterId(addedWater3.id).status)
         }
     }
     
