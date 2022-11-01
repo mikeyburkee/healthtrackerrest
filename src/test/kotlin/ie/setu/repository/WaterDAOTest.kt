@@ -1,14 +1,13 @@
 package ie.setu.repository
 
+import ie.setu.domain.Water
 import ie.setu.domain.db.Waters
 import ie.setu.domain.repository.WaterDAO
-import ie.setu.helpers.populateWaterTable
-import ie.setu.helpers.populateWaterTable
-import ie.setu.helpers.populateUserTable
-import ie.setu.helpers.waters
+import ie.setu.helpers.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.joda.time.DateTime
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -120,6 +119,43 @@ class WaterDAOTest {
                 //Act & Assert
                 assertEquals(water1, waterDAO.findByWaterId(1))
                 assertEquals(water3, waterDAO.findByWaterId(3))
+            }
+        }
+    }
+
+    @Nested
+    inner class UpdateWaters {
+
+        @Test
+        fun `updating existing water in table results in successful update`() {
+            transaction {
+
+                //Arrange - create and populate tables with three users and three waters
+                val userDAO = populateUserTable()
+                val waterDAO = populateWaterTable()
+
+                //Act & Assert
+                val water3updated = Water(id = 3, volume = 1.1,
+                    dateEntry = DateTime.now(), userId = 2)
+                waterDAO.updateByWaterId(water3updated.id, water3updated)
+                assertEquals(water3updated, waterDAO.findByWaterId(3))
+            }
+        }
+
+        @Test
+        fun `updating non-existant water in table results in no updates`() {
+            transaction {
+
+                //Arrange - create and populate tables with three users and three waters
+                val userDAO = populateUserTable()
+                val waterDAO = populateWaterTable()
+
+                //Act & Assert
+                val water4updated = Water(id = 4, volume = 1.4,
+                    dateEntry = DateTime.now(), userId = 2)
+                waterDAO.updateByWaterId(4, water4updated)
+                assertEquals(null, waterDAO.findByWaterId(4))
+                assertEquals(3, waterDAO.getAll().size)
             }
         }
     }
