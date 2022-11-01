@@ -154,6 +154,53 @@ class WaterControllerTest {
 
     }
 
+    @Nested
+    inner class UpdateWaters {
+
+        @Test
+        fun `updating an water by water id when it doesn't exist, returns a 404 response`() {
+            val userId = -1
+            val waterID = -1
+
+            //Arrange - check there is no user for -1 id
+            assertEquals(404, retrieveUserById(userId).status)
+
+            //Act & Assert - attempt to update the details of an water/user that doesn't exist
+            assertEquals(
+                404, updateWater(
+                    waterID, updatedVolume,
+                    updatedWakeUpTime, userId
+                ).status
+            )
+        }
+
+        @Test
+        fun `updating an water by water id when it exists, returns 204 response`() {
+
+            //Arrange - add a user and an associated water that we plan to do an update on
+            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addWaterResponse = addWater(
+                waters[0].volume,
+                waters[0].dateEntry, addedUser.id)
+            assertEquals(201, addWaterResponse.status)
+            val addedWater = jsonNodeToObject<Water>(addWaterResponse)
+
+            //Act & Assert - update the added water and assert a 204 is returned
+            val updatedWaterResponse = updateWater(addedWater.id,
+                updatedVolume,updatedWakeUpTime, addedUser.id)
+            assertEquals(204, updatedWaterResponse.status)
+
+            //Assert that the individual fields were all updated as expected
+            val retrievedWaterResponse = retrieveWaterByWaterId(addedWater.id)
+            val updatedWater = jsonNodeToObject<Water>(retrievedWaterResponse)
+            assertEquals(updatedVolume, updatedWater.volume, 0.1)
+            assertEquals(updatedWakeUpTime, updatedWater.dateEntry )
+
+            //After - delete the user
+            deleteUser(addedUser.id)
+        }
+    }
+    
     //helper function to retrieve all waters
     private fun retrieveAllWaters(): HttpResponse<JsonNode> {
         return Unirest.get(origin + "/api/waters").asJson()
