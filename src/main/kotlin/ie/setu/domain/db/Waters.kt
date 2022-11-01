@@ -6,7 +6,7 @@ import org.jetbrains.exposed.sql.Table
 // SRP - Responsibility is to manage one water log.
 //       Database wise, this is the table object.
 
-object Waters : Table("activities") {
+object Waters : Table("waters") {
     val id = integer("id").autoIncrement().primaryKey()
     val volume = double("volume")
     val dateEntry = datetime("date_entry")
