@@ -1,17 +1,8 @@
 package ie.setu.helpers
 
-import ie.setu.domain.Activity
-import ie.setu.domain.Mood
-import ie.setu.domain.Sleep
-import ie.setu.domain.User
-import ie.setu.domain.db.Activities
-import ie.setu.domain.db.Moods
-import ie.setu.domain.db.Sleeps
-import ie.setu.domain.db.Users
-import ie.setu.domain.repository.ActivityDAO
-import ie.setu.domain.repository.MoodDAO
-import ie.setu.domain.repository.SleepDAO
-import ie.setu.domain.repository.UserDAO
+import ie.setu.domain.*
+import ie.setu.domain.db.*
+import ie.setu.domain.repository.*
 import ie.setu.repository.user1
 import ie.setu.repository.user2
 import ie.setu.repository.user3
@@ -34,6 +25,8 @@ val updatedRating = 1
 val updatedDateEntry = updatedStarted
 
 val updatedWakeUpTime = updatedStarted
+
+val updatedVolume = 2.75
 
 val users = arrayListOf<User>(
     User(name = "Alice Wonderland", email = "alice@wonderland.com", id = 1),
@@ -58,6 +51,12 @@ val sleeps = arrayListOf<Sleep>(
     Sleep(id = 1, description = "Unbroken", duration = 6.0, rating = 7, wakeUpTime = DateTime.now(), userId = 1),
     Sleep(id = 2, description = "Bad", duration = 4.5, rating = 4, wakeUpTime = DateTime.now(), userId = 1),
     Sleep(id = 3, description = "Fantastic", duration = 8.0, rating = 9, wakeUpTime = DateTime.now(), userId = 2)
+)
+
+val waters = arrayListOf<Water>(
+    Water(id = 1, volume = 1.0, dateEntry = DateTime.now(), userId = 1),
+    Water(id = 2, volume = 2.5, dateEntry = DateTime.now(), userId = 1),
+    Water(id = 3, volume = 5.0, dateEntry =  DateTime.now(), userId = 2)
 )
 
 fun populateUserTable(): UserDAO {
@@ -93,4 +92,13 @@ fun populateSleepTable(): SleepDAO {
     sleepDAO.save(sleeps.get(1))
     sleepDAO.save(sleeps.get(2))
     return sleepDAO
+}
+
+fun populateWaterTable(): WaterDAO {
+    SchemaUtils.create(Waters)
+    val waterDAO = WaterDAO()
+    waterDAO.save(waters.get(0))
+    waterDAO.save(waters.get(1))
+    waterDAO.save(waters.get(2))
+    return waterDAO
 }
