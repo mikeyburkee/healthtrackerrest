@@ -172,7 +172,7 @@ class SleepControllerTest {
             assertEquals(
                 404, updateSleep(
                     sleepID, updatedDescription, updatedDuration,
-                    updatedCalories, updatedStarted, userId
+                    updatedRating, updatedStarted, userId
                 ).status
             )
         }
@@ -191,7 +191,7 @@ class SleepControllerTest {
 
             //Act & Assert - update the added sleep and assert a 204 is returned
             val updatedSleepResponse = updateSleep(addedSleep.id, updatedDescription,
-                updatedDuration, updatedCalories, updatedStarted, addedUser.id)
+                updatedDuration, updatedRating, updatedStarted, addedUser.id)
             assertEquals(204, updatedSleepResponse.status)
 
             //Assert that the individual fields were all updated as expected
@@ -199,7 +199,7 @@ class SleepControllerTest {
             val updatedSleep = jsonNodeToObject<Sleep>(retrievedSleepResponse)
             assertEquals(updatedDescription,updatedSleep.description)
             assertEquals(updatedDuration, updatedSleep.duration, 0.1)
-            assertEquals(updatedCalories, updatedSleep.rating)
+            assertEquals(updatedRating, updatedSleep.rating)
             assertEquals(updatedStarted, updatedSleep.wakeUpTime )
 
             //After - delete the user
