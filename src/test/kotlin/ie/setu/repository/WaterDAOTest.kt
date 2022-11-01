@@ -143,7 +143,7 @@ class WaterDAOTest {
         }
 
         @Test
-        fun `updating non-existant water in table results in no updates`() {
+        fun `updating non-existent water in table results in no updates`() {
             transaction {
 
                 //Arrange - create and populate tables with three users and three waters
@@ -156,6 +156,73 @@ class WaterDAOTest {
                 waterDAO.updateByWaterId(4, water4updated)
                 assertEquals(null, waterDAO.findByWaterId(4))
                 assertEquals(3, waterDAO.getAll().size)
+            }
+        }
+    }
+
+    @Nested
+    inner class DeleteWaters {
+
+        @Test
+        fun `deleting a non-existent water (by id) in table results in no deletion`() {
+            transaction {
+
+                //Arrange - create and populate tables with three users and three waters
+                val userDAO = populateUserTable()
+                val waterDAO = populateWaterTable()
+
+                //Act & Assert
+                assertEquals(3, waterDAO.getAll().size)
+                waterDAO.deleteByWaterId(4)
+                assertEquals(3, waterDAO.getAll().size)
+
+
+            }
+        }
+
+        @Test
+        fun `deleting an existing water (by id) in table results in record being deleted`() {
+            transaction {
+
+                //Arrange - create and populate tables with three users and three waters
+                val userDAO = populateUserTable()
+                val waterDAO = populateWaterTable()
+
+                //Act & Assert
+                assertEquals(3, waterDAO.getAll().size)
+                waterDAO.deleteByWaterId(water3.id)
+                assertEquals(2, waterDAO.getAll().size)
+            }
+        }
+
+
+        @Test
+        fun `deleting waters when none exist for user id results in no deletion`() {
+            transaction {
+
+                //Arrange - create and populate tables with three users and three waters
+                val userDAO = populateUserTable()
+                val waterDAO = populateWaterTable()
+
+                //Act & Assert
+                assertEquals(3, waterDAO.getAll().size)
+                waterDAO.deleteByUserId(3)
+                assertEquals(3, waterDAO.getAll().size)
+            }
+        }
+
+        @Test
+        fun `deleting waters when 1 or more exist for user id results in deletion`() {
+            transaction {
+
+                //Arrange - create and populate tables with three users and three waters
+                val userDAO = populateUserTable()
+                val waterDAO = populateWaterTable()
+
+                //Act & Assert
+                assertEquals(3, waterDAO.getAll().size)
+                waterDAO.deleteByUserId(1)
+                assertEquals(1, waterDAO.getAll().size)
             }
         }
     }
