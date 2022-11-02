@@ -37,7 +37,7 @@ class SleepDAOTest {
         fun `multiple sleep logs added to table can be retrieved successfully`() {
             transaction {
                 //Arrange - create and populate tables with three users and three sleep logs
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val sleepDAO = populateSleepTable()
 
                 //Act & Assert
@@ -56,7 +56,7 @@ class SleepDAOTest {
         fun `getting all activites from a populated table returns all rows`() {
             transaction {
                 //Arrange - create and populate tables with three users and three sleeps
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val sleepDAO = populateSleepTable()
                 //Act & Assert
                 assertEquals(3, sleepDAO.getAll().size)
@@ -67,7 +67,7 @@ class SleepDAOTest {
         fun `get sleep by user id that has no sleeps, results in no record returned`() {
             transaction {
                 //Arrange - create and populate tables with three users and three sleeps
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val sleepDAO = populateSleepTable()
                 //Act & Assert
                 assertEquals(0, sleepDAO.findByUserId(3).size)
@@ -78,7 +78,7 @@ class SleepDAOTest {
         fun `get sleep by user id that exists, results in a correct activitie(s) returned`() {
             transaction {
                 //Arrange - create and populate tables with three users and three sleeps
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val sleepDAO = populateSleepTable()
                 //Act & Assert
                 assertEquals(sleep1, sleepDAO.findByUserId(1).get(0))
@@ -104,7 +104,7 @@ class SleepDAOTest {
         fun `get sleep by sleep id that has no records, results in no record returned`() {
             transaction {
                 //Arrange - create and populate tables with three users and three sleeps
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val sleepDAO = populateSleepTable()
                 //Act & Assert
                 assertEquals(null, sleepDAO.findBySleepId(4))
@@ -115,7 +115,7 @@ class SleepDAOTest {
         fun `get sleep by sleep id that exists, results in a correct sleep returned`() {
             transaction {
                 //Arrange - create and populate tables with three users and three sleeps
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val sleepDAO = populateSleepTable()
                 //Act & Assert
                 assertEquals(sleep1, sleepDAO.findBySleepId(1))
@@ -132,7 +132,7 @@ class SleepDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three sleeps
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val sleepDAO = populateSleepTable()
 
                 //Act & Assert
@@ -148,7 +148,7 @@ class SleepDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three sleeps
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val sleepDAO = populateSleepTable()
 
                 //Act & Assert
@@ -169,7 +169,7 @@ class SleepDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three sleeps
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val sleepDAO = populateSleepTable()
 
                 //Act & Assert
@@ -186,7 +186,7 @@ class SleepDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three sleeps
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val sleepDAO = populateSleepTable()
 
                 //Act & Assert
@@ -202,7 +202,7 @@ class SleepDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three sleeps
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val sleepDAO = populateSleepTable()
 
                 //Act & Assert
@@ -217,7 +217,7 @@ class SleepDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three sleeps
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val sleepDAO = populateSleepTable()
 
                 //Act & Assert

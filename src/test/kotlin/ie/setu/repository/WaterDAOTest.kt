@@ -36,7 +36,7 @@ class WaterDAOTest {
         fun `multiple water logs added to table can be retrieved successfully`() {
             transaction {
                 //Arrange - create and populate tables with three users and three water logs
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val waterDAO = populateWaterTable()
 
                 //Act & Assert
@@ -55,7 +55,7 @@ class WaterDAOTest {
         fun `getting all activites from a populated table returns all rows`() {
             transaction {
                 //Arrange - create and populate tables with three users and three waters
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val waterDAO = populateWaterTable()
                 //Act & Assert
                 assertEquals(3, waterDAO.getAll().size)
@@ -66,7 +66,7 @@ class WaterDAOTest {
         fun `get water by user id that has no waters, results in no record returned`() {
             transaction {
                 //Arrange - create and populate tables with three users and three waters
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val waterDAO = populateWaterTable()
                 //Act & Assert
                 assertEquals(0, waterDAO.findByUserId(3).size)
@@ -77,7 +77,7 @@ class WaterDAOTest {
         fun `get water by user id that exists, results in a correct activitie(s) returned`() {
             transaction {
                 //Arrange - create and populate tables with three users and three waters
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val waterDAO = populateWaterTable()
                 //Act & Assert
                 assertEquals(water1, waterDAO.findByUserId(1).get(0))
@@ -103,7 +103,7 @@ class WaterDAOTest {
         fun `get water by water id that has no records, results in no record returned`() {
             transaction {
                 //Arrange - create and populate tables with three users and three waters
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val waterDAO = populateWaterTable()
                 //Act & Assert
                 assertEquals(null, waterDAO.findByWaterId(4))
@@ -114,7 +114,7 @@ class WaterDAOTest {
         fun `get water by water id that exists, results in a correct water returned`() {
             transaction {
                 //Arrange - create and populate tables with three users and three waters
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val waterDAO = populateWaterTable()
                 //Act & Assert
                 assertEquals(water1, waterDAO.findByWaterId(1))
@@ -131,7 +131,7 @@ class WaterDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three waters
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val waterDAO = populateWaterTable()
 
                 //Act & Assert
@@ -147,7 +147,7 @@ class WaterDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three waters
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val waterDAO = populateWaterTable()
 
                 //Act & Assert
@@ -168,7 +168,7 @@ class WaterDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three waters
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val waterDAO = populateWaterTable()
 
                 //Act & Assert
@@ -185,7 +185,7 @@ class WaterDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three waters
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val waterDAO = populateWaterTable()
 
                 //Act & Assert
@@ -201,7 +201,7 @@ class WaterDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three waters
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val waterDAO = populateWaterTable()
 
                 //Act & Assert
@@ -216,7 +216,7 @@ class WaterDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three waters
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val waterDAO = populateWaterTable()
 
                 //Act & Assert

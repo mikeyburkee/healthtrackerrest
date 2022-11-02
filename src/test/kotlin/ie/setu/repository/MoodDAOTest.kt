@@ -38,7 +38,7 @@ class MoodDAOTest {
         fun `multiple moods added to table can be retrieved successfully`() {
             transaction {
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val moodDAO = populateMoodTable()
 
                 //Act & Assert
@@ -57,7 +57,7 @@ class MoodDAOTest {
         fun `getting all moods from a populated table returns all rows`() {
             transaction {
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val moodDAO = populateMoodTable()
                 //Act & Assert
                 assertEquals(3, moodDAO.getAll().size)
@@ -68,7 +68,7 @@ class MoodDAOTest {
         fun `get mood by user id that has no moods, results in no record returned`() {
             transaction {
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val moodDAO = populateActivityTable()
                 //Act & Assert
                 assertEquals(0, moodDAO.findByUserId(3).size)
@@ -79,7 +79,7 @@ class MoodDAOTest {
         fun `get mood by user id that exists, results in a correct mood(s) returned`() {
             transaction {
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val moodDAO = populateMoodTable()
                 //Act & Assert
                 assertEquals(mood1, moodDAO.findByUserId(1).get(0))
@@ -105,7 +105,7 @@ class MoodDAOTest {
         fun `get mood by mood id that has no records, results in no record returned`() {
             transaction {
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val moodDAO = populateMoodTable()
                 //Act & Assert
                 assertEquals(null, moodDAO.findByMoodId(4))
@@ -116,7 +116,7 @@ class MoodDAOTest {
         fun `get mood by mood id that exists, results in a correct mood returned`() {
             transaction {
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val moodDAO = populateMoodTable()
                 //Act & Assert
                 assertEquals(mood1, moodDAO.findByMoodId(1))
@@ -133,7 +133,7 @@ class MoodDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val moodDAO = populateMoodTable()
 
                 //Act & Assert
@@ -149,7 +149,7 @@ class MoodDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val moodDAO = populateMoodTable()
 
                 //Act & Assert
@@ -170,7 +170,7 @@ class MoodDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three moods
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val moodDAO = populateMoodTable()
 
                 //Act & Assert
@@ -187,7 +187,7 @@ class MoodDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val moodDAO = populateMoodTable()
 
                 //Act & Assert
@@ -202,7 +202,7 @@ class MoodDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three moods
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val moodDAO = populateMoodTable()
 
                 //Act & Assert
@@ -217,7 +217,7 @@ class MoodDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three moods
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val moodDAO = populateMoodTable()
 
                 //Act & Assert

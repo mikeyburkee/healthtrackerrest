@@ -39,7 +39,7 @@ class ActivityDAOTest {
         fun `multiple activities added to table can be retrieved successfully`() {
             transaction {
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val activityDAO = populateActivityTable()
 
                 //Act & Assert
@@ -69,7 +69,7 @@ class ActivityDAOTest {
         fun `get activity by user id that has no activities, results in no record returned`() {
             transaction {
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val activityDAO = populateActivityTable()
                 //Act & Assert
                 assertEquals(0, activityDAO.findByUserId(3).size)
@@ -80,7 +80,7 @@ class ActivityDAOTest {
         fun `get activity by user id that exists, results in a correct activitie(s) returned`() {
             transaction {
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val activityDAO = populateActivityTable()
                 //Act & Assert
                 assertEquals(activity1, activityDAO.findByUserId(1).get(0))
@@ -106,7 +106,7 @@ class ActivityDAOTest {
         fun `get activity by activity id that has no records, results in no record returned`() {
             transaction {
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val activityDAO = populateActivityTable()
                 //Act & Assert
                 assertEquals(null, activityDAO.findByActivityId(4))
@@ -117,7 +117,7 @@ class ActivityDAOTest {
         fun `get activity by activity id that exists, results in a correct activity returned`() {
             transaction {
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val activityDAO = populateActivityTable()
                 //Act & Assert
                 assertEquals(activity1, activityDAO.findByActivityId(1))
@@ -134,7 +134,7 @@ class ActivityDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val activityDAO = populateActivityTable()
 
                 //Act & Assert
@@ -150,7 +150,7 @@ class ActivityDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val activityDAO = populateActivityTable()
 
                 //Act & Assert
@@ -171,7 +171,7 @@ class ActivityDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val activityDAO = populateActivityTable()
 
                 //Act & Assert
@@ -188,7 +188,7 @@ class ActivityDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val activityDAO = populateActivityTable()
 
                 //Act & Assert
@@ -204,7 +204,7 @@ class ActivityDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val activityDAO = populateActivityTable()
 
                 //Act & Assert
@@ -219,7 +219,7 @@ class ActivityDAOTest {
             transaction {
 
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val activityDAO = populateActivityTable()
 
                 //Act & Assert
