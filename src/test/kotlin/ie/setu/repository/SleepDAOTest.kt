@@ -144,7 +144,7 @@ class SleepDAOTest {
         }
 
         @Test
-        fun `updating non-existant sleep in table results in no updates`() {
+        fun `updating non-existent sleep in table results in no updates`() {
             transaction {
 
                 //Arrange - create and populate tables with three users and three sleeps
@@ -162,7 +162,7 @@ class SleepDAOTest {
     }
 
     @Nested
-    inner class DeleteActivities {
+    inner class DeleteSleeps {
 
         @Test
         fun `deleting a non-existent sleep (by id) in table results in no deletion`() {

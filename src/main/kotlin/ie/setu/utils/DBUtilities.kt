@@ -1,14 +1,8 @@
 package ie.setu.utils
 
+import ie.setu.domain.*
 import org.jetbrains.exposed.sql.ResultRow
-import ie.setu.domain.User
-import ie.setu.domain.db.Users
-import ie.setu.domain.Activity
-import ie.setu.domain.db.Activities
-import ie.setu.domain.Mood
-import ie.setu.domain.Sleep
-import ie.setu.domain.db.Moods
-import ie.setu.domain.db.Sleeps
+import ie.setu.domain.db.*
 
 fun mapToUser(it: ResultRow) = User(
     id = it[Users.id],
@@ -40,4 +34,11 @@ fun mapToSleep(it: ResultRow) = Sleep(
     wakeUpTime = it[Sleeps.wakeUpTime],
     rating = it[Sleeps.rating],
     userId = it[Sleeps.userId]
+)
+
+fun mapToWater(it: ResultRow) = Water(
+    id = it[Waters.id],
+    volume = it[Waters.volume],
+    dateEntry = it[Waters.dateEntry],
+    userId = it[Waters.userId]
 )

@@ -1,9 +1,6 @@
 package ie.setu.config
 
-import ie.setu.controllers.ActivityController
-import ie.setu.controllers.MoodController
-import ie.setu.controllers.SleepController
-import ie.setu.controllers.UserController
+import ie.setu.controllers.*
 import ie.setu.utils.jsonObjectMapper
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
@@ -59,8 +56,12 @@ class JavalinConfig {
                         delete(MoodController::deleteMoodByUserId) // api tester complete
                     }
                     path("sleeps"){
-                        get(SleepController::getSleepsByUserId) //TODO api tester
-                        delete(SleepController::deleteSleepByUserId) //TODO api tester
+                        get(SleepController::getSleepsByUserId) // api tester complete
+                        delete(SleepController::deleteSleepByUserId) // api tester complete
+                    }
+                    path("waters"){
+                        get(WaterController::getWatersByUserId) //TODO api tester
+                        delete(WaterController::deleteWaterByUserId) //TODO api tester
                     }
                 }
                 path("/email/{email}"){
@@ -86,12 +87,21 @@ class JavalinConfig {
                 }
             }
             path("/api/sleeps"){
-                get(SleepController::getAllSleeps) //TODO api tester
-                post(SleepController::addSleep) //TODO api tester
+                get(SleepController::getAllSleeps) // api tester complete
+                post(SleepController::addSleep) // api tester complete
                 path("{sleep-id}") {
-                    get(SleepController::getSleepsBySleepId) //TODO api tester
-                    delete(SleepController::deleteSleepBySleepId) //TODO api tester
-                    patch(SleepController::updateSleep) //TODO api tester
+                    get(SleepController::getSleepsBySleepId) // api tester complete
+                    delete(SleepController::deleteSleepBySleepId) // api tester complete
+                    patch(SleepController::updateSleep) // api tester complete
+                }
+            }
+            path("/api/waters"){
+                get(WaterController::getAllWaters) //TODO api tester
+                post(WaterController::addWater) //TODO api tester
+                path("{water-id}") {
+                    get(WaterController::getWatersByWaterId) //TODO api tester
+                    delete(WaterController::deleteWaterByWaterId) //TODO api tester
+                    patch(WaterController::updateWater) //TODO api tester
                 }
             }
         }
