@@ -16,12 +16,9 @@ val updatedEmail = "Updated Email"
 val updatedDescription = "Updated Description"
 val updatedDuration = 3.66
 val updatedCalories = 945
-val updatedStarted = DateTime.parse("2020-06-11T05:59:27.258Z")
+val updatedDateTime = DateTime.parse("2020-06-11T05:59:27.258Z")
 
 val updatedRating = 1
-val updatedDateEntry = updatedStarted
-
-val updatedWakeUpTime = updatedStarted
 
 val updatedVolume = 2.75
 
