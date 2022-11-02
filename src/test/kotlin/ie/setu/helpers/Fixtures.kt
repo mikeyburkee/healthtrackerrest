@@ -3,9 +3,6 @@ package ie.setu.helpers
 import ie.setu.domain.*
 import ie.setu.domain.db.*
 import ie.setu.domain.repository.*
-import ie.setu.repository.user1
-import ie.setu.repository.user2
-import ie.setu.repository.user3
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.joda.time.DateTime
 
@@ -62,43 +59,43 @@ val waters = arrayListOf<Water>(
 fun populateUserTable(): UserDAO {
     SchemaUtils.create(Users)
     val userDAO = UserDAO()
-    userDAO.save(users.get(0))
-    userDAO.save(users.get(1))
-    userDAO.save(users.get(2))
+    userDAO.save(users[0])
+    userDAO.save(users[1])
+    userDAO.save(users[2])
     return userDAO
 }
 fun populateActivityTable(): ActivityDAO {
     SchemaUtils.create(Activities)
     val activityDAO = ActivityDAO()
-    activityDAO.save(activities.get(0))
-    activityDAO.save(activities.get(1))
-    activityDAO.save(activities.get(2))
+    activityDAO.save(activities[0])
+    activityDAO.save(activities[1])
+    activityDAO.save(activities[2])
     return activityDAO
 }
 
 fun populateMoodTable(): MoodDAO {
     SchemaUtils.create(Moods)
     val moodDAO = MoodDAO()
-    moodDAO.save(moods.get(0))
-    moodDAO.save(moods.get(1))
-    moodDAO.save(moods.get(2))
+    moodDAO.save(moods[0])
+    moodDAO.save(moods[1])
+    moodDAO.save(moods[2])
     return moodDAO
 }
 
 fun populateSleepTable(): SleepDAO {
     SchemaUtils.create(Sleeps)
     val sleepDAO = SleepDAO()
-    sleepDAO.save(sleeps.get(0))
-    sleepDAO.save(sleeps.get(1))
-    sleepDAO.save(sleeps.get(2))
+    sleepDAO.save(sleeps[0])
+    sleepDAO.save(sleeps[1])
+    sleepDAO.save(sleeps[2])
     return sleepDAO
 }
 
 fun populateWaterTable(): WaterDAO {
     SchemaUtils.create(Waters)
     val waterDAO = WaterDAO()
-    waterDAO.save(waters.get(0))
-    waterDAO.save(waters.get(1))
-    waterDAO.save(waters.get(2))
+    waterDAO.save(waters[0])
+    waterDAO.save(waters[1])
+    waterDAO.save(waters[2])
     return waterDAO
 }
