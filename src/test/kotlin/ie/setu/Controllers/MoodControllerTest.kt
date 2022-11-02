@@ -18,9 +18,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
 //retrieving some test data from Fixtures
-private val mood1 = moods.get(0)
-private val mood2 = moods.get(1)
-private val mood3 = moods.get(2)
+private val mood1 = moods[0]
+private val mood2 = moods[1]
+private val mood3 = moods[2]
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MoodControllerTest {
@@ -39,8 +39,8 @@ class MoodControllerTest {
             val addedUser: User = jsonToObject(addUser(validName, validEmail).body.toString())
 
             val addMoodResponse = addMood(
-                moods[0].description, moods[0].rating,
-                moods[0].dateEntry, addedUser.id
+                mood1.description, mood1.rating,
+                mood1.dateEntry, addedUser.id
             )
             assertEquals(201, addMoodResponse.status)
 
@@ -83,14 +83,14 @@ class MoodControllerTest {
             //Arrange - add a user and 3 associated moods that we plan to retrieve
             val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
             addMood(
-                moods[0].description, moods[0].rating,
-                moods[0].dateEntry, addedUser.id)
+                mood1.description, mood1.rating,
+                mood1.dateEntry, addedUser.id)
             addMood(
-                moods[1].description, moods[1].rating,
-                moods[1].dateEntry, addedUser.id)
+                mood2.description, mood2.rating,
+                mood2.dateEntry, addedUser.id)
             addMood(
-                moods[2].description, moods[2].rating,
-                moods[2].dateEntry, addedUser.id)
+                mood3.description, mood3.rating,
+                mood3.dateEntry, addedUser.id)
 
             //Assert and Act - retrieve the three added moods by user id
             val response = retrieveMoodsByUserId(addedUser.id)
@@ -140,9 +140,9 @@ class MoodControllerTest {
             //Arrange - add a user and associated mood
             val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
             val addMoodResponse = addMood(
-                moods[0].description,
-                moods[0].rating,
-                moods[0].dateEntry, addedUser.id)
+                mood1.description,
+                mood1.rating,
+                mood1.dateEntry, addedUser.id)
             assertEquals(201, addMoodResponse.status)
             val addedMood = jsonNodeToObject<Mood>(addMoodResponse)
 
@@ -182,9 +182,9 @@ class MoodControllerTest {
             //Arrange - add a user and an associated mood that we plan to do an update on
             val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
             val addMoodResponse = addMood(
-                moods[0].description,
-                moods[0].rating,
-                moods[0].dateEntry, addedUser.id)
+                mood1.description,
+                mood1.rating,
+                mood1.dateEntry, addedUser.id)
             assertEquals(201, addMoodResponse.status)
             val addedMood = jsonNodeToObject<Mood>(addMoodResponse)
 
@@ -226,8 +226,8 @@ class MoodControllerTest {
             //Arrange - add a user and an associated mood that we plan to do a delete on
             val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
             val addMoodResponse = addMood(
-                moods[0].description, moods[0].rating,
-                moods[0].dateEntry, addedUser.id)
+                mood1.description, mood1.rating,
+                mood1.dateEntry, addedUser.id)
             assertEquals(201, addMoodResponse.status)
 
             //Act & Assert - delete the added mood and assert a 204 is returned
@@ -244,16 +244,16 @@ class MoodControllerTest {
             //Arrange - add a user and 3 associated moods that we plan to do a cascade delete
             val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
             val addMoodResponse1 = addMood(
-                moods[0].description, moods[0].rating,
-                moods[0].dateEntry, addedUser.id)
+                mood1.description, mood1.rating,
+                mood1.dateEntry, addedUser.id)
             assertEquals(201, addMoodResponse1.status)
             val addMoodResponse2 = addMood(
-                moods[1].description, moods[1].rating,
-                moods[1].dateEntry, addedUser.id)
+                mood2.description, mood2.rating,
+                mood2.dateEntry, addedUser.id)
             assertEquals(201, addMoodResponse2.status)
             val addMoodResponse3 = addMood(
-                moods[2].description, moods[2].rating,
-                moods[2].dateEntry, addedUser.id)
+                mood3.description, mood3.rating,
+                mood3.dateEntry, addedUser.id)
             assertEquals(201, addMoodResponse3.status)
 
             //Act & Assert - delete the added user and assert a 204 is returned
