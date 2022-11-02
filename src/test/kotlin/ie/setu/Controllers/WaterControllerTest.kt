@@ -16,9 +16,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
 //retrieving some test data from Fixtures
-private val water1 = waters.get(0)
-private val water2 = waters.get(1)
-private val water3 = waters.get(2)
+private val water1 = waters[0]
+private val water2 = waters[1]
+private val water3 = waters[2]
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class WaterControllerTest {
@@ -29,7 +29,6 @@ class WaterControllerTest {
 
     @Nested
     inner class CreateWaters {
-
         @Test
         fun `add an water when a user exists for it, returns a 201 response`() {
 
@@ -37,8 +36,8 @@ class WaterControllerTest {
             val addedUser: User = jsonToObject(addUser(validName, validEmail).body.toString())
 
             val addWaterResponse = addWater(
-                waters[0].volume,
-                waters[0].dateEntry, addedUser.id
+                water1.volume,
+                water1.dateEntry, addedUser.id
             )
             assertEquals(201, addWaterResponse.status)
 
@@ -54,8 +53,8 @@ class WaterControllerTest {
             assertEquals(404, retrieveUserById(userId).status)
 
             val addWaterResponse = addWater(
-                waters.get(0).volume,
-                waters.get(0).dateEntry, userId
+                water1.volume,
+                water1.dateEntry, userId
             )
             assertEquals(404, addWaterResponse.status)
 
@@ -82,14 +81,14 @@ class WaterControllerTest {
             //Arrange - add a user and 3 associated waters that we plan to retrieve
             val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
             addWater(
-                waters[0].volume,
-                waters[0].dateEntry, addedUser.id)
+                water1.volume,
+                water1.dateEntry, addedUser.id)
             addWater(
-                waters[1].volume,
-                waters[1].dateEntry, addedUser.id)
+                water2.volume,
+                water2.dateEntry, addedUser.id)
             addWater(
-                waters[2].volume,
-                waters[2].dateEntry, addedUser.id)
+                water3.volume,
+                water3.dateEntry, addedUser.id)
 
             //Assert and Act - retrieve the three added waters by user id
             val response = retrieveWatersByUserId(addedUser.id)
@@ -139,8 +138,8 @@ class WaterControllerTest {
             //Arrange - add a user and associated water
             val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
             val addWaterResponse = addWater(
-                waters[0].volume, 
-                waters[0].dateEntry, addedUser.id)
+                water1.volume,
+                water1.dateEntry, addedUser.id)
             assertEquals(201, addWaterResponse.status)
             val addedWater = jsonNodeToObject<Water>(addWaterResponse)
 
@@ -180,8 +179,8 @@ class WaterControllerTest {
             //Arrange - add a user and an associated water that we plan to do an update on
             val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
             val addWaterResponse = addWater(
-                waters[0].volume,
-                waters[0].dateEntry, addedUser.id)
+                water1.volume,
+                water1.dateEntry, addedUser.id)
             assertEquals(201, addWaterResponse.status)
             val addedWater = jsonNodeToObject<Water>(addWaterResponse)
 
@@ -222,8 +221,8 @@ class WaterControllerTest {
             //Arrange - add a user and an associated water that we plan to do a delete on
             val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
             val addWaterResponse = addWater(
-                waters[0].volume,
-                waters[0].dateEntry, addedUser.id)
+                water1.volume,
+                water1.dateEntry, addedUser.id)
             assertEquals(201, addWaterResponse.status)
 
             //Act & Assert - delete the added water and assert a 204 is returned
@@ -240,16 +239,16 @@ class WaterControllerTest {
             //Arrange - add a user and 3 associated waters that we plan to do a cascade delete
             val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
             val addWaterResponse1 = addWater(
-                waters[0].volume,
-                waters[0].dateEntry, addedUser.id)
+                water1.volume,
+                water1.dateEntry, addedUser.id)
             assertEquals(201, addWaterResponse1.status)
             val addWaterResponse2 = addWater(
-                waters[1].volume,
-                waters[1].dateEntry, addedUser.id)
+                water2.volume,
+                water2.dateEntry, addedUser.id)
             assertEquals(201, addWaterResponse2.status)
             val addWaterResponse3 = addWater(
-                waters[2].volume,
-                waters[2].dateEntry, addedUser.id)
+                water3.volume,
+                water3.dateEntry, addedUser.id)
             assertEquals(201, addWaterResponse3.status)
 
             //Act & Assert - delete the added user and assert a 204 is returned
