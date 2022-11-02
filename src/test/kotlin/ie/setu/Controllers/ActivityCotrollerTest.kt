@@ -172,7 +172,7 @@ class ActivityCotrollerTest {
             assertEquals(
                 404, updateActivity(
                     activityID, updatedDescription, updatedDuration,
-                    updatedCalories, updatedStarted, userId
+                    updatedCalories, updatedDateTime, userId
                 ).status
             )
         }
@@ -191,7 +191,7 @@ class ActivityCotrollerTest {
 
             //Act & Assert - update the added activity and assert a 204 is returned
             val updatedActivityResponse = updateActivity(addedActivity.id, updatedDescription,
-                updatedDuration, updatedCalories, updatedStarted, addedUser.id)
+                updatedDuration, updatedCalories, updatedDateTime, addedUser.id)
             assertEquals(204, updatedActivityResponse.status)
 
             //Assert that the individual fields were all updated as expected
@@ -200,7 +200,7 @@ class ActivityCotrollerTest {
             assertEquals(updatedDescription,updatedActivity.description)
             assertEquals(updatedDuration, updatedActivity.duration, 0.1)
             assertEquals(updatedCalories, updatedActivity.calories)
-            assertEquals(updatedStarted, updatedActivity.started )
+            assertEquals(updatedDateTime, updatedActivity.started )
 
             //After - delete the user
             deleteUser(addedUser.id)

@@ -168,7 +168,7 @@ class WaterControllerTest {
             assertEquals(
                 404, updateWater(
                     waterID, updatedVolume,
-                    updatedDateEntry, userId
+                    updatedDateTime, userId
                 ).status
             )
         }
@@ -186,14 +186,14 @@ class WaterControllerTest {
 
             //Act & Assert - update the added water and assert a 204 is returned
             val updatedWaterResponse = updateWater(addedWater.id,
-                updatedVolume,updatedDateEntry, addedUser.id)
+                updatedVolume,updatedDateTime, addedUser.id)
             assertEquals(204, updatedWaterResponse.status)
 
             //Assert that the individual fields were all updated as expected
             val retrievedWaterResponse = retrieveWaterByWaterId(addedWater.id)
             val updatedWater = jsonNodeToObject<Water>(retrievedWaterResponse)
             assertEquals(updatedVolume, updatedWater.volume, 0.1)
-            assertEquals(updatedDateEntry, updatedWater.dateEntry )
+            assertEquals(updatedDateTime, updatedWater.dateEntry )
 
             //After - delete the user
             deleteUser(addedUser.id)

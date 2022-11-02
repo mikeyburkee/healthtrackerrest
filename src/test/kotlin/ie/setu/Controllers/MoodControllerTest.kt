@@ -171,7 +171,7 @@ class MoodControllerTest {
             assertEquals(
                 404, updateMood(
                     moodID, updatedDescription, updatedRating,
-                    updatedDateEntry, userId
+                    updatedDateTime, userId
                 ).status
             )
         }
@@ -190,7 +190,7 @@ class MoodControllerTest {
 
             //Act & Assert - update the added mood and assert a 204 is returned
             val updatedMoodResponse = updateMood(addedMood.id, updatedDescription,
-                updatedRating, updatedDateEntry, addedUser.id)
+                updatedRating, updatedDateTime, addedUser.id)
             assertEquals(204, updatedMoodResponse.status)
 
             //Assert that the individual fields were all updated as expected
@@ -198,7 +198,7 @@ class MoodControllerTest {
             val updatedMood = jsonNodeToObject<Mood>(retrievedMoodResponse)
             assertEquals(updatedDescription,updatedMood.description)
             assertEquals(updatedRating, updatedMood.rating)
-            assertEquals(updatedDateEntry, updatedMood.dateEntry )
+            assertEquals(updatedDateTime, updatedMood.dateEntry )
 
             //After - delete the user
             deleteUser(addedUser.id)
