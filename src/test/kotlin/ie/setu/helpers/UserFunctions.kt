@@ -5,14 +5,27 @@ import kong.unirest.HttpResponse
 import kong.unirest.JsonNode
 import kong.unirest.Unirest
 
+val validName = "Test User 1"
+val validEmail = "testuser1@test.com"
+val validWeight = 80.5
+val validHeight = 1.7
+val validAge = 25
+val validGender = "male"
+
 val db = DbConfig().getDbConnection()
 val app = ServerContainer.instance
 val origin = "http://localhost:" + app.port()
 
 //helper function to add a test user to the database
-fun addUser (name: String, email: String): HttpResponse<JsonNode> {
+fun addUser (name: String, email: String, weight: Double, height: Double, age: Int, gender: String): HttpResponse<JsonNode> {
     return Unirest.post(origin + "/api/users")
-        .body("{\"name\":\"$name\", \"email\":\"$email\"}")
+        .body("{\"name\":\"$name\", " +
+                "\"email\":\"$email\", " +
+                "\"weight\":\"$weight\", " +
+                "\"height\":\"$height\", " +
+                "\"age\":\"$age\", " +
+                "\"gender\":\"$gender\" " +
+                "}")
         .asJson()
 }
 
@@ -32,8 +45,14 @@ fun retrieveUserById(id: Int) : HttpResponse<String> {
 }
 
 //helper function to add a test user to the database
-fun updateUser (id: Int, name: String, email: String): HttpResponse<JsonNode> {
+fun updateUser (id: Int, name: String, email: String, weight: Double, height: Double, age: Int, gender: String): HttpResponse<JsonNode> {
     return Unirest.patch(origin + "/api/users/$id")
-        .body("{\"name\":\"$name\", \"email\":\"$email\"}")
+        .body("{\"name\":\"$name\", " +
+                "\"email\":\"$email\", " +
+                "\"weight\":\"$weight\", " +
+                "\"height\":\"$height\", " +
+                "\"age\":\"$age\", " +
+                "\"gender\":\"$gender\" " +
+                "}")
         .asJson()
 }

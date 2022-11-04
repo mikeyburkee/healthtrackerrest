@@ -7,8 +7,7 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.joda.time.DateTime
 
 val nonExistingEmail = "112233445566778testUser@xxxxx.xx"
-val validName = "Test User 1"
-val validEmail = "testuser1@test.com"
+
 
 val updatedName = "Updated Name"
 val updatedEmail = "updated@email.com"
