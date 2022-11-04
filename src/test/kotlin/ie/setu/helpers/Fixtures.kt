@@ -11,7 +11,11 @@ val validName = "Test User 1"
 val validEmail = "testuser1@test.com"
 
 val updatedName = "Updated Name"
-val updatedEmail = "Updated Email"
+val updatedEmail = "updated@email.com"
+val updatedWeight = 99.9
+val updatedHeight = 1.99
+val updatedAge = 99
+val updatedGender = "other"
 
 val updatedDescription = "Updated Description"
 val updatedDuration = 3.66
@@ -23,10 +27,10 @@ val updatedRating = 1
 val updatedVolume = 2.75
 
 val users = arrayListOf<User>(
-    User(name = "Alice Wonderland", email = "alice@wonderland.com", id = 1),
-    User(name = "Bob Cat", email = "bob@cat.ie", id = 2),
-    User(name = "Mary Contrary", email = "mary@contrary.com", id = 3),
-    User(name = "Carol Singer", email = "carol@singer.com", id = 4)
+    User(name = "Alice Wonderland", email = "alice@wonderland.com", id = 1, weight = 66.0 , height = 1.6, age = 20, gender = "female"),
+    User(name = "Bob Cat", email = "bob@cat.ie", id = 2, weight = 99.2 , height = 1.8, age = 65, gender = "male"),
+    User(name = "Mary Contrary", email = "mary@contrary.com", id = 3, weight = 80.3 , height = 1.65, age = 40, gender = "female"),
+    User(name = "Carol Singer", email = "carol@singer.com", id = 4, weight = 77.0 , height = 1.5, age = 25, gender = "female")
 )
 
 val activities = arrayListOf<Activity>(
@@ -61,6 +65,7 @@ fun populateUserTable(): UserDAO {
     userDAO.save(users[2])
     return userDAO
 }
+
 fun populateActivityTable(): ActivityDAO {
     SchemaUtils.create(Activities)
     val activityDAO = ActivityDAO()
