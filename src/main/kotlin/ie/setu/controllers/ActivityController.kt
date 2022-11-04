@@ -33,6 +33,27 @@ object ActivityController {
     }
 
     @OpenApi(
+        summary = "Get all activities sorted by parameter input in route ",
+        operationId = "getAllActivitiesSorted",
+        tags = ["Activity"],
+        path = "/api/activities/{sortedBy}",
+        method = HttpMethod.GET,
+        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)])]
+    )
+    fun getAllActivitiesSorted(ctx: Context) {
+        val sortParamter = ctx.pathParam("sortBy")
+        val activities = activityDAO.getAll()
+            .sortedBy { sortParamter }
+        if (activities.size != 0) {
+            ctx.status(200)
+        }
+        else{
+            ctx.status(404)
+        }
+        ctx.json(activities)
+    }
+
+    @OpenApi(
         summary = "Get activities by user ID",
         operationId = "getActivitiesByUserId",
         tags = ["Activity"],
@@ -57,6 +78,40 @@ object ActivityController {
         }
     }
 
+    /*
+    TODO sort activities by a singular user
+    @OpenApi(
+        summary = "Get activities by user ID in duration ascending order",
+        operationId = "getActivitiesByUserIdInDurationAscendingOrder",
+        tags = ["Activity"],
+        path = "/api/users/{user-id}/activities",
+        method = HttpMethod.GET,
+        pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
+        responses  = [OpenApiResponse("200", [OpenApiContent(Activity::class)])]
+    )
+    fun getActivitiesByUserIdWithDurationSorted(ctx: Context){
+        if (userDao.findById(ctx.pathParam("user-id").toInt()) != null) {
+
+            var sortType =  ctx.pathParam("sort")
+            if (sortType = "ascending") {
+
+            }
+            val activities = activityDAO.findByUserId(ctx.pathParam("user-id").toInt())
+            if (activities.isNotEmpty()) {
+                ctx.json(activities)
+                ctx.status(200)
+            }
+            else{
+                ctx.status(404)
+            }
+        }
+        else{
+            ctx.status(404)
+        }
+    }
+
+
+     */
     @OpenApi(
         summary = "Add Activity",
         operationId = "addActivity",
