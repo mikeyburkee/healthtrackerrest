@@ -50,6 +50,9 @@ class JavalinConfig {
                     path("activities"){
                         get(ActivityController::getActivitiesByUserId) // api tester complete
                         delete(ActivityController::deleteActivityByUserId) // api tester complete
+//                        path("/duration/{sort}"){
+//                            get(ActivityController::getActivitiesByUserIdWithDurationSorted)
+//                        }
                     }
                     path("moods"){
                         get(MoodController::getMoodsByUserId) // api tester complete
@@ -75,6 +78,9 @@ class JavalinConfig {
                     get(ActivityController::getActivitiesByActivityId) // api tester complete
                     delete(ActivityController::deleteActivityByActivityId) // api tester complete
                     patch(ActivityController::updateActivity) // api tester complete
+                }
+                path ("{sortBy}"){
+                    get(ActivityController::getAllActivitiesSorted)
                 }
             }
             path("/api/moods"){
