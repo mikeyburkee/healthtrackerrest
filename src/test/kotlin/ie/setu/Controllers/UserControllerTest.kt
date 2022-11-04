@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test
 class UserControllerTest {
 
 
-
     @Nested
     inner class ReadUsers {
 
@@ -58,7 +57,7 @@ class UserControllerTest {
         fun `getting a user by id when id exists, returns a 200 response`() {
 
             //Arrange - add the user
-            val addResponse = addUser(validName, validEmail)
+            val addResponse = addUser(validName, validEmail, validWeight, validHeight, validAge, validGender)
             val addedUser : User = jsonToObject(addResponse.body.toString())
 
             //Assert - retrieve the added user from the database and verify return code
@@ -73,7 +72,8 @@ class UserControllerTest {
         fun `getting a user by email when email exists, returns a 200 response`() {
 
             //Arrange - add the user
-            addUser(validName, validEmail)
+            val addResponse = addUser(validName, validEmail, validWeight, validHeight, validAge, validGender)
+            assertEquals(201, addResponse.status)
 
             //Assert - retrieve the added user from the database and verify return code
             val retrieveResponse = retrieveUserByEmail(validEmail)
@@ -93,7 +93,7 @@ class UserControllerTest {
 
             //Arrange & Act & Assert
             //    add the user and verify return code (using fixture data)
-            val addResponse = addUser(validName, validEmail)
+            val addResponse = addUser(validName, validEmail, validWeight, validHeight, validAge, validGender)
             assertEquals(201, addResponse.status)
 
             //Assert - retrieve the added user from the database and verify return code
@@ -119,17 +119,21 @@ class UserControllerTest {
         fun `updating a user when it exists, returns a 204 response`() {
 
             //Arrange - add the user that we plan to do an update on
-            val addedResponse = addUser(validName, validEmail)
+            val addedResponse = addUser(validName, validEmail, validWeight, validHeight, validAge, validGender)
             val addedUser : User = jsonToObject(addedResponse.body.toString())
 
             //Act & Assert - update the email and name of the retrieved user and assert 204 is returned
-            assertEquals(204, updateUser(addedUser.id, updatedName, updatedEmail).status)
+            assertEquals(204, updateUser(addedUser.id, updatedName, updatedEmail, updatedWeight, updatedHeight, updatedAge, updatedGender).status)
 
             //Act & Assert - retrieve updated user and assert details are correct
             val updatedUserResponse = retrieveUserById(addedUser.id)
             val updatedUser : User = jsonToObject(updatedUserResponse.body.toString())
             assertEquals(updatedName, updatedUser.name)
             assertEquals(updatedEmail, updatedUser.email)
+            assertEquals(updatedWeight, updatedUser.weight)
+            assertEquals(updatedHeight, updatedUser.height)
+            assertEquals(updatedAge, updatedUser.age)
+            assertEquals(updatedGender, updatedUser.gender)
 
             //After - restore the db to previous state by deleting the added user
             deleteUser(addedUser.id)
@@ -139,7 +143,7 @@ class UserControllerTest {
         fun `updating a user when it doesn't exist, returns a 404 response`() {
 
             //Act & Assert - attempt to update the email and name of user that doesn't exist
-            assertEquals(404, updateUser(-1, updatedName, updatedEmail).status)
+            assertEquals(404, updateUser(-1, updatedName, updatedEmail, updatedWeight, updatedHeight, updatedAge, updatedGender).status)
         }
 
     }
@@ -156,7 +160,7 @@ class UserControllerTest {
         fun `deleting a user when it exists, returns a 204 response`() {
 
             //Arrange - add the user that we plan to delete on
-            val addedResponse = addUser(validName, validEmail)
+            val addedResponse = addUser(validName, validEmail, validWeight, validHeight, validAge, validGender)
             val addedUser : User = jsonToObject(addedResponse.body.toString())
 
             //Act & Assert - delete the added user and assert a 204 is returned
@@ -166,6 +170,5 @@ class UserControllerTest {
             assertEquals(404, retrieveUserById(addedUser.id).status)
         }
     }
-
 
 }

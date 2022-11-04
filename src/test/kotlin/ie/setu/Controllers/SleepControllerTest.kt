@@ -18,9 +18,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
 //retrieving some test data from Fixtures
-private val sleep1 = sleeps.get(0)
-private val sleep2 = sleeps.get(1)
-private val sleep3 = sleeps.get(2)
+private val sleep1 = sleeps[0]
+private val sleep2 = sleeps[1]
+private val sleep3 = sleeps[2]
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class SleepControllerTest {
@@ -36,11 +36,11 @@ class SleepControllerTest {
         fun `add an sleep when a user exists for it, returns a 201 response`() {
 
             //Arrange - add a user and an associated sleep that we plan to do a delete on
-            val addedUser: User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser: User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
 
             val addSleepResponse = addSleep(
-                sleeps[0].description, sleeps[0].duration,
-                sleeps[0].rating, sleeps[0].wakeUpTime, addedUser.id
+                sleep1.description, sleep1.duration,
+                sleep1.rating, sleep1.wakeUpTime, addedUser.id
             )
             assertEquals(201, addSleepResponse.status)
 
@@ -82,16 +82,16 @@ class SleepControllerTest {
         @Test
         fun `get all sleeps by user id when user and sleeps exists returns 200 response`() {
             //Arrange - add a user and 3 associated sleeps that we plan to retrieve
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             addSleep(
-                sleeps[0].description, sleeps[0].duration,
-                sleeps[0].rating, sleeps[0].wakeUpTime, addedUser.id)
+                sleep1.description, sleep1.duration,
+                sleep1.rating, sleep1.wakeUpTime, addedUser.id)
             addSleep(
-                sleeps[1].description, sleeps[1].duration,
-                sleeps[1].rating, sleeps[1].wakeUpTime, addedUser.id)
+                sleep2.description, sleep2.duration,
+                sleep2.rating, sleep2.wakeUpTime, addedUser.id)
             addSleep(
-                sleeps[2].description, sleeps[2].duration,
-                sleeps[2].rating, sleeps[2].wakeUpTime, addedUser.id)
+                sleep3.description, sleep3.duration,
+                sleep3.rating, sleep3.wakeUpTime, addedUser.id)
 
             //Assert and Act - retrieve the three added sleeps by user id
             val response = retrieveSleepsByUserId(addedUser.id)
@@ -106,7 +106,7 @@ class SleepControllerTest {
         @Test
         fun `get all sleeps by user id when no sleeps exist returns 404 response`() {
             //Arrange - add a user
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
 
             //Assert and Act - retrieve the sleeps by user id
             val response = retrieveSleepsByUserId(addedUser.id)
@@ -139,11 +139,11 @@ class SleepControllerTest {
         @Test
         fun `get sleep by sleep id when sleep exists returns 200 response`() {
             //Arrange - add a user and associated sleep
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addSleepResponse = addSleep(
-                sleeps[0].description,
-                sleeps[0].duration, sleeps[0].rating,
-                sleeps[0].wakeUpTime, addedUser.id)
+                sleep1.description,
+                sleep1.duration, sleep1.rating,
+                sleep1.wakeUpTime, addedUser.id)
             assertEquals(201, addSleepResponse.status)
             val addedSleep = jsonNodeToObject<Sleep>(addSleepResponse)
 
@@ -172,7 +172,7 @@ class SleepControllerTest {
             assertEquals(
                 404, updateSleep(
                     sleepID, updatedDescription, updatedDuration,
-                    updatedRating, updatedStarted, userId
+                    updatedRating, updatedDateTime, userId
                 ).status
             )
         }
@@ -181,17 +181,17 @@ class SleepControllerTest {
         fun `updating an sleep by sleep id when it exists, returns 204 response`() {
 
             //Arrange - add a user and an associated sleep that we plan to do an update on
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addSleepResponse = addSleep(
-                sleeps[0].description,
-                sleeps[0].duration, sleeps[0].rating,
-                sleeps[0].wakeUpTime, addedUser.id)
+                sleep1.description,
+                sleep1.duration, sleep1.rating,
+                sleep1.wakeUpTime, addedUser.id)
             assertEquals(201, addSleepResponse.status)
             val addedSleep = jsonNodeToObject<Sleep>(addSleepResponse)
 
             //Act & Assert - update the added sleep and assert a 204 is returned
             val updatedSleepResponse = updateSleep(addedSleep.id, updatedDescription,
-                updatedDuration, updatedRating, updatedStarted, addedUser.id)
+                updatedDuration, updatedRating, updatedDateTime, addedUser.id)
             assertEquals(204, updatedSleepResponse.status)
 
             //Assert that the individual fields were all updated as expected
@@ -200,7 +200,7 @@ class SleepControllerTest {
             assertEquals(updatedDescription,updatedSleep.description)
             assertEquals(updatedDuration, updatedSleep.duration, 0.1)
             assertEquals(updatedRating, updatedSleep.rating)
-            assertEquals(updatedStarted, updatedSleep.wakeUpTime )
+            assertEquals(updatedDateTime, updatedSleep.wakeUpTime )
 
             //After - delete the user
             deleteUser(addedUser.id)
@@ -226,10 +226,10 @@ class SleepControllerTest {
         fun `deleting an sleep by id when it exists, returns a 204 response`() {
 
             //Arrange - add a user and an associated sleep that we plan to do a delete on
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addSleepResponse = addSleep(
-                sleeps[0].description, sleeps[0].duration,
-                sleeps[0].rating, sleeps[0].wakeUpTime, addedUser.id)
+                sleep1.description, sleep1.duration,
+                sleep1.rating, sleep1.wakeUpTime, addedUser.id)
             assertEquals(201, addSleepResponse.status)
 
             //Act & Assert - delete the added sleep and assert a 204 is returned
@@ -244,18 +244,18 @@ class SleepControllerTest {
         fun `deleting all sleeps by userid when it exists, returns a 204 response`() {
 
             //Arrange - add a user and 3 associated sleeps that we plan to do a cascade delete
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addSleepResponse1 = addSleep(
-                sleeps[0].description, sleeps[0].duration,
-                sleeps[0].rating, sleeps[0].wakeUpTime, addedUser.id)
+                sleep1.description, sleep1.duration,
+                sleep1.rating, sleep1.wakeUpTime, addedUser.id)
             assertEquals(201, addSleepResponse1.status)
             val addSleepResponse2 = addSleep(
-                sleeps[1].description, sleeps[1].duration,
-                sleeps[1].rating, sleeps[1].wakeUpTime, addedUser.id)
+                sleep2.description, sleep2.duration,
+                sleep2.rating, sleep2.wakeUpTime, addedUser.id)
             assertEquals(201, addSleepResponse2.status)
             val addSleepResponse3 = addSleep(
-                sleeps[2].description, sleeps[2].duration,
-                sleeps[2].rating, sleeps[2].wakeUpTime, addedUser.id)
+                sleep3.description, sleep3.duration,
+                sleep3.rating, sleep3.wakeUpTime, addedUser.id)
             assertEquals(201, addSleepResponse3.status)
 
             //Act & Assert - delete the added user and assert a 204 is returned

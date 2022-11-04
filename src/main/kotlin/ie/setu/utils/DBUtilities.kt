@@ -7,7 +7,11 @@ import ie.setu.domain.db.*
 fun mapToUser(it: ResultRow) = User(
     id = it[Users.id],
     name = it[Users.name],
-    email = it[Users.email]
+    email = it[Users.email],
+    weight = it[Users.weight],
+    height = it[Users.height],
+    age = it[Users.age],
+    gender = it[Users.gender],
 )
 
 fun mapToActivity(it: ResultRow) = Activity(
