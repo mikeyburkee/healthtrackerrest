@@ -36,7 +36,7 @@ class SleepControllerTest {
         fun `add an sleep when a user exists for it, returns a 201 response`() {
 
             //Arrange - add a user and an associated sleep that we plan to do a delete on
-            val addedUser: User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser: User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
 
             val addSleepResponse = addSleep(
                 sleep1.description, sleep1.duration,
@@ -82,7 +82,7 @@ class SleepControllerTest {
         @Test
         fun `get all sleeps by user id when user and sleeps exists returns 200 response`() {
             //Arrange - add a user and 3 associated sleeps that we plan to retrieve
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             addSleep(
                 sleep1.description, sleep1.duration,
                 sleep1.rating, sleep1.wakeUpTime, addedUser.id)
@@ -106,7 +106,7 @@ class SleepControllerTest {
         @Test
         fun `get all sleeps by user id when no sleeps exist returns 404 response`() {
             //Arrange - add a user
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
 
             //Assert and Act - retrieve the sleeps by user id
             val response = retrieveSleepsByUserId(addedUser.id)
@@ -139,7 +139,7 @@ class SleepControllerTest {
         @Test
         fun `get sleep by sleep id when sleep exists returns 200 response`() {
             //Arrange - add a user and associated sleep
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addSleepResponse = addSleep(
                 sleep1.description,
                 sleep1.duration, sleep1.rating,
@@ -181,7 +181,7 @@ class SleepControllerTest {
         fun `updating an sleep by sleep id when it exists, returns 204 response`() {
 
             //Arrange - add a user and an associated sleep that we plan to do an update on
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addSleepResponse = addSleep(
                 sleep1.description,
                 sleep1.duration, sleep1.rating,
@@ -226,7 +226,7 @@ class SleepControllerTest {
         fun `deleting an sleep by id when it exists, returns a 204 response`() {
 
             //Arrange - add a user and an associated sleep that we plan to do a delete on
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addSleepResponse = addSleep(
                 sleep1.description, sleep1.duration,
                 sleep1.rating, sleep1.wakeUpTime, addedUser.id)
@@ -244,7 +244,7 @@ class SleepControllerTest {
         fun `deleting all sleeps by userid when it exists, returns a 204 response`() {
 
             //Arrange - add a user and 3 associated sleeps that we plan to do a cascade delete
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addSleepResponse1 = addSleep(
                 sleep1.description, sleep1.duration,
                 sleep1.rating, sleep1.wakeUpTime, addedUser.id)

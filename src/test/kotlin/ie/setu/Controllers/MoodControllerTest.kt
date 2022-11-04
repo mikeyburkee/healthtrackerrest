@@ -36,7 +36,7 @@ class MoodControllerTest {
         fun `add an mood when a user exists for it, returns a 201 response`() {
 
             //Arrange - add a user and an associated mood that we plan to do a delete on
-            val addedUser: User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser: User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
 
             val addMoodResponse = addMood(
                 mood1.description, mood1.rating,
@@ -81,7 +81,7 @@ class MoodControllerTest {
         @Test
         fun `get all moods by user id when user and moods exists returns 200 response`() {
             //Arrange - add a user and 3 associated moods that we plan to retrieve
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             addMood(
                 mood1.description, mood1.rating,
                 mood1.dateEntry, addedUser.id)
@@ -105,7 +105,7 @@ class MoodControllerTest {
         @Test
         fun `get all moods by user id when no moods exist returns 404 response`() {
             //Arrange - add a user
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
 
             //Assert and Act - retrieve the moods by user id
             val response = retrieveMoodsByUserId(addedUser.id)
@@ -138,7 +138,7 @@ class MoodControllerTest {
         @Test
         fun `get mood by mood id when mood exists returns 200 response`() {
             //Arrange - add a user and associated mood
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addMoodResponse = addMood(
                 mood1.description,
                 mood1.rating,
@@ -180,7 +180,7 @@ class MoodControllerTest {
         fun `updating a mood by mood id when it exists, returns 204 response`() {
 
             //Arrange - add a user and an associated mood that we plan to do an update on
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addMoodResponse = addMood(
                 mood1.description,
                 mood1.rating,
@@ -224,7 +224,7 @@ class MoodControllerTest {
         fun `deleting a mood by id when it exists, returns a 204 response`() {
 
             //Arrange - add a user and an associated mood that we plan to do a delete on
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addMoodResponse = addMood(
                 mood1.description, mood1.rating,
                 mood1.dateEntry, addedUser.id)
@@ -242,7 +242,7 @@ class MoodControllerTest {
         fun `deleting all moods by userid when it exists, returns a 204 response`() {
 
             //Arrange - add a user and 3 associated moods that we plan to do a cascade delete
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addMoodResponse1 = addMood(
                 mood1.description, mood1.rating,
                 mood1.dateEntry, addedUser.id)

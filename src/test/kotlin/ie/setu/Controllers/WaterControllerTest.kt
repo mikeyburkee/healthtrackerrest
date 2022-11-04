@@ -33,7 +33,7 @@ class WaterControllerTest {
         fun `add an water when a user exists for it, returns a 201 response`() {
 
             //Arrange - add a user and an associated water that we plan to do a delete on
-            val addedUser: User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser: User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
 
             val addWaterResponse = addWater(
                 water1.volume,
@@ -79,7 +79,7 @@ class WaterControllerTest {
         @Test
         fun `get all waters by user id when user and waters exists returns 200 response`() {
             //Arrange - add a user and 3 associated waters that we plan to retrieve
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             addWater(
                 water1.volume,
                 water1.dateEntry, addedUser.id)
@@ -103,7 +103,7 @@ class WaterControllerTest {
         @Test
         fun `get all waters by user id when no waters exist returns 404 response`() {
             //Arrange - add a user
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
 
             //Assert and Act - retrieve the waters by user id
             val response = retrieveWatersByUserId(addedUser.id)
@@ -136,7 +136,7 @@ class WaterControllerTest {
         @Test
         fun `get water by water id when water exists returns 200 response`() {
             //Arrange - add a user and associated water
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addWaterResponse = addWater(
                 water1.volume,
                 water1.dateEntry, addedUser.id)
@@ -177,7 +177,7 @@ class WaterControllerTest {
         fun `updating an water by water id when it exists, returns 204 response`() {
 
             //Arrange - add a user and an associated water that we plan to do an update on
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addWaterResponse = addWater(
                 water1.volume,
                 water1.dateEntry, addedUser.id)
@@ -219,7 +219,7 @@ class WaterControllerTest {
         fun `deleting an water by id when it exists, returns a 204 response`() {
 
             //Arrange - add a user and an associated water that we plan to do a delete on
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addWaterResponse = addWater(
                 water1.volume,
                 water1.dateEntry, addedUser.id)
@@ -237,7 +237,7 @@ class WaterControllerTest {
         fun `deleting all waters by userid when it exists, returns a 204 response`() {
 
             //Arrange - add a user and 3 associated waters that we plan to do a cascade delete
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addWaterResponse1 = addWater(
                 water1.volume,
                 water1.dateEntry, addedUser.id)
@@ -279,12 +279,12 @@ class WaterControllerTest {
         return Unirest.get(origin + "/api/waters/${id}").asJson()
     }
 
-    //helper function to delete an water by water id
+    //helper function to delete a water by water id
     private fun deleteWaterByWaterId(id: Int): HttpResponse<String> {
         return Unirest.delete(origin + "/api/waters/$id").asString()
     }
 
-    //helper function to delete an water by water id
+    //helper function to delete a water by water id
     private fun deleteWatersByUserId(id: Int): HttpResponse<String> {
         return Unirest.delete(origin + "/api/users/$id/waters").asString()
     }

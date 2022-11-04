@@ -36,7 +36,7 @@ class ActivityCotrollerTest {
         fun `add an activity when a user exists for it, returns a 201 response`() {
 
             //Arrange - add a user and an associated activity that we plan to do a delete on
-            val addedUser: User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser: User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
 
             val addActivityResponse = addActivity(
                 activity1.description, activity1.duration,
@@ -82,7 +82,7 @@ class ActivityCotrollerTest {
         @Test
         fun `get all activities by user id when user and activities exists returns 200 response`() {
             //Arrange - add a user and 3 associated activities that we plan to retrieve
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             addActivity(
                 activity1.description, activity1.duration,
                 activity1.calories, activity1.started, addedUser.id)
@@ -106,7 +106,7 @@ class ActivityCotrollerTest {
         @Test
         fun `get all activities by user id when no activities exist returns 404 response`() {
             //Arrange - add a user
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
 
             //Assert and Act - retrieve the activities by user id
             val response = retrieveActivitiesByUserId(addedUser.id)
@@ -139,7 +139,7 @@ class ActivityCotrollerTest {
         @Test
         fun `get activity by activity id when activity exists returns 200 response`() {
             //Arrange - add a user and associated activity
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addActivityResponse = addActivity(
                 activity1.description,
                 activity1.duration, activity1.calories,
@@ -181,7 +181,7 @@ class ActivityCotrollerTest {
         fun `updating an activity by activity id when it exists, returns 204 response`() {
 
             //Arrange - add a user and an associated activity that we plan to do an update on
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addActivityResponse = addActivity(
                 activity1.description,
                 activity1.duration, activity1.calories,
@@ -226,7 +226,7 @@ class ActivityCotrollerTest {
         fun `deleting an activity by id when it exists, returns a 204 response`() {
 
             //Arrange - add a user and an associated activity that we plan to do a delete on
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addActivityResponse = addActivity(
                 activity1.description, activity1.duration,
                 activity1.calories, activity1.started, addedUser.id)
@@ -244,7 +244,7 @@ class ActivityCotrollerTest {
         fun `deleting all activities by userid when it exists, returns a 204 response`() {
 
             //Arrange - add a user and 3 associated activities that we plan to do a cascade delete
-            val addedUser : User = jsonToObject(addUser(validName, validEmail).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             val addActivityResponse1 = addActivity(
                 activity1.description, activity1.duration,
                 activity1.calories, activity1.started, addedUser.id)
