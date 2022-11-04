@@ -80,6 +80,39 @@ class ActivityCotrollerTest {
         }
 
         @Test
+        fun `get all activities from the database sorted by parameter returns 200 or 404 response`() {
+
+            //Arrange - add a user and 3 associated activities that we plan to retrieve
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
+            addActivity(
+                activity1.description, activity1.duration,
+                activity1.calories, activity1.started, addedUser.id)
+            addActivity(
+                activity2.description, activity2.duration,
+                activity2.calories, activity2.started, addedUser.id)
+            addActivity(
+                activity3.description, activity3.duration,
+                activity3.calories, activity3.started, addedUser.id)
+
+            //Assert and Act - retrieve the three added activities and check sorted correctly
+            // activity 1 duration = 22.0, activity2 duration = 12.0,  activity3 duration = 10.5,
+            val response = retrieveAllActivitiesSorted("duration")
+            if (response.status == 200){
+                val retrievedActivities = jsonNodeToObject<Array<Activity>>(response)
+                assertNotEquals(0, retrievedActivities.size)
+                assertEquals(activity1.duration, retrievedActivities[0].duration)
+                assertEquals(activity3.duration, retrievedActivities[1].duration)
+                assertEquals(activity2.duration, retrievedActivities[2].duration)
+            }
+            else{
+                assertEquals(404, response.status)
+            }
+
+            //After - delete the added user and assert a 204 is returned (activities are cascade deleted)
+            assertEquals(204, deleteUser(addedUser.id).status)
+        }
+
+        @Test
         fun `get all activities by user id when user and activities exists returns 200 response`() {
             //Arrange - add a user and 3 associated activities that we plan to retrieve
             val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
@@ -102,6 +135,8 @@ class ActivityCotrollerTest {
             //After - delete the added user and assert a 204 is returned (activities are cascade deleted)
             assertEquals(204, deleteUser(addedUser.id).status)
         }
+
+
 
         @Test
         fun `get all activities by user id when no activities exist returns 404 response`() {
@@ -274,6 +309,10 @@ class ActivityCotrollerTest {
     //helper function to retrieve all activities
     private fun retrieveAllActivities(): HttpResponse<JsonNode> {
         return Unirest.get(origin + "/api/activities").asJson()
+    }
+
+    private fun retrieveAllActivitiesSorted(sortBy: String): HttpResponse<JsonNode> {
+        return Unirest.get(origin + "/api/activities/${sortBy}").asJson()
     }
 
     //helper function to retrieve activities by user id
