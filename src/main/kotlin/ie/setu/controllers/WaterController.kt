@@ -72,14 +72,16 @@ object WaterController{
         if (!waterInputValidation(water)){
             ctx.status(400)
         }
-        else if (userId != null) {
-            val waterId = waterDAO.save(water)
-            water.id = waterId
-            ctx.json(water)
-            ctx.status(201)
-        }
-        else{
-            ctx.status(404)
+        else {
+            if (userId != null) {
+                val waterId = waterDAO.save(water)
+                water.id = waterId
+                ctx.json(water)
+                ctx.status(201)
+            }
+            else{
+                ctx.status(404)
+            }
         }
     }
 
@@ -149,12 +151,16 @@ object WaterController{
         if (!waterInputValidation(water)){
             ctx.status(400)
         }
-        else if (waterDAO.updateByWaterId(
-                waterId = ctx.pathParam("water-id").toInt(),
-                waterToUpdate =water) != 0)
-            ctx.status(204)
-        else
-            ctx.status(404)
+        else {
+            if (waterDAO.updateByWaterId(
+                    waterId = ctx.pathParam("water-id").toInt(),
+                    waterToUpdate = water
+                ) != 0
+            )
+                ctx.status(204)
+            else
+                ctx.status(404)
+        }
     }
     
 }
