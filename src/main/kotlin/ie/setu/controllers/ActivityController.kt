@@ -38,12 +38,49 @@ object ActivityController {
         tags = ["Activity"],
         path = "/api/activities/{sortedBy}",
         method = HttpMethod.GET,
+        pathParams = [OpenApiParam("sort-param", String::class, "The parameter to sort")],
         responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)])]
     )
     fun getAllActivitiesSorted(ctx: Context) {
-        val sortParamter = ctx.pathParam("sortBy")
-        val activities = activityDAO.getAll()
-            .sortedBy { sortParamter }
+        val activities = activityDAO.getAllSorted(ctx.pathParam("sort-param").toString())
+        if (activities.size != 0) {
+            ctx.status(200)
+        }
+        else{
+            ctx.status(404)
+        }
+        ctx.json(activities)
+    }
+
+    @OpenApi(
+        summary = "Get all activities sorted by duration  ",
+        operationId = "getAllActivitiesSorted",
+        tags = ["Activity"],
+        path = "/api/activities/duration/sorted",
+        method = HttpMethod.GET,
+        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)])]
+    )
+    fun getAllActivitiesSortedByDuration(ctx: Context) {
+        val activities = activityDAO.getAllSorted("duration")
+        if (activities.size != 0) {
+            ctx.status(200)
+        }
+        else{
+            ctx.status(404)
+        }
+        ctx.json(activities)
+    }
+
+    @OpenApi(
+        summary = "Get all activities sorted by calories  ",
+        operationId = "getAllActivitiesSortedByCalories",
+        tags = ["Activity"],
+        path = "/api/activities/calories/sorted",
+        method = HttpMethod.GET,
+        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)])]
+    )
+    fun getAllActivitiesSortedByCalories(ctx: Context) {
+        val activities = activityDAO.getAllSorted("calories")
         if (activities.size != 0) {
             ctx.status(200)
         }
