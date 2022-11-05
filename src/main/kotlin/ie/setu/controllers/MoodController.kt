@@ -5,6 +5,7 @@ import ie.setu.domain.User
 import ie.setu.domain.repository.MoodDAO
 import ie.setu.domain.repository.UserDAO
 import ie.setu.utils.jsonToObject
+import ie.setu.utils.moodInputValidation
 import io.javalin.http.Context
 import io.javalin.plugin.openapi.annotations.*
 
@@ -69,14 +70,18 @@ object MoodController {
     fun addMood(ctx: Context) {
         val mood : Mood = jsonToObject(ctx.body())
         val userId = userDao.findById(mood.userId)
-        if (userId != null) {
-            val moodId = moodDAO.save(mood)
-            mood.id = moodId
-            ctx.json(mood)
-            ctx.status(201)
+        if (!moodInputValidation(mood)){
+            ctx.status(400)
         }
-        else{
-            ctx.status(404)
+        else {
+            if (userId != null) {
+                val moodId = moodDAO.save(mood)
+                mood.id = moodId
+                ctx.json(mood)
+                ctx.status(201)
+            } else {
+                ctx.status(404)
+            }
         }
     }
 
@@ -143,12 +148,19 @@ object MoodController {
     )
     fun updateMood(ctx: Context){
         val mood : Mood = jsonToObject(ctx.body())
-        if (moodDAO.updateByMoodId(
-                moodId = ctx.pathParam("mood-id").toInt(),
-                moodToUpdate =mood) != 0)
-            ctx.status(204)
-        else
-            ctx.status(404)
+        if (!moodInputValidation(mood)){
+            ctx.status(400)
+        }
+        else {
+            if (moodDAO.updateByMoodId(
+                    moodId = ctx.pathParam("mood-id").toInt(),
+                    moodToUpdate = mood
+                ) != 0
+            )
+                ctx.status(204)
+            else
+                ctx.status(404)
+        }
     }
 
 }
