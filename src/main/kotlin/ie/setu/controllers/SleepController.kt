@@ -5,6 +5,7 @@ import ie.setu.domain.User
 import ie.setu.domain.repository.SleepDAO
 import ie.setu.domain.repository.UserDAO
 import ie.setu.utils.jsonToObject
+import ie.setu.utils.sleepInputValidation
 import io.javalin.http.Context
 import io.javalin.plugin.openapi.annotations.*
 
@@ -69,15 +70,21 @@ object SleepController {
     fun addSleep(ctx: Context) {
         val sleep : Sleep = jsonToObject(ctx.body())
         val userId = userDao.findById(sleep.userId)
-        if (userId != null) {
-            val sleepId = sleepDAO.save(sleep)
-            sleep.id = sleepId
-            ctx.json(sleep)
-            ctx.status(201)
+        if (!sleepInputValidation(sleep)){
+            ctx.status(400)
         }
         else{
-            ctx.status(404)
+            if (userId != null) {
+                val sleepId = sleepDAO.save(sleep)
+                sleep.id = sleepId
+                ctx.json(sleep)
+                ctx.status(201)
+            }
+            else{
+                ctx.status(404)
+            }
         }
+
     }
 
     @OpenApi(
@@ -143,12 +150,19 @@ object SleepController {
     )
     fun updateSleep(ctx: Context){
         val sleep : Sleep = jsonToObject(ctx.body())
-        if (sleepDAO.updateBySleepId(
-                sleepId = ctx.pathParam("sleep-id").toInt(),
-                sleepToUpdate =sleep) != 0)
-            ctx.status(204)
-        else
-            ctx.status(404)
+        if (!sleepInputValidation(sleep)){
+            ctx.status(400)
+        }
+        else {
+            if (sleepDAO.updateBySleepId(
+                    sleepId = ctx.pathParam("sleep-id").toInt(),
+                    sleepToUpdate = sleep
+                ) != 0
+            )
+                ctx.status(204)
+            else
+                ctx.status(404)
+        }
     }
 
 }
