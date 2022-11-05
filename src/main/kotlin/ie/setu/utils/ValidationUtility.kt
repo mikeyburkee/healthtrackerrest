@@ -1,9 +1,6 @@
 package ie.setu.utils
 
-import ie.setu.domain.Activity
-import ie.setu.domain.Mood
-import ie.setu.domain.User
-import ie.setu.domain.Water
+import ie.setu.domain.*
 import java.util.regex.Pattern
 
 val minAge =0
@@ -24,6 +21,9 @@ val maxActivityCalories = 50000                      // 50,000 calories based on
 
 val minRating = 0
 val maxRating = 10
+
+val minSleepDuration = 0.0
+val maxSleepDuration = 24.0
 
 fun isValidGender(genderToValidate: String): Boolean {
     return genderToValidate.get(0).uppercaseChar() in validGenders
@@ -67,4 +67,9 @@ fun activityInputValidation(activity: Activity): Boolean{
 
 fun moodInputValidation(mood: Mood): Boolean{
     return intIsValidInRange(minRating, maxRating, mood.rating)
+}
+
+fun sleepInputValidation(sleep: Sleep): Boolean{
+    return doubleIsValidInRange(minSleepDuration, maxSleepDuration, sleep.duration) &&
+            intIsValidInRange(minRating, maxRating, sleep.rating)
 }
