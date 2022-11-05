@@ -55,13 +55,43 @@ class ActivityDAOTest {
     inner class ReadActivities {
 
         @Test
-        fun `getting all activites from a populated table returns all rows`() {
+        fun `getting all activities from a populated table returns all rows`() {
             transaction {
                 //Arrange - create and populate tables with three users and three activities
                 val userDAO = populateUserTable()
                 val activityDAO = populateActivityTable()
                 //Act & Assert
                 assertEquals(3, activityDAO.getAll().size)
+            }
+        }
+
+        @Test
+        fun `getting all activities from a populated table sorted by paramter ascending returns all rows`() {
+            transaction {
+                //Arrange - create and populate tables with three users and three activities
+                val userDAO = populateUserTable()
+                val activityDAO = populateActivityTable()
+
+                //Act & Assert
+                val activitiesSorted = activityDAO.getAllSortedAscending("duration")
+                assertEquals(activity2.duration, activitiesSorted[0].duration)
+                assertEquals(activity3.duration, activitiesSorted[1].duration)
+                assertEquals(activity1.duration, activitiesSorted[2].duration)
+            }
+        }
+
+        @Test
+        fun `getting all activities from a populated table sorted by paramter descending returns all rows`() {
+            transaction {
+                //Arrange - create and populate tables with three users and three activities
+                val userDAO = populateUserTable()
+                val activityDAO = populateActivityTable()
+
+                //Act & Assert
+                val activitiesSorted = activityDAO.getAllSortedDescending("duration")
+                assertEquals(activity1.duration, activitiesSorted[0].duration)
+                assertEquals(activity3.duration, activitiesSorted[1].duration)
+                assertEquals(activity2.duration, activitiesSorted[2].duration)
             }
         }
 

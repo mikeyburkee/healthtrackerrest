@@ -50,6 +50,9 @@ class JavalinConfig {
                     path("activities"){
                         get(ActivityController::getActivitiesByUserId) // api tester complete
                         delete(ActivityController::deleteActivityByUserId) // api tester complete
+//                        path("/duration/{sort}"){
+//                            get(ActivityController::getActivitiesByUserIdWithDurationSorted)
+//                        }
                     }
                     path("moods"){
                         get(MoodController::getMoodsByUserId) // api tester complete
@@ -76,6 +79,32 @@ class JavalinConfig {
                     delete(ActivityController::deleteActivityByActivityId) // api tester complete
                     patch(ActivityController::updateActivity) // api tester complete
                 }
+                path ("{sort-param}"){
+                    get(ActivityController::getAllActivitiesSortedAscending) // TODO get working with key
+                }
+                path("ascending"){
+                    path("{sort-param}"){
+                        get(ActivityController::getAllActivitiesSortedAscending) // TODO get key working
+                    }
+                    path("duration"){
+                        get(ActivityController::getAllActivitiesSortedAscendingByDuration) // TODO api tester
+                    }
+                    path ("calories"){
+                        get(ActivityController::getAllActivitiesSortedAscendingByCalories) // TODO api tester
+                    }
+                }
+                path("descending"){
+                    path("{sort-param}"){
+                        get(ActivityController::getAllActivitiesSortedDescending) // TODO get key working
+                    }
+                    path("duration"){
+                        get(ActivityController::getAllActivitiesSortedDescendingByDuration) // TODO api tester
+                    }
+                    path ("calories"){
+                        get(ActivityController::getAllActivitiesSortedDescendingByCalories) // TODO api tester
+                    }
+                }
+
             }
             path("/api/moods"){
                 get(MoodController::getAllMoods) // api tester complete
@@ -96,12 +125,12 @@ class JavalinConfig {
                 }
             }
             path("/api/waters"){
-                get(WaterController::getAllWaters) //TODO api tester
-                post(WaterController::addWater) //TODO api tester
+                get(WaterController::getAllWaters) // api tester complete
+                post(WaterController::addWater) // api tester complete
                 path("{water-id}") {
-                    get(WaterController::getWatersByWaterId) //TODO api tester
-                    delete(WaterController::deleteWaterByWaterId) //TODO api tester
-                    patch(WaterController::updateWater) //TODO api tester
+                    get(WaterController::getWatersByWaterId) // api tester complete
+                    delete(WaterController::deleteWaterByWaterId) // api tester complete
+                    patch(WaterController::updateWater) // api tester complete
                 }
             }
         }

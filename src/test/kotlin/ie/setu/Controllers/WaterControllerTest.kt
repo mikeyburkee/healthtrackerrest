@@ -11,6 +11,7 @@ import kong.unirest.JsonNode
 import kong.unirest.Unirest
 import org.joda.time.DateTime
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -21,6 +22,7 @@ private val water2 = waters[1]
 private val water3 = waters[2]
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Disabled
 class WaterControllerTest {
 
     private val db = DbConfig().getDbConnection()
