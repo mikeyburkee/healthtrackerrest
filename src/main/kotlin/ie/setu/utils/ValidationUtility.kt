@@ -62,7 +62,8 @@ fun userInputValidation(user: User): Boolean{
 
 fun activityInputValidation(activity: Activity): Boolean{
     return intIsValidInRange(minActivityCalories, maxActivityCalories, activity.calories) &&
-            doubleIsValidInRange(minActivityDuration, maxActivityDuration, activity.duration)
+            doubleIsValidInRange(minActivityDuration, maxActivityDuration, activity.duration) &&
+            intIsValidInRange(minRating, maxRating, activity.rating)
 }
 
 fun moodInputValidation(mood: Mood): Boolean{
