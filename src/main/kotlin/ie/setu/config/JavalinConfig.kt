@@ -83,6 +83,9 @@ class JavalinConfig {
                     get(ActivityController::getAllActivitiesSortedAscending) // TODO get working with key
                 }
                 path("ascending"){
+                    path("{sort-param}"){
+                        get(ActivityController::getAllActivitiesSortedAscending) // TODO get key working
+                    }
                     path("duration"){
                         get(ActivityController::getAllActivitiesSortedAscendingByDuration) // TODO api tester
                     }
@@ -91,11 +94,14 @@ class JavalinConfig {
                     }
                 }
                 path("descending"){
+                    path("{sort-param}"){
+                        get(ActivityController::getAllActivitiesSortedDescending) // TODO get key working
+                    }
                     path("duration"){
                         get(ActivityController::getAllActivitiesSortedDescendingByDuration) // TODO api tester
                     }
                     path ("calories"){
-                        get(ActivityController::getAllActivitiesSortedDesscendingByCalories) // TODO api tester
+                        get(ActivityController::getAllActivitiesSortedDescendingByCalories) // TODO api tester
                     }
                 }
 
