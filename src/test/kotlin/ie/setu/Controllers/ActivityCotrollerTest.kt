@@ -23,7 +23,7 @@ private val activity2 = activities[1]
 private val activity3 = activities[2]
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Disabled
+//@Disabled
 class ActivityCotrollerTest {
 
     private val db = DbConfig().getDbConnection()
@@ -37,11 +37,12 @@ class ActivityCotrollerTest {
         fun `add an activity when a user exists for it, returns a 201 response`() {
 
             //Arrange - add a user and an associated activity that we plan to do a delete on
-            val addedUser: User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
+            val addedUser: User = jsonToObject(addUser(validName, validEmail, validWeight,
+                validHeight, validAge, validGender).body.toString())
 
             val addActivityResponse = addActivity(
                 activity1.description, activity1.duration,
-                activity1.calories, activity1.started, addedUser.id
+                activity1.calories, activity1.started, activity1.rating, addedUser.id
             )
             assertEquals(201, addActivityResponse.status)
 
@@ -57,8 +58,9 @@ class ActivityCotrollerTest {
             assertEquals(404, retrieveUserById(userId).status)
 
             val addActivityResponse = addActivity(
-                activities.get(0).description, activities.get(0).duration,
-                activities.get(0).calories, activities.get(0).started, userId
+                activity1.description, activity1.duration,
+                activity1.calories, activity1.started,
+                activity1.rating, userId
             )
             assertEquals(404, addActivityResponse.status)
 
@@ -87,13 +89,13 @@ class ActivityCotrollerTest {
             val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
             addActivity(
                 activity1.description, activity1.duration,
-                activity1.calories, activity1.started, addedUser.id)
+                activity1.calories, activity1.started, activity1.rating, addedUser.id)
             addActivity(
                 activity2.description, activity2.duration,
-                activity2.calories, activity2.started, addedUser.id)
+                activity2.calories, activity2.started, activity2.rating, addedUser.id)
             addActivity(
                 activity3.description, activity3.duration,
-                activity3.calories, activity3.started, addedUser.id)
+                activity3.calories, activity3.started, activity3.rating, addedUser.id)
 
             //Assert and Act - retrieve the three added activities and check sorted correctly
             // activity 1 duration = 22.0, activity2 duration = 10.5,  activity3 duration = 12.0,
@@ -116,16 +118,17 @@ class ActivityCotrollerTest {
         @Test
         fun `get all activities by user id when user and activities exists returns 200 response`() {
             //Arrange - add a user and 3 associated activities that we plan to retrieve
-            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight,
+                validHeight, validAge, validGender).body.toString())
             addActivity(
                 activity1.description, activity1.duration,
-                activity1.calories, activity1.started, addedUser.id)
+                activity1.calories, activity1.started, activity1.rating, addedUser.id)
             addActivity(
                 activity2.description, activity2.duration,
-                activity2.calories, activity2.started, addedUser.id)
+                activity2.calories, activity2.started, activity2.rating, addedUser.id)
             addActivity(
                 activity3.description, activity3.duration,
-                activity3.calories, activity3.started, addedUser.id)
+                activity3.calories, activity3.started, activity3.rating, addedUser.id)
 
             //Assert and Act - retrieve the three added activities by user id
             val response = retrieveActivitiesByUserId(addedUser.id)
@@ -175,11 +178,12 @@ class ActivityCotrollerTest {
         @Test
         fun `get activity by activity id when activity exists returns 200 response`() {
             //Arrange - add a user and associated activity
-            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight,
+                validHeight, validAge, validGender).body.toString())
             val addActivityResponse = addActivity(
                 activity1.description,
                 activity1.duration, activity1.calories,
-                activity1.started, addedUser.id)
+                activity1.started, activity1.rating, addedUser.id)
             assertEquals(201, addActivityResponse.status)
             val addedActivity = jsonNodeToObject<Activity>(addActivityResponse)
 
@@ -208,7 +212,7 @@ class ActivityCotrollerTest {
             assertEquals(
                 404, updateActivity(
                     activityID, updatedDescription, updatedDuration,
-                    updatedCalories, updatedDateTime, userId
+                    updatedCalories, updatedDateTime, updatedRating, userId
                 ).status
             )
         }
@@ -221,13 +225,13 @@ class ActivityCotrollerTest {
             val addActivityResponse = addActivity(
                 activity1.description,
                 activity1.duration, activity1.calories,
-                activity1.started, addedUser.id)
+                activity1.started, activity1.rating, addedUser.id)
             assertEquals(201, addActivityResponse.status)
             val addedActivity = jsonNodeToObject<Activity>(addActivityResponse)
 
             //Act & Assert - update the added activity and assert a 204 is returned
             val updatedActivityResponse = updateActivity(addedActivity.id, updatedDescription,
-                updatedDuration, updatedCalories, updatedDateTime, addedUser.id)
+                updatedDuration, updatedCalories, updatedDateTime, updatedRating, addedUser.id)
             assertEquals(204, updatedActivityResponse.status)
 
             //Assert that the individual fields were all updated as expected
@@ -237,6 +241,7 @@ class ActivityCotrollerTest {
             assertEquals(updatedDuration, updatedActivity.duration, 0.1)
             assertEquals(updatedCalories, updatedActivity.calories)
             assertEquals(updatedDateTime, updatedActivity.started )
+            assertEquals(updatedRating, updatedActivity.rating )
 
             //After - delete the user
             deleteUser(addedUser.id)
@@ -262,10 +267,11 @@ class ActivityCotrollerTest {
         fun `deleting an activity by id when it exists, returns a 204 response`() {
 
             //Arrange - add a user and an associated activity that we plan to do a delete on
-            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight,
+                validHeight, validAge, validGender).body.toString())
             val addActivityResponse = addActivity(
                 activity1.description, activity1.duration,
-                activity1.calories, activity1.started, addedUser.id)
+                activity1.calories, activity1.started, activity1.rating, addedUser.id)
             assertEquals(201, addActivityResponse.status)
 
             //Act & Assert - delete the added activity and assert a 204 is returned
@@ -280,18 +286,19 @@ class ActivityCotrollerTest {
         fun `deleting all activities by userid when it exists, returns a 204 response`() {
 
             //Arrange - add a user and 3 associated activities that we plan to do a cascade delete
-            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight, validHeight, validAge, validGender).body.toString())
+            val addedUser : User = jsonToObject(addUser(validName, validEmail, validWeight,
+                validHeight, validAge, validGender).body.toString())
             val addActivityResponse1 = addActivity(
                 activity1.description, activity1.duration,
-                activity1.calories, activity1.started, addedUser.id)
+                activity1.calories, activity1.started, activity1.rating, addedUser.id)
             assertEquals(201, addActivityResponse1.status)
             val addActivityResponse2 = addActivity(
                 activity2.description, activity2.duration,
-                activity2.calories, activity2.started, addedUser.id)
+                activity2.calories, activity2.started, activity2.rating, addedUser.id)
             assertEquals(201, addActivityResponse2.status)
             val addActivityResponse3 = addActivity(
                 activity3.description, activity3.duration,
-                activity3.calories, activity3.started, addedUser.id)
+                activity3.calories, activity3.started, activity3.rating, addedUser.id)
             assertEquals(201, addActivityResponse3.status)
 
             //Act & Assert - delete the added user and assert a 204 is returned
@@ -338,7 +345,7 @@ class ActivityCotrollerTest {
 
     //helper function to add a test user to the database
     private fun updateActivity(id: Int, description: String, duration: Double, calories: Int,
-                               started: DateTime, userId: Int): HttpResponse<JsonNode> {
+                               started: DateTime, rating: Int, userId: Int): HttpResponse<JsonNode> {
         return Unirest.patch(origin + "/api/activities/$id")
             .body("""
                 {
@@ -346,6 +353,7 @@ class ActivityCotrollerTest {
                   "duration":$duration,
                   "calories":$calories,
                   "started":"$started",
+                  "rating":"$rating", 
                   "userId":$userId
                 }
             """.trimIndent()).asJson()
@@ -353,7 +361,7 @@ class ActivityCotrollerTest {
 
     //helper function to add an activity
     private fun addActivity(description: String, duration: Double, calories: Int,
-                            started: DateTime, userId: Int): HttpResponse<JsonNode> {
+                            started: DateTime, rating: Int, userId: Int): HttpResponse<JsonNode> {
         return Unirest.post(origin + "/api/activities")
             .body("""
                 {
@@ -361,6 +369,7 @@ class ActivityCotrollerTest {
                    "duration":$duration,
                    "calories":$calories,
                    "started":"$started",
+                   "rating":"$rating", 
                    "userId":$userId
                 }
             """.trimIndent())

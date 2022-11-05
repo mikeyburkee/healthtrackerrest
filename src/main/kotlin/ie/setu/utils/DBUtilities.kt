@@ -20,7 +20,8 @@ fun mapToActivity(it: ResultRow) = Activity(
     duration = it[Activities.duration],
     started = it[Activities.started],
     calories = it[Activities.calories],
-    userId = it[Activities.userId]
+    userId = it[Activities.userId],
+    rating = it[Activities.rating]
 )
 
 fun mapToMood(it: ResultRow) = Mood(
