@@ -33,9 +33,9 @@ val users = arrayListOf<User>(
 )
 
 val activities = arrayListOf<Activity>(
-    Activity(id = 1, description = "Running", duration = 22.0, calories = 230, started = DateTime.now(), userId = 1),
-    Activity(id = 2, description = "Hopping", duration = 10.5, calories = 80, started = DateTime.now(), userId = 1),
-    Activity(id = 3, description = "Walking", duration = 12.0, calories = 120, started = DateTime.now(), userId = 2)
+    Activity(id = 1, description = "Running", duration = 22.0, calories = 230, started = DateTime.now(), rating = 8, userId = 1),
+    Activity(id = 2, description = "Hopping", duration = 10.5, calories = 80, started = DateTime.now(), rating = 6, userId = 1),
+    Activity(id = 3, description = "Walking", duration = 12.0, calories = 120, started = DateTime.now(), rating = 9, userId = 2)
 )
 
 val moods = arrayListOf<Mood>(
