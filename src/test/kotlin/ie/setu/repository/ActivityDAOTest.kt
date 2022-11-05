@@ -169,14 +169,14 @@ class ActivityDAOTest {
 
                 //Act & Assert
                 val activity3updated = Activity(id = 3, description = "Cardio", duration = 42.0,
-                    calories = 220, started = DateTime.now(), userId = 2)
+                    calories = 220, started = DateTime.now(), rating = 5, userId = 2)
                 activityDAO.updateByActivityId(activity3updated.id, activity3updated)
                 assertEquals(activity3updated, activityDAO.findByActivityId(3))
             }
         }
 
         @Test
-        fun `updating non-existant activity in table results in no updates`() {
+        fun `updating non-existent activity in table results in no updates`() {
             transaction {
 
                 //Arrange - create and populate tables with three users and three activities
@@ -185,7 +185,7 @@ class ActivityDAOTest {
 
                 //Act & Assert
                 val activity4updated = Activity(id = 4, description = "Cardio", duration = 42.0,
-                    calories = 220, started = DateTime.now(), userId = 2)
+                    calories = 220, started = DateTime.now(), rating = 5, userId = 2)
                 activityDAO.updateByActivityId(4, activity4updated)
                 assertEquals(null, activityDAO.findByActivityId(4))
                 assertEquals(3, activityDAO.getAll().size)
