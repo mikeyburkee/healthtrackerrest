@@ -4,6 +4,7 @@ import ie.setu.domain.Activity
 import ie.setu.domain.User
 import ie.setu.domain.repository.ActivityDAO
 import ie.setu.domain.repository.UserDAO
+import ie.setu.utils.activityInputValidation
 import ie.setu.utils.jsonToObject
 import io.javalin.http.Context
 import io.javalin.plugin.openapi.annotations.*
@@ -215,14 +216,18 @@ object ActivityController {
     fun addActivity(ctx: Context) {
         val activity : Activity = jsonToObject(ctx.body())
         val userId = userDao.findById(activity.userId)
-        if (userId != null) {
-            val activityId = activityDAO.save(activity)
-            activity.id = activityId
-            ctx.json(activity)
-            ctx.status(201)
+        if (!activityInputValidation(activity)){
+            ctx.status(400)
         }
-        else{
-            ctx.status(404)
+        else {
+            if (userId != null) {
+                val activityId = activityDAO.save(activity)
+                activity.id = activityId
+                ctx.json(activity)
+                ctx.status(201)
+            } else {
+                ctx.status(404)
+            }
         }
     }
 
@@ -289,12 +294,19 @@ object ActivityController {
     )
     fun updateActivity(ctx: Context){
         val activity : Activity = jsonToObject(ctx.body())
-        if (activityDAO.updateByActivityId(
-                activityId = ctx.pathParam("activity-id").toInt(),
-                activityToUpdate =activity) != 0)
-            ctx.status(204)
-        else
-            ctx.status(404)
+        if (!activityInputValidation(activity)){
+            ctx.status(200)
+        }
+        else {
+            if (activityDAO.updateByActivityId(
+                    activityId = ctx.pathParam("activity-id").toInt(),
+                    activityToUpdate = activity
+                ) != 0
+            )
+                ctx.status(204)
+            else
+                ctx.status(404)
+        }
     }
 
 }

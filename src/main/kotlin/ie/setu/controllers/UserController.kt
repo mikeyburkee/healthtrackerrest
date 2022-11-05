@@ -7,6 +7,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import ie.setu.domain.User
 import ie.setu.domain.repository.UserDAO
 import ie.setu.utils.jsonToObject
+import ie.setu.utils.userInputValidation
 import io.javalin.http.Context
 import io.javalin.plugin.openapi.annotations.*
 
@@ -64,12 +65,19 @@ object UserController {
     )
     fun addUser(ctx: Context) {
         val user : User = jsonToObject(ctx.body())
-        val userId = userDao.save(user)
-        if (userId != null) {
-            user.id = userId
-            ctx.json(user)
-            ctx.status(201)
+
+        if (!userInputValidation(user)){
+            ctx.status(400)
         }
+        else {
+            val userId = userDao.save(user)
+            if (userId != null) {
+                user.id = userId
+                ctx.json(user)
+                ctx.status(201)
+            }
+        }
+
     }
 
     @OpenApi(
@@ -119,10 +127,15 @@ object UserController {
     )
     fun updateUser(ctx: Context){
         val foundUser : User = jsonToObject(ctx.body())
-        if ((userDao.update(id = ctx.pathParam("user-id").toInt(), user=foundUser)) != 0)
-            ctx.status(204)
-        else
-            ctx.status(404)
+        if (!userInputValidation(foundUser)){
+            ctx.status(400)
+        }
+        else {
+            if ((userDao.update(id = ctx.pathParam("user-id").toInt(), user = foundUser)) != 0)
+                ctx.status(204)
+            else
+                ctx.status(404)
+        }
     }
 
 }

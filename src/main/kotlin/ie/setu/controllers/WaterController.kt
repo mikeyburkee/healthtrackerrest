@@ -4,7 +4,7 @@ import ie.setu.domain.Water
 import ie.setu.domain.User
 import ie.setu.domain.repository.WaterDAO
 import ie.setu.domain.repository.UserDAO
-import ie.setu.utils.jsonToObject
+import ie.setu.utils.*
 import io.javalin.http.Context
 import io.javalin.plugin.openapi.annotations.*
 
@@ -69,14 +69,19 @@ object WaterController{
     fun addWater(ctx: Context) {
         val water : Water = jsonToObject(ctx.body())
         val userId = userDao.findById(water.userId)
-        if (userId != null) {
-            val waterId = waterDAO.save(water)
-            water.id = waterId
-            ctx.json(water)
-            ctx.status(201)
+        if (!waterInputValidation(water)){
+            ctx.status(400)
         }
-        else{
-            ctx.status(404)
+        else {
+            if (userId != null) {
+                val waterId = waterDAO.save(water)
+                water.id = waterId
+                ctx.json(water)
+                ctx.status(201)
+            }
+            else{
+                ctx.status(404)
+            }
         }
     }
 
@@ -143,12 +148,19 @@ object WaterController{
     )
     fun updateWater(ctx: Context){
         val water : Water = jsonToObject(ctx.body())
-        if (waterDAO.updateByWaterId(
-                waterId = ctx.pathParam("water-id").toInt(),
-                waterToUpdate =water) != 0)
-            ctx.status(204)
-        else
-            ctx.status(404)
+        if (!waterInputValidation(water)){
+            ctx.status(400)
+        }
+        else {
+            if (waterDAO.updateByWaterId(
+                    waterId = ctx.pathParam("water-id").toInt(),
+                    waterToUpdate = water
+                ) != 0
+            )
+                ctx.status(204)
+            else
+                ctx.status(404)
+        }
     }
     
 }
