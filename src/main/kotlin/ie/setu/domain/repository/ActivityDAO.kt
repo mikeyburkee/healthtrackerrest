@@ -9,13 +9,28 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class ActivityDAO {
 
     //Get all the activities in the database regardless of user id
-    fun getAll(): ArrayList<Activity> {
+    fun getAll(): List<Activity> {
         val activitiesList: ArrayList<Activity> = arrayListOf()
         transaction {
             Activities.selectAll().map {
                 activitiesList.add(mapToActivity(it)) }
         }
         return activitiesList
+    }
+
+    fun getAllSorted(sortParam: String): List<Activity> {
+        val activitiesList: ArrayList<Activity> = arrayListOf()
+        transaction {
+            Activities.selectAll().map {
+                activitiesList.add(mapToActivity(it)) }
+        }
+
+        when (sortParam) {
+            "duration" -> return activitiesList.sortedBy { it.duration }
+            "calories" -> return activitiesList.sortedBy { it.calories }
+            else -> return activitiesList
+        }
+
     }
 
     //Find a specific activity by activity id
