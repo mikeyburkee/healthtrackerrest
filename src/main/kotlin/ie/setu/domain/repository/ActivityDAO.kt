@@ -18,7 +18,7 @@ class ActivityDAO {
         return activitiesList
     }
 
-    fun getAllSorted(sortParam: String): List<Activity> {
+    fun getAllSortedAscending(sortParam: String): List<Activity> {
         val activitiesList: ArrayList<Activity> = arrayListOf()
         transaction {
             Activities.selectAll().map {
@@ -32,6 +32,22 @@ class ActivityDAO {
         }
 
     }
+
+    fun getAllSortedDescending(sortParam: String): List<Activity> {
+        val activitiesList: ArrayList<Activity> = arrayListOf()
+        transaction {
+            Activities.selectAll().map {
+                activitiesList.add(mapToActivity(it)) }
+        }
+
+        when (sortParam) {
+            "duration" -> return activitiesList.sortedByDescending { it.duration }
+            "calories" -> return activitiesList.sortedByDescending { it.calories }
+            else -> return activitiesList
+        }
+
+    }
+
 
     //Find a specific activity by activity id
     fun findByActivityId(id: Int): Activity?{
