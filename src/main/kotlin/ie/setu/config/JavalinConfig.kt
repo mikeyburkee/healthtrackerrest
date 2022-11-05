@@ -80,14 +80,25 @@ class JavalinConfig {
                     patch(ActivityController::updateActivity) // api tester complete
                 }
                 path ("{sort-param}"){
-                    get(ActivityController::getAllActivitiesSorted) // TODO get working with key
+                    get(ActivityController::getAllActivitiesSortedAscending) // TODO get working with key
                 }
-                path ("duration/sorted"){
-                    get(ActivityController::getAllActivitiesSortedByDuration) // TODO api tester
+                path("ascending"){
+                    path("duration"){
+                        get(ActivityController::getAllActivitiesSortedAscendingByDuration) // TODO api tester
+                    }
+                    path ("calories"){
+                        get(ActivityController::getAllActivitiesSortedAscendingByCalories) // TODO api tester
+                    }
                 }
-                path ("calories/sorted"){
-                    get(ActivityController::getAllActivitiesSortedByCalories) // TODO api tester
+                path("descending"){
+                    path("duration"){
+                        get(ActivityController::getAllActivitiesSortedDescendingByDuration) // TODO api tester
+                    }
+                    path ("calories"){
+                        get(ActivityController::getAllActivitiesSortedDesscendingByCalories) // TODO api tester
+                    }
                 }
+
             }
             path("/api/moods"){
                 get(MoodController::getAllMoods) // api tester complete
