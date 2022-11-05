@@ -11,9 +11,15 @@ val minHeight = 0.1
 val maxHeight = 3.0
 val minWeight = 5.0
 val maxWeight = 1000.0
+val validGenders = listOf('F', 'M', 'O')
+
 val minVolume = 0.0
 val maxVolume = 15.0
-val validGenders = listOf('F', 'M', 'O')
+
+val minActivityDuration = 0.0
+val maxActivityDuration = 4320.0                        // 3 days longest duration extreme endurance
+val minActivityCalories = 0
+val maxActivityCalories = 50000                      // 50,000 calories based on research
 
 fun isValidGender(genderToValidate: String): Boolean {
     return genderToValidate.get(0).uppercaseChar() in validGenders
@@ -50,4 +56,8 @@ fun userInputValidation(user: User): Boolean{
             isValidEmail(user.email)
 }
 
+fun activityInputValidation(activity: Activity): Boolean{
+    return intIsValidInRange(minActivityCalories, maxActivityCalories, activity.calories) &&
+            doubleIsValidInRange(minActivityDuration, maxActivityDuration, activity.duration)
+}
 
