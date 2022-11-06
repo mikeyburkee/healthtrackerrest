@@ -1,5 +1,11 @@
 package ie.setu.helpers
 
+/**
+ * User Fixtures file used in controller test classes
+ *
+ * @author Michael Burke
+ */
+
 import ie.setu.config.DbConfig
 import kong.unirest.HttpResponse
 import kong.unirest.JsonNode

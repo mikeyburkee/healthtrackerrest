@@ -1,5 +1,11 @@
 package ie.setu.utils
 
+/**
+ * Input Validation utilities file
+ *
+ * @author Michael Burke
+ */
+
 import ie.setu.domain.*
 import java.util.regex.Pattern
 

@@ -1,5 +1,11 @@
 package ie.setu.repository
 
+/**
+ * DAO unit test class for waters
+ *
+ * @author Michael Burke
+ */
+
 import ie.setu.domain.Water
 import ie.setu.domain.db.Waters
 import ie.setu.domain.repository.WaterDAO

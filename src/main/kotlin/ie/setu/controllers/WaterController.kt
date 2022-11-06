@@ -1,5 +1,11 @@
 package ie.setu.controllers
 
+/**
+ * Controller object for water logs
+ *
+ * @author Michael Burke
+ */
+
 import ie.setu.domain.Water
 import ie.setu.domain.User
 import ie.setu.domain.repository.WaterDAO
@@ -19,7 +25,8 @@ object WaterController{
         tags = ["Water"],
         path = "/api/waters",
         method = HttpMethod.GET,
-        responses = [OpenApiResponse("200", [OpenApiContent(Array<Water>::class)])]
+        responses = [OpenApiResponse("200", [OpenApiContent(Array<Water>::class)]),
+            OpenApiResponse("404", [OpenApiContent(Array<Water>::class)]) ]
     )
     fun getAllWaters(ctx: Context) {
         val waters = waterDAO.getAll()
@@ -39,7 +46,8 @@ object WaterController{
         path = "/api/users/{user-id}/waters",
         method = HttpMethod.GET,
         pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
-        responses  = [OpenApiResponse("200", [OpenApiContent(Water::class)])]
+        responses  = [OpenApiResponse("200", [OpenApiContent(Water::class)]),
+            OpenApiResponse("404")]
     )
     fun getWatersByUserId(ctx: Context) {
         if (userDao.findById(ctx.pathParam("user-id").toInt()) != null) {
@@ -63,8 +71,8 @@ object WaterController{
         tags = ["Water"],
         path = "/api/waters",
         method = HttpMethod.POST,
-        //pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
-        responses  = [OpenApiResponse("200")]
+        responses  = [OpenApiResponse("201", [OpenApiContent(Water::class)]),
+            OpenApiResponse("404"),OpenApiResponse("400") ]
     )
     fun addWater(ctx: Context) {
         val water : Water = jsonToObject(ctx.body())
@@ -92,7 +100,7 @@ object WaterController{
         path = "/api/waters/{water-id}",
         method = HttpMethod.GET,
         pathParams = [OpenApiParam("water-id", Int::class, "The water ID")],
-        responses  = [OpenApiResponse("200", [OpenApiContent(User::class)])]
+        responses  = [OpenApiResponse("200", [OpenApiContent(Water::class)]), OpenApiResponse("404")]
     )
     fun getWatersByWaterId(ctx: Context) {
         val water = waterDAO.findByWaterId((ctx.pathParam("water-id").toInt()))
@@ -112,7 +120,7 @@ object WaterController{
         path = "/api/waters/{water-id}",
         method = HttpMethod.DELETE,
         pathParams = [OpenApiParam("water-id", Int::class, "The water ID")],
-        responses  = [OpenApiResponse("204")]
+        responses  = [OpenApiResponse("204"), OpenApiResponse("404")]
     )
     fun deleteWaterByWaterId(ctx: Context){
         if (waterDAO.deleteByWaterId(ctx.pathParam("water-id").toInt()) != 0)
@@ -128,7 +136,7 @@ object WaterController{
         path = "/api/users/{user-id}/waters",
         method = HttpMethod.DELETE,
         pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
-        responses  = [OpenApiResponse("204")]
+        responses  = [OpenApiResponse("204"), OpenApiResponse("404")]
     )
     fun deleteWaterByUserId(ctx: Context){
         if (waterDAO.deleteByUserId(ctx.pathParam("user-id").toInt()) != 0)
@@ -144,7 +152,7 @@ object WaterController{
         path = "/api/waters/{water-id}",
         method = HttpMethod.PATCH,
         pathParams = [OpenApiParam("water-id", Int::class, "The water ID")],
-        responses  = [OpenApiResponse("204")]
+        responses  = [OpenApiResponse("204"), OpenApiResponse("400"), OpenApiResponse("404")]
     )
     fun updateWater(ctx: Context){
         val water : Water = jsonToObject(ctx.body())

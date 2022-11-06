@@ -1,7 +1,14 @@
 package ie.setu.controllers
 
+/**
+ * Controller object for sleep logs
+ *
+ * @author Michael Burke
+ */
+
 import ie.setu.domain.Sleep
 import ie.setu.domain.User
+import ie.setu.domain.Water
 import ie.setu.domain.repository.SleepDAO
 import ie.setu.domain.repository.UserDAO
 import ie.setu.utils.jsonToObject
@@ -20,7 +27,8 @@ object SleepController {
         tags = ["Sleep"],
         path = "/api/sleeps",
         method = HttpMethod.GET,
-        responses = [OpenApiResponse("200", [OpenApiContent(Array<Sleep>::class)])]
+        responses = [OpenApiResponse("200", [OpenApiContent(Array<Sleep>::class)]),
+            OpenApiResponse("404", [OpenApiContent(Array<Sleep>::class)]) ]
     )
     fun getAllSleeps(ctx: Context) {
         val sleeps = sleepDAO.getAll()
@@ -40,7 +48,8 @@ object SleepController {
         path = "/api/users/{user-id}/sleeps",
         method = HttpMethod.GET,
         pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
-        responses  = [OpenApiResponse("200", [OpenApiContent(Sleep::class)])]
+        responses  = [OpenApiResponse("200", [OpenApiContent(Sleep::class)]),
+            OpenApiResponse("404")]
     )
     fun getSleepsByUserId(ctx: Context) {
         if (userDao.findById(ctx.pathParam("user-id").toInt()) != null) {
@@ -64,8 +73,8 @@ object SleepController {
         tags = ["Sleep"],
         path = "/api/sleeps",
         method = HttpMethod.POST,
-        //pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
-        responses  = [OpenApiResponse("200")]
+        responses  = [OpenApiResponse("201", [OpenApiContent(Sleep::class)]),
+            OpenApiResponse("404"),OpenApiResponse("400") ]
     )
     fun addSleep(ctx: Context) {
         val sleep : Sleep = jsonToObject(ctx.body())
@@ -94,7 +103,7 @@ object SleepController {
         path = "/api/sleeps/{sleep-id}",
         method = HttpMethod.GET,
         pathParams = [OpenApiParam("sleep-id", Int::class, "The sleep ID")],
-        responses  = [OpenApiResponse("200", [OpenApiContent(User::class)])]
+        responses  = [OpenApiResponse("200", [OpenApiContent(Sleep::class)]), OpenApiResponse("404")]
     )
     fun getSleepsBySleepId(ctx: Context) {
         val sleep = sleepDAO.findBySleepId((ctx.pathParam("sleep-id").toInt()))
@@ -114,7 +123,7 @@ object SleepController {
         path = "/api/sleeps/{sleep-id}",
         method = HttpMethod.DELETE,
         pathParams = [OpenApiParam("sleep-id", Int::class, "The sleep ID")],
-        responses  = [OpenApiResponse("204")]
+        responses  = [OpenApiResponse("204"), OpenApiResponse("404")]
     )
     fun deleteSleepBySleepId(ctx: Context){
         if (sleepDAO.deleteBySleepId(ctx.pathParam("sleep-id").toInt()) != 0)
@@ -130,7 +139,7 @@ object SleepController {
         path = "/api/users/{user-id}/sleeps",
         method = HttpMethod.DELETE,
         pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
-        responses  = [OpenApiResponse("204")]
+        responses  = [OpenApiResponse("204"), OpenApiResponse("404")]
     )
     fun deleteSleepByUserId(ctx: Context){
         if (sleepDAO.deleteByUserId(ctx.pathParam("user-id").toInt()) != 0)
@@ -146,7 +155,7 @@ object SleepController {
         path = "/api/sleeps/{sleep-id}",
         method = HttpMethod.PATCH,
         pathParams = [OpenApiParam("sleep-id", Int::class, "The sleep ID")],
-        responses  = [OpenApiResponse("204")]
+        responses  = [OpenApiResponse("204"), OpenApiResponse("400"), OpenApiResponse("404")]
     )
     fun updateSleep(ctx: Context){
         val sleep : Sleep = jsonToObject(ctx.body())

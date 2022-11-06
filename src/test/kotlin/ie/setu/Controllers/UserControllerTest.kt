@@ -1,5 +1,12 @@
 package ie.setu.Controllers
 
+/**
+ * Controller integration test class for Users
+ *
+ * @author Michael Burke
+ */
+
+
 import ie.setu.config.DbConfig
 import ie.setu.domain.User
 import ie.setu.helpers.ServerContainer
@@ -14,7 +21,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Disabled
+//@Disabled
 class UserControllerTest {
 
 

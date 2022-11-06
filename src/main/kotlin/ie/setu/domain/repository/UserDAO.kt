@@ -1,5 +1,11 @@
 package ie.setu.domain.repository
 
+/**
+ * Data access object class for the user
+ *
+ * @author Michael Burke
+ */
+
 import ie.setu.domain.User
 import ie.setu.domain.db.Users
 import ie.setu.utils.mapToUser
@@ -8,6 +14,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class UserDAO {
 
+    // get all users
     fun getAll(): ArrayList<User> {
         val userList: ArrayList<User> = arrayListOf()
         transaction {
@@ -17,6 +24,7 @@ class UserDAO {
         return userList
     }
 
+    // find a user by user id
     fun findById(id: Int): User?{
         return transaction {
             Users.select() {
@@ -26,6 +34,7 @@ class UserDAO {
         }
     }
 
+    // save a user
     fun save(user: User) : Int?{
         return transaction {
             Users.insert {
@@ -39,6 +48,7 @@ class UserDAO {
         }
     }
 
+    // find a user by user email
     fun findByEmail(email: String) :User?{
         return transaction {
             Users.select() {
@@ -48,6 +58,7 @@ class UserDAO {
         }
     }
 
+    // delete a user by user id
     fun delete(id: Int):Int{
         return transaction{
             Users.deleteWhere{
@@ -56,6 +67,7 @@ class UserDAO {
         }
     }
 
+    // update a user by user id
     fun update(id: Int, user: User): Int{
         return transaction {
             Users.update ({

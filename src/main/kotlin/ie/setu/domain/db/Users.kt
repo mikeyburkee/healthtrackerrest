@@ -1,5 +1,11 @@
 package ie.setu.domain.db
 
+/**
+ * Database table object for Users
+ *
+ * @author Michael Burke
+ */
+
 import org.jetbrains.exposed.sql.Table
 
 // SRP - Responsibility is to manage one user.

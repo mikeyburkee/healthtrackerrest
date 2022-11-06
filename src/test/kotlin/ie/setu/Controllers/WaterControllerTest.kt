@@ -1,5 +1,12 @@
 package ie.setu.Controllers
 
+/**
+ * Controller integration test class for water
+ *
+ * @author Michael Burke
+ */
+
+
 import ie.setu.config.DbConfig
 import ie.setu.domain.Water
 import ie.setu.domain.User
@@ -22,7 +29,7 @@ private val water2 = waters[1]
 private val water3 = waters[2]
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Disabled
+//@Disabled
 class WaterControllerTest {
 
     private val db = DbConfig().getDbConnection()

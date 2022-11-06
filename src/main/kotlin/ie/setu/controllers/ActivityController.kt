@@ -1,7 +1,13 @@
 package ie.setu.controllers
 
+/**
+ * Controller object for activities
+ *
+ * @author Michael Burke
+ */
+
 import ie.setu.domain.Activity
-import ie.setu.domain.User
+import ie.setu.domain.Water
 import ie.setu.domain.repository.ActivityDAO
 import ie.setu.domain.repository.UserDAO
 import ie.setu.utils.activityInputValidation
@@ -20,7 +26,8 @@ object ActivityController {
         tags = ["Activity"],
         path = "/api/activities",
         method = HttpMethod.GET,
-        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)])]
+        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)]),
+            OpenApiResponse("404", [OpenApiContent(Array<Activity>::class)]) ]
     )
     fun getAllActivities(ctx: Context) {
         val activities = activityDAO.getAll()
@@ -35,12 +42,13 @@ object ActivityController {
 
     @OpenApi(
         summary = "Get all activities sorted by parameter input in route ",
-        operationId = "getAllActivitiesSorted",
+        operationId = "getAllActivitiesSortedAscending",
         tags = ["Activity"],
         path = "/api/activities/ascending/{sort-param}",
         method = HttpMethod.GET,
         pathParams = [OpenApiParam("sort-param", String::class, "The parameter to sort")],
-        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)])]
+        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)]),
+            OpenApiResponse("404", [OpenApiContent(Array<Activity>::class)]) ]
     )
     fun getAllActivitiesSortedAscending(ctx: Context) {
         val activities = activityDAO.getAllSortedAscending(ctx.pathParam("sort-param"))
@@ -60,7 +68,8 @@ object ActivityController {
         path = "/api/activities/descending/{sort-param}",
         method = HttpMethod.GET,
         pathParams = [OpenApiParam("sort-param", String::class, "The parameter to sort")],
-        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)])]
+        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)]),
+            OpenApiResponse("404", [OpenApiContent(Array<Activity>::class)]) ]
     )
     fun getAllActivitiesSortedDescending(ctx: Context) {
         val activities = activityDAO.getAllSortedDescending(ctx.pathParam("sort-param"))
@@ -79,7 +88,8 @@ object ActivityController {
         tags = ["Activity"],
         path = "/api/activities/ascending/duration",
         method = HttpMethod.GET,
-        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)])]
+        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)]),
+            OpenApiResponse("404", [OpenApiContent(Array<Activity>::class)]) ]
     )
     fun getAllActivitiesSortedAscendingByDuration(ctx: Context) {
         val activities = activityDAO.getAllSortedAscending("duration")
@@ -98,7 +108,8 @@ object ActivityController {
         tags = ["Activity"],
         path = "/api/activities/descending/duration",
         method = HttpMethod.GET,
-        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)])]
+        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)]),
+            OpenApiResponse("404", [OpenApiContent(Array<Activity>::class)]) ]
     )
     fun getAllActivitiesSortedDescendingByDuration(ctx: Context) {
         val activities = activityDAO.getAllSortedDescending("duration")
@@ -117,7 +128,8 @@ object ActivityController {
         tags = ["Activity"],
         path = "/api/activities/ascending/calories",
         method = HttpMethod.GET,
-        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)])]
+        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)]),
+            OpenApiResponse("404", [OpenApiContent(Array<Activity>::class)]) ]
     )
     fun getAllActivitiesSortedAscendingByCalories(ctx: Context) {
         val activities = activityDAO.getAllSortedAscending("calories")
@@ -136,7 +148,8 @@ object ActivityController {
         tags = ["Activity"],
         path = "/api/activities/descending/calories",
         method = HttpMethod.GET,
-        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)])]
+        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)]),
+            OpenApiResponse("404", [OpenApiContent(Array<Activity>::class)]) ]
     )
     fun getAllActivitiesSortedDescendingByCalories(ctx: Context) {
         val activities = activityDAO.getAllSortedDescending("calories")
@@ -156,7 +169,8 @@ object ActivityController {
         path = "/api/users/{user-id}/activities",
         method = HttpMethod.GET,
         pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
-        responses  = [OpenApiResponse("200", [OpenApiContent(Activity::class)])]
+        responses  = [OpenApiResponse("200", [OpenApiContent(Activity::class)]),
+            OpenApiResponse("404")]
     )
     fun getActivitiesByUserId(ctx: Context) {
         if (userDao.findById(ctx.pathParam("user-id").toInt()) != null) {
@@ -184,7 +198,8 @@ object ActivityController {
         path = "/api/users/{user-id}/activities",
         method = HttpMethod.GET,
         pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
-        responses  = [OpenApiResponse("200", [OpenApiContent(Activity::class)])]
+        responses = [OpenApiResponse("200", [OpenApiContent(Array<Activity>::class)]),
+            OpenApiResponse("404", [OpenApiContent(Array<Activity>::class)]) ]
     )
     fun getActivitiesByUserIdWithDurationSorted(ctx: Context){
         if (userDao.findById(ctx.pathParam("user-id").toInt()) != null) {
@@ -210,8 +225,8 @@ object ActivityController {
         tags = ["Activity"],
         path = "/api/activities",
         method = HttpMethod.POST,
-        //pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
-        responses  = [OpenApiResponse("200")]
+        responses  = [OpenApiResponse("201", [OpenApiContent(Activity::class)]),
+            OpenApiResponse("404"),OpenApiResponse("400") ]
     )
     fun addActivity(ctx: Context) {
         val activity : Activity = jsonToObject(ctx.body())
@@ -238,7 +253,7 @@ object ActivityController {
         path = "/api/activities/{activity-id}",
         method = HttpMethod.GET,
         pathParams = [OpenApiParam("activity-id", Int::class, "The activity ID")],
-        responses  = [OpenApiResponse("200", [OpenApiContent(User::class)])]
+        responses  = [OpenApiResponse("200", [OpenApiContent(Activity::class)]), OpenApiResponse("404")]
     )
     fun getActivitiesByActivityId(ctx: Context) {
         val activity = activityDAO.findByActivityId((ctx.pathParam("activity-id").toInt()))
@@ -258,7 +273,7 @@ object ActivityController {
         path = "/api/activities/{activity-id}",
         method = HttpMethod.DELETE,
         pathParams = [OpenApiParam("activity-id", Int::class, "The activity ID")],
-        responses  = [OpenApiResponse("204")]
+        responses  = [OpenApiResponse("204"), OpenApiResponse("404")]
     )
     fun deleteActivityByActivityId(ctx: Context){
         if (activityDAO.deleteByActivityId(ctx.pathParam("activity-id").toInt()) != 0)
@@ -274,7 +289,7 @@ object ActivityController {
         path = "/api/users/{user-id}/activities",
         method = HttpMethod.DELETE,
         pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
-        responses  = [OpenApiResponse("204")]
+        responses  = [OpenApiResponse("204"), OpenApiResponse("404")]
     )
     fun deleteActivityByUserId(ctx: Context){
         if (activityDAO.deleteByUserId(ctx.pathParam("user-id").toInt()) != 0)
@@ -290,7 +305,7 @@ object ActivityController {
         path = "/api/activities/{activity-id}",
         method = HttpMethod.PATCH,
         pathParams = [OpenApiParam("activity-id", Int::class, "The activity ID")],
-        responses  = [OpenApiResponse("204")]
+        responses  = [OpenApiResponse("204"), OpenApiResponse("400"), OpenApiResponse("404")]
     )
     fun updateActivity(ctx: Context){
         val activity : Activity = jsonToObject(ctx.body())
@@ -308,5 +323,4 @@ object ActivityController {
                 ctx.status(404)
         }
     }
-
 }

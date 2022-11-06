@@ -1,5 +1,12 @@
 package ie.setu.Controllers
 
+/**
+ * Controller integration test class for moods
+ *
+ * @author Michael Burke
+ */
+
+
 import ie.setu.config.DbConfig
 import ie.setu.domain.Mood
 import ie.setu.domain.User
@@ -23,7 +30,7 @@ private val mood2 = moods[1]
 private val mood3 = moods[2]
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Disabled
+//@Disabled
 class MoodControllerTest {
 
     private val db = DbConfig().getDbConnection()

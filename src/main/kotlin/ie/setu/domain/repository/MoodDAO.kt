@@ -1,5 +1,11 @@
 package ie.setu.domain.repository
 
+/**
+ * Data access object class for mood logs
+ *
+ * @author Michael Burke
+ */
+
 import ie.setu.domain.Mood
 import ie.setu.domain.db.Moods
 import ie.setu.utils.mapToMood
@@ -50,6 +56,7 @@ class MoodDAO {
         } get Moods.id
     }
 
+    // update a mood by mood id
     fun updateByMoodId(moodId: Int, moodToUpdate: Mood) : Int{
         return transaction {
             Moods.update ({
@@ -62,11 +69,14 @@ class MoodDAO {
         }
     }
 
+    // delete a mood by mood id
     fun deleteByMoodId (moodId: Int): Int{
         return transaction{
             Moods.deleteWhere { Moods.id eq moodId }
         }
     }
+
+    // delete all moods by user id
 
     fun deleteByUserId (userId: Int): Int{
         return transaction{

@@ -1,5 +1,11 @@
 package ie.setu.utils
 
+/**
+ * Database utilities file
+ *
+ * @author Michael Burke
+ */
+
 import ie.setu.domain.*
 import org.jetbrains.exposed.sql.ResultRow
 import ie.setu.domain.db.*

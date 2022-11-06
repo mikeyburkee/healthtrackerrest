@@ -1,5 +1,11 @@
 package ie.setu.config
 
+/**
+ * Database configuration class for health tracker app
+ *
+ * @author Michael Burke
+ */
+
 import org.jetbrains.exposed.sql.Database
 
 class DbConfig{

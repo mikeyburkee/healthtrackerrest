@@ -1,10 +1,17 @@
 package ie.setu.controllers
 
+/**
+ * Controller object for User
+ *
+ * @author Michael Burke
+ */
+
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.joda.JodaModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import ie.setu.domain.User
+import ie.setu.domain.Water
 import ie.setu.domain.repository.UserDAO
 import ie.setu.utils.jsonToObject
 import ie.setu.utils.userInputValidation
@@ -21,7 +28,8 @@ object UserController {
         tags = ["User"],
         path = "/api/users",
         method = HttpMethod.GET,
-        responses = [OpenApiResponse("200", [OpenApiContent(Array<User>::class)])]
+        responses = [OpenApiResponse("200", [OpenApiContent(Array<User>::class)]),
+            OpenApiResponse("404", [OpenApiContent(Array<User>::class)])]
     )
     fun getAllUsers(ctx: Context) {
         val users = userDao.getAll()
@@ -41,7 +49,8 @@ object UserController {
         path = "/api/users/{user-id}",
         method = HttpMethod.GET,
         pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
-        responses  = [OpenApiResponse("200", [OpenApiContent(User::class)])]
+        responses  = [OpenApiResponse("200", [OpenApiContent(User::class)]),
+            OpenApiResponse("404", [OpenApiContent(Array<User>::class)])]
     )
     fun getUserByUserId(ctx: Context) {
         val user = userDao.findById(ctx.pathParam("user-id").toInt())
@@ -60,8 +69,8 @@ object UserController {
         tags = ["User"],
         path = "/api/users",
         method = HttpMethod.POST,
-        //pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
-        responses  = [OpenApiResponse("200")]
+        responses  = [OpenApiResponse("201", [OpenApiContent(User::class)]),
+            OpenApiResponse("400") ]
     )
     fun addUser(ctx: Context) {
         val user : User = jsonToObject(ctx.body())
@@ -86,8 +95,8 @@ object UserController {
         tags = ["User"],
         path = "/api/users/email/{email}",
         method = HttpMethod.GET,
-        pathParams = [OpenApiParam("email", Int::class, "The user email")],
-        responses  = [OpenApiResponse("200", [OpenApiContent(User::class)])]
+        pathParams = [OpenApiParam("email", String::class, "The user email")],
+        responses  = [OpenApiResponse("200", [OpenApiContent(User::class)]), OpenApiResponse("404")]
     )
     fun getUserByEmail(ctx: Context) {
         val user = userDao.findByEmail(ctx.pathParam("email"))
@@ -107,7 +116,7 @@ object UserController {
         path = "/api/users/{user-id}",
         method = HttpMethod.DELETE,
         pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
-        responses  = [OpenApiResponse("204")]
+        responses  = [OpenApiResponse("204"), OpenApiResponse("404")]
     )
     fun deleteUser(ctx: Context){
         if (userDao.delete(ctx.pathParam("user-id").toInt()) != 0)
@@ -123,7 +132,7 @@ object UserController {
         path = "/api/users/{user-id}",
         method = HttpMethod.PATCH,
         pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
-        responses  = [OpenApiResponse("204")]
+        responses  = [OpenApiResponse("204"), OpenApiResponse("400"), OpenApiResponse("404")]
     )
     fun updateUser(ctx: Context){
         val foundUser : User = jsonToObject(ctx.body())
