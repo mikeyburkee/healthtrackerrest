@@ -1,5 +1,11 @@
 package ie.setu.repository
 
+/**
+ * DAO unit test class for Users
+ *
+ * @author Michael Burke
+ */
+
 import ie.setu.domain.db.Users
 import ie.setu.domain.User
 import ie.setu.domain.repository.UserDAO

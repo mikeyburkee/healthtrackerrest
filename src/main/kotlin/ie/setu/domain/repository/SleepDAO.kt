@@ -1,5 +1,11 @@
 package ie.setu.domain.repository
 
+/**
+ * Data access object class for sleep logs
+ *
+ * @author Michael Burke
+ */
+
 import ie.setu.domain.Sleep
 import ie.setu.domain.db.Sleeps
 import ie.setu.utils.mapToSleep
@@ -51,6 +57,7 @@ class SleepDAO {
         } get Sleeps.id
     }
 
+    // update a sleep by sleep id
     fun updateBySleepId(sleepId: Int, sleepToUpdate: Sleep) : Int{
         return transaction {
             Sleeps.update ({
@@ -64,12 +71,15 @@ class SleepDAO {
         }
     }
 
+    // delete a sleep by sleep id
+
     fun deleteBySleepId (sleepId: Int): Int{
         return transaction{
             Sleeps.deleteWhere { Sleeps.id eq sleepId }
         }
     }
 
+    // delete all sleeps by user id
     fun deleteByUserId (userId: Int): Int{
         return transaction{
             Sleeps.deleteWhere { Sleeps.userId eq userId }

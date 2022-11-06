@@ -1,5 +1,11 @@
 package ie.setu.utils
 
+/**
+ * JSON utilities file
+ *
+ * @author Michael Burke
+ */
+
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.joda.JodaModule

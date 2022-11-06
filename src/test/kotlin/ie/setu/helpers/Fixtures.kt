@@ -1,5 +1,12 @@
 package ie.setu.helpers
 
+/**
+ * Fixtures file used in test classes
+ *
+ * @author Michael Burke
+ */
+
+
 import ie.setu.domain.*
 import ie.setu.domain.db.*
 import ie.setu.domain.repository.*

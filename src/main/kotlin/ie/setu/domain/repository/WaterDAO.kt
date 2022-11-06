@@ -1,10 +1,18 @@
 package ie.setu.domain.repository
 
+/**
+ * Data access object class for water logs
+ *
+ * @author Michael Burke
+ */
+
+
 import ie.setu.domain.Water
 import ie.setu.domain.db.Waters
 import ie.setu.utils.mapToWater
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+
 
 class WaterDAO {
 
@@ -48,6 +56,7 @@ class WaterDAO {
         } get Waters.id
     }
 
+    // update a water log by water id
     fun updateByWaterId(waterId: Int, waterToUpdate: Water) : Int{
         return transaction {
             Waters.update ({
@@ -59,12 +68,14 @@ class WaterDAO {
         }
     }
 
+    // delete a water log by water id
     fun deleteByWaterId (waterId: Int): Int{
         return transaction{
             Waters.deleteWhere { Waters.id eq waterId }
         }
     }
 
+    // delete water logs by a user id
     fun deleteByUserId (userId: Int): Int{
         return transaction{
             Waters.deleteWhere { Waters.userId eq userId }

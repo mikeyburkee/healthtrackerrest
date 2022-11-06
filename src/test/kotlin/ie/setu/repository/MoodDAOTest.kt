@@ -1,5 +1,11 @@
 package ie.setu.repository
 
+/**
+ * DAO unit test class for Moods
+ *
+ * @author Michael Burke
+ */
+
 import ie.setu.domain.Activity
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils

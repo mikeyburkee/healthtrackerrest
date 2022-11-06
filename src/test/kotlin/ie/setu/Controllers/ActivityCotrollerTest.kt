@@ -1,5 +1,11 @@
 package ie.setu.Controllers
 
+/**
+ * Controller integration test class for activities
+ *
+ * @author Michael Burke
+ */
+
 import ie.setu.config.DbConfig
 import ie.setu.domain.Activity
 import ie.setu.domain.User
@@ -16,6 +22,8 @@ import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+
+
 
 //retrieving some test data from Fixtures
 private val activity1 = activities[0]

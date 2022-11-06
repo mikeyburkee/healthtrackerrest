@@ -1,5 +1,11 @@
 package ie.setu.config
 
+/**
+ * Javalin configuration class for health tracker app
+ *
+ * @author Michael Burke
+ */
+
 import ie.setu.controllers.*
 import ie.setu.utils.jsonObjectMapper
 import io.javalin.Javalin
@@ -104,7 +110,6 @@ class JavalinConfig {
                         get(ActivityController::getAllActivitiesSortedDescendingByCalories) // TODO api tester
                     }
                 }
-
             }
             path("/api/moods"){
                 get(MoodController::getAllMoods) // api tester complete

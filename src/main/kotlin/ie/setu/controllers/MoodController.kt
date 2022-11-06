@@ -1,7 +1,13 @@
 package ie.setu.controllers
 
+/**
+ * Controller object for mood logs
+ *
+ * @author Michael Burke
+ */
+
 import ie.setu.domain.Mood
-import ie.setu.domain.User
+import ie.setu.domain.Water
 import ie.setu.domain.repository.MoodDAO
 import ie.setu.domain.repository.UserDAO
 import ie.setu.utils.jsonToObject
@@ -20,7 +26,8 @@ object MoodController {
         tags = ["Mood"],
         path = "/api/moods",
         method = HttpMethod.GET,
-        responses = [OpenApiResponse("200", [OpenApiContent(Array<Mood>::class)])]
+        responses = [OpenApiResponse("200", [OpenApiContent(Array<Mood>::class)]),
+            OpenApiResponse("404", [OpenApiContent(Array<Mood>::class)]) ]
     )
     fun getAllMoods(ctx: Context) {
         val moods = moodDAO.getAll()
@@ -40,7 +47,8 @@ object MoodController {
         path = "/api/users/{user-id}/moods",
         method = HttpMethod.GET,
         pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
-        responses  = [OpenApiResponse("200", [OpenApiContent(Mood::class)])]
+        responses  = [OpenApiResponse("200", [OpenApiContent(Mood::class)]),
+            OpenApiResponse("404")]
     )
     fun getMoodsByUserId(ctx: Context) {
         if (userDao.findById(ctx.pathParam("user-id").toInt()) != null) {
@@ -64,8 +72,8 @@ object MoodController {
         tags = ["Mood"],
         path = "/api/moods",
         method = HttpMethod.POST,
-        //pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
-        responses  = [OpenApiResponse("200")]
+        responses  = [OpenApiResponse("201", [OpenApiContent(Mood::class)]),
+            OpenApiResponse("404"),OpenApiResponse("400") ]
     )
     fun addMood(ctx: Context) {
         val mood : Mood = jsonToObject(ctx.body())
@@ -92,7 +100,7 @@ object MoodController {
         path = "/api/moods/{mood-id}",
         method = HttpMethod.GET,
         pathParams = [OpenApiParam("mood-id", Int::class, "The mood ID")],
-        responses  = [OpenApiResponse("200", [OpenApiContent(Mood::class)])]
+        responses  = [OpenApiResponse("200", [OpenApiContent(Mood::class)]), OpenApiResponse("404")]
     )
     fun getMoodsByMoodId(ctx: Context) {
         val mood = moodDAO.findByMoodId((ctx.pathParam("mood-id").toInt()))
@@ -112,7 +120,7 @@ object MoodController {
         path = "/api/moods/{mood-id}",
         method = HttpMethod.DELETE,
         pathParams = [OpenApiParam("moods-id", Int::class, "The moods ID")],
-        responses  = [OpenApiResponse("204")]
+        responses  = [OpenApiResponse("204"), OpenApiResponse("404")]
     )
     fun deleteMoodByMoodId(ctx: Context){
         if (moodDAO.deleteByMoodId(ctx.pathParam("mood-id").toInt()) != 0)
@@ -128,7 +136,7 @@ object MoodController {
         path = "/api/users/{user-id}/moods",
         method = HttpMethod.DELETE,
         pathParams = [OpenApiParam("user-id", Int::class, "The user ID")],
-        responses  = [OpenApiResponse("204")]
+        responses  = [OpenApiResponse("204"), OpenApiResponse("404")]
     )
     fun deleteMoodByUserId(ctx: Context){
         if (moodDAO.deleteByUserId(ctx.pathParam("user-id").toInt()) != 0)
@@ -144,7 +152,7 @@ object MoodController {
         path = "/api/moods/{moods-id}",
         method = HttpMethod.PATCH,
         pathParams = [OpenApiParam("moods-id", Int::class, "The mood ID")],
-        responses  = [OpenApiResponse("204")]
+        responses  = [OpenApiResponse("204"), OpenApiResponse("400"), OpenApiResponse("404")]
     )
     fun updateMood(ctx: Context){
         val mood : Mood = jsonToObject(ctx.body())

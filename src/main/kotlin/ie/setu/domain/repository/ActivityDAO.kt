@@ -1,5 +1,11 @@
 package ie.setu.domain.repository
 
+/**
+ * Data access object class for activity logs
+ *
+ * @author Michael Burke
+ */
+
 import ie.setu.domain.Activity
 import ie.setu.domain.db.Activities
 import ie.setu.utils.mapToActivity
@@ -18,6 +24,7 @@ class ActivityDAO {
         return activitiesList
     }
 
+    // Return ascending order of [sortParam] list
     fun getAllSortedAscending(sortParam: String): List<Activity> {
         val activitiesList: ArrayList<Activity> = arrayListOf()
         transaction {
@@ -33,6 +40,7 @@ class ActivityDAO {
 
     }
 
+    // Return descending order of [sortParam] list
     fun getAllSortedDescending(sortParam: String): List<Activity> {
         val activitiesList: ArrayList<Activity> = arrayListOf()
         transaction {
@@ -82,6 +90,7 @@ class ActivityDAO {
         } get Activities.id
     }
 
+    // update activity by activity id
     fun updateByActivityId(activityId: Int, activityToUpdate: Activity) : Int{
         return transaction {
             Activities.update ({
@@ -95,15 +104,19 @@ class ActivityDAO {
             }
         }
     }
+
+    // delete activity by activity id
     fun deleteByActivityId (activityId: Int): Int{
         return transaction{
             Activities.deleteWhere { Activities.id eq activityId }
         }
     }
 
+    // delete all activities by user id
     fun deleteByUserId (userId: Int): Int{
         return transaction{
             Activities.deleteWhere { Activities.userId eq userId }
         }
     }
+
 }

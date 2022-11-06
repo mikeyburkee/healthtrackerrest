@@ -1,5 +1,11 @@
 package ie.setu.domain.db
 
+/**
+ * Database table object for sleep logs
+ *
+ * @author Michael Burke
+ */
+
 import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.Table
 
