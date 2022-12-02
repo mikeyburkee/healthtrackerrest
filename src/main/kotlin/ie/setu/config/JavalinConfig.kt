@@ -30,13 +30,13 @@ class JavalinConfig {
         }.apply {
             exception(Exception::class.java) { e, _ -> e.printStackTrace() }
             error(404) { ctx -> ctx.json("404 - Not Found") }
-        }.start(getHerokuAssignedPort())
+        }.start(getRemoteAssignedPort())
 
         registerRoutes(app)
         return app
     }
 
-    private fun getHerokuAssignedPort(): Int {
+    private fun getRemoteAssignedPort(): Int {
         val herokuPort = System.getenv("PORT")
         return if (herokuPort != null) {
             Integer.parseInt(herokuPort)
