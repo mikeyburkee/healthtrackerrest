@@ -16,6 +16,6 @@ object Moods : Table("moods") {
     val id = integer("id").autoIncrement().primaryKey()
     val description = varchar("description", 100)
     val rating = integer("rating")
-    val dateEntry = datetime("date_entry")
+    val dateEntry = datetime("dateentry")
     val userId = integer("user_id").references(Users.id, onDelete = ReferenceOption.CASCADE)
 }

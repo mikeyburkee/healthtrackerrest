@@ -15,6 +15,6 @@ import org.jetbrains.exposed.sql.Table
 object Waters : Table("waters") {
     val id = integer("id").autoIncrement().primaryKey()
     val volume = double("volume")
-    val dateEntry = datetime("date_entry")
+    val dateEntry = datetime("dateentry")
     val userId = integer("user_id").references(Users.id, onDelete = ReferenceOption.CASCADE)
 }

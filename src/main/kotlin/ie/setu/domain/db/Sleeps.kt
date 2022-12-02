@@ -17,6 +17,6 @@ object Sleeps : Table("sleeps") {
     val description = varchar("description", 100)
     val duration = double("duration")
     val rating = integer("rating")
-    val wakeUpTime = datetime("wake_up_time")
+    val wakeUpTime = datetime("wakeuptime")
     val userId = integer("user_id").references(Users.id, onDelete = ReferenceOption.CASCADE)
 }
