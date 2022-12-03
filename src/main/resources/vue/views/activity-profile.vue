@@ -14,12 +14,12 @@
         <input class="form-control" v-model="activity.calories" name="calories" type="number"/><br>
         <label class="col-form-label">Rating (0-10): </label>
         <input class="form-control" v-model="activity.rating" name="rating" type="number"/><br>
-<!--        <label class="col-form-label">Date: </label>-->
-<!--        <input class="form-control" v-model="activity.started" name="started" type="text"/><br>-->
+        <label class="col-form-label">Date: </label>
+        <input class="form-control" v-model="activity.started" name="started" type="text"/><br>
       </form>
       <dt v-if="activity">
         <br>
-        <a :href="`/users/${user.id}`">View User Profile</a>
+        <a :href="`/users/${activity.userId}`">View User Profile</a>
       </dt>
     </div>
   </app-layout>
