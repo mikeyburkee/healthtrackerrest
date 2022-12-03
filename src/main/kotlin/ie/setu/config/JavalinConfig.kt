@@ -15,6 +15,7 @@ import io.javalin.plugin.openapi.OpenApiOptions
 import io.javalin.plugin.openapi.OpenApiPlugin
 import io.javalin.plugin.openapi.ui.ReDocOptions
 import io.javalin.plugin.openapi.ui.SwaggerOptions
+import io.javalin.plugin.rendering.vue.VueComponent
 import io.swagger.v3.oas.models.info.Info
 
 class JavalinConfig {
@@ -37,14 +38,38 @@ class JavalinConfig {
     }
 
     private fun getRemoteAssignedPort(): Int {
-        val herokuPort = System.getenv("PORT")
-        return if (herokuPort != null) {
-            Integer.parseInt(herokuPort)
+        val remotePort = System.getenv("PORT")
+
+        // remote host
+
+        return if (remotePort != null) {
+            Integer.parseInt(remotePort)
         } else 7000
+
+
+        // local host
+        //return 7000
     }
 
     private fun registerRoutes(app: Javalin) {
         app.routes {
+
+            // ******************* VUE Endpoints ********************
+            // the layout and display our <home-page> component.
+            get("/", VueComponent("<home-page></home-page>"))
+
+            //get("/users/{user-id}", VueComponent("<user-profile></user-profile>"))
+
+            path ("/users/"){
+                path("{user-id}"){
+                    get(VueComponent("<user-profile></user-profile>"))
+                    path("activities"){
+                        get(VueComponent("<user-activity-overview></user-activity-overview>"))
+                    }
+                }
+            }
+
+            // ******************* API Endpoints ********************
             path("/api/users") {
 
                 get(UserController::getAllUsers) // api tester complete
