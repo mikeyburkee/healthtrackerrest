@@ -70,6 +70,9 @@ class JavalinConfig {
                     }
                 }
             }
+            path("/activities"){
+                get(VueComponent("<activities-overview></activities-overview>"))
+            }
 
             // ******************* API Endpoints ********************
             path("/api/users") {
