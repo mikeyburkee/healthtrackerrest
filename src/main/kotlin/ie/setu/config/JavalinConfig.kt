@@ -61,7 +61,8 @@ class JavalinConfig {
 
             //get("/users/{user-id}", VueComponent("<user-profile></user-profile>"))
 
-            path ("/users/"){
+            path ("/users"){
+                get(VueComponent("<user-overview></user-overview>"))
                 path("{user-id}"){
                     get(VueComponent("<user-profile></user-profile>"))
                     path("activities"){
