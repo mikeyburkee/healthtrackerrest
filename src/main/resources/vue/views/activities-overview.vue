@@ -4,7 +4,8 @@
       <div>
         <ul class="activities-overview-list">
           <li v-for="activity in activities">
-            <a :href="`/activities/${activity.id}`">{{activity.id}}({{activity.userID}}{{activity.description}})</a>
+            <a :href="`/activities/${activity.id}`"> Activity Id: {{activity.id}}
+              ( Activity: {{activity.description}} Duration: {{activity.duration}} )</a>
           </li>
         </ul>
       </div>
