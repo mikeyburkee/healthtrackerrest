@@ -35,6 +35,7 @@ class JavalinConfig {
 
         registerRoutes(app)
         return app
+
     }
 
     private fun getRemoteAssignedPort(): Int {
