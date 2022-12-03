@@ -30,7 +30,7 @@ private val sleep2 = sleeps[1]
 private val sleep3 = sleeps[2]
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-//@Disabled
+@Disabled
 class SleepControllerTest {
 
     private val db = DbConfig().getDbConnection()
