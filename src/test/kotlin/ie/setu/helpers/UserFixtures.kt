@@ -10,6 +10,9 @@ import ie.setu.config.DbConfig
 import kong.unirest.HttpResponse
 import kong.unirest.JsonNode
 import kong.unirest.Unirest
+import ie.setu.domain.User
+import ie.setu.utils.jsonToObject
+import org.junit.jupiter.api.Assertions
 
 val validName = "Test User 1"
 val validEmail = "testuser1@test.com"
@@ -61,4 +64,18 @@ fun updateUser (id: Int, name: String, email: String, weight: Double, height: Do
                 "\"gender\":\"$gender\" " +
                 "}")
         .asJson()
+}
+
+// function to delete test user if in database. Tests were failing due to not being able to add testUser due to email already exists.
+fun deleteTestUser(): Boolean{
+
+    //Assert - retrieve the added user from the database and verify return code
+    val retrieveResponse = retrieveUserByEmail(validEmail)
+
+    if (retrieveResponse.status == 200){
+        val retrievedUser : User = jsonToObject(retrieveResponse.body.toString())
+        deleteUser(retrievedUser.id)
+        return true
+    }
+    else return false
 }
