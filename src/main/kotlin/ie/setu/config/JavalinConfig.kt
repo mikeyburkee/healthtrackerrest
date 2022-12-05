@@ -42,7 +42,6 @@ class JavalinConfig {
         val remotePort = System.getenv("PORT")
 
         // remote host
-
         return if (remotePort != null) {
             Integer.parseInt(remotePort)
         } else 7000
