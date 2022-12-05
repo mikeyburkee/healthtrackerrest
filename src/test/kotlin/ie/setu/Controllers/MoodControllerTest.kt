@@ -30,7 +30,7 @@ private val mood2 = moods[1]
 private val mood3 = moods[2]
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Disabled
+//@Disabled
 class MoodControllerTest {
 
     private val db = DbConfig().getDbConnection()

@@ -31,7 +31,7 @@ private val activity2 = activities[1]
 private val activity3 = activities[2]
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Disabled
+//@Disabled
 class ActivityCotrollerTest {
 
     private val db = DbConfig().getDbConnection()

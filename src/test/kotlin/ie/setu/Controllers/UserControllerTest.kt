@@ -21,9 +21,12 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Disabled
+//@Disabled
 class UserControllerTest {
 
+    private val db = DbConfig().getDbConnection()
+    private val app = ServerContainer.instance
+    private val origin = "http://localhost:" + app.port()
 
     @Nested
     inner class ReadUsers {
