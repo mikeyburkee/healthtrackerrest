@@ -38,6 +38,8 @@ class ActivityCotrollerTest {
     private val app = ServerContainer.instance
     private val origin = "http://localhost:" + app.port()
 
+    private val testUserExits = deleteTestUser()
+
     @Nested
     inner class CreateActivities {
 
