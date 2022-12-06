@@ -1,9 +1,7 @@
 package ie.setu.domain.repository
 
 /**
- * Data access object class for the user
- *
- * @author Michael Burke
+ * Manages the database user transactions and returns the results of the transactions
  */
 
 import ie.setu.domain.User
@@ -34,7 +32,10 @@ class UserDAO {
         }
     }
 
-    // save a user
+    /**
+     * Adds a [user] to the Users table
+     * @return the id of the user following the add
+     */
     fun save(user: User) : Int?{
         return transaction {
             Users.insert {
