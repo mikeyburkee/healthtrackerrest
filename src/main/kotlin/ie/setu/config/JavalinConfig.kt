@@ -41,14 +41,16 @@ class JavalinConfig {
     private fun getRemoteAssignedPort(): Int {
         val remotePort = System.getenv("PORT")
 
+        /**
         // remote host
         return if (remotePort != null) {
             Integer.parseInt(remotePort)
         } else 7000
 
+        */
 
         // local host
-        //return 7000
+        return 7000
     }
 
     private fun registerRoutes(app: Javalin) {
@@ -101,8 +103,12 @@ class JavalinConfig {
                         delete(SleepController::deleteSleepByUserId) // api tester complete
                     }
                     path("waters"){
-                        get(WaterController::getWatersByUserId) //TODO api tester
-                        delete(WaterController::deleteWaterByUserId) //TODO api tester
+                        get(WaterController::getWatersByUserId)
+                        delete(WaterController::deleteWaterByUserId)
+                    }
+                    path("steps"){
+                        get(StepController::getStepsByUserId) //TODO api tester
+                        delete(StepController::deleteStepByUserId) //TODO api tester
                     }
                 }
                 path("/email/{email}"){
@@ -168,6 +174,15 @@ class JavalinConfig {
                     get(WaterController::getWatersByWaterId) // api tester complete
                     delete(WaterController::deleteWaterByWaterId) // api tester complete
                     patch(WaterController::updateWater) // api tester complete
+                }
+            }
+            path("/api/steps"){
+                get(StepController::getAllSteps) // api tester complete
+                post(StepController::addStep) // api tester complete
+                path("{step-id}") {
+                    get(StepController::getStepsByStepId) // api tester complete
+                    delete(StepController::deleteStepByStepId) // api tester complete
+                    patch(StepController::updateStep) // api tester complete
                 }
             }
         }

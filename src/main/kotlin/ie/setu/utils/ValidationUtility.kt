@@ -31,6 +31,9 @@ val maxRating = 10
 val minSleepDuration = 0.0
 val maxSleepDuration = 24.0
 
+val minStep_count = 0
+val maxStep_count = 400000
+
 fun isValidGender(genderToValidate: String): Boolean {
     return genderToValidate.get(0).uppercaseChar() in validGenders
 }
@@ -79,4 +82,8 @@ fun moodInputValidation(mood: Mood): Boolean{
 fun sleepInputValidation(sleep: Sleep): Boolean{
     return doubleIsValidInRange(minSleepDuration, maxSleepDuration, sleep.duration) &&
             intIsValidInRange(minRating, maxRating, sleep.rating)
+}
+
+fun stepInputValidation(step: Step): Boolean{
+    return intIsValidInRange(minStep_count, maxStep_count, step.step_count)
 }

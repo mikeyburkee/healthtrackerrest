@@ -53,3 +53,10 @@ fun mapToWater(it: ResultRow) = Water(
     dateEntry = it[Waters.dateEntry],
     userId = it[Waters.userId]
 )
+
+fun mapToStep(it: ResultRow) = Step(
+    id = it[Steps.id],
+    step_count = it[Steps.step_count],
+    dateEntry = it[Steps.dateEntry],
+    userId = it[Steps.userId]
+)
