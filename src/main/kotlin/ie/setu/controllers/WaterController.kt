@@ -7,7 +7,6 @@ package ie.setu.controllers
  */
 
 import ie.setu.domain.Water
-import ie.setu.domain.User
 import ie.setu.domain.repository.WaterDAO
 import ie.setu.domain.repository.UserDAO
 import ie.setu.utils.*
