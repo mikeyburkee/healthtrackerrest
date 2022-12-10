@@ -32,6 +32,8 @@ val updatedRating = 1
 
 val updatedVolume = 2.75
 
+val updatedStep_Count = 1234
+
 val users = arrayListOf<User>(
     User(name = "Alice Wonderland", email = "alice@wonderland.com", id = 1, weight = 66.0 , height = 1.6, age = 20, gender = "female"),
     User(name = "Bob Cat", email = "bob@cat.ie", id = 2, weight = 99.2 , height = 1.8, age = 65, gender = "male"),
@@ -61,6 +63,12 @@ val waters = arrayListOf<Water>(
     Water(id = 1, volume = 1.0, dateEntry = DateTime.now(), userId = 1),
     Water(id = 2, volume = 2.5, dateEntry = DateTime.now(), userId = 1),
     Water(id = 3, volume = 5.0, dateEntry =  DateTime.now(), userId = 2)
+)
+
+val steps = arrayListOf<Step>(
+    Step(id = 1, step_count = 1, dateEntry = DateTime.now(), userId = 1),
+    Step(id = 2, step_count = 2, dateEntry = DateTime.now(), userId = 1),
+    Step(id = 3, step_count = 5, dateEntry =  DateTime.now(), userId = 2)
 )
 
 fun populateUserTable(): UserDAO {
@@ -106,4 +114,13 @@ fun populateWaterTable(): WaterDAO {
     waterDAO.save(waters[1])
     waterDAO.save(waters[2])
     return waterDAO
+}
+
+fun populateStepTable(): StepDAO {
+    SchemaUtils.create(Steps)
+    val stepDAO = StepDAO()
+    stepDAO.save(steps[0])
+    stepDAO.save(steps[1])
+    stepDAO.save(steps[2])
+    return stepDAO
 }
