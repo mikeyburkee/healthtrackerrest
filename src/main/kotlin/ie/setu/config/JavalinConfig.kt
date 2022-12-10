@@ -41,16 +41,16 @@ class JavalinConfig {
     private fun getRemoteAssignedPort(): Int {
         val remotePort = System.getenv("PORT")
 
-        /**
+        /***/
         // remote host
         return if (remotePort != null) {
             Integer.parseInt(remotePort)
         } else 7000
 
-        */
+
 
         // local host
-        return 7000
+        //return 7000
     }
 
     private fun registerRoutes(app: Javalin) {
