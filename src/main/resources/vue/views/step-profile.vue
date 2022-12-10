@@ -1,20 +1,51 @@
 <template id="step-profile">
   <app-layout>
-    <div>
-      <form v-if="step">
-        <label class="col-form-label">Step ID: </label>
-        <input class="form-control" v-model="step.id" name="id" type="number" readonly/><br>
-        <label class="col-form-label">User Id: </label>
-        <input class="form-control" v-model="step.userId" name="userId" type="number" readonly/><br>
-        <label class="col-form-label">Step Count: </label>
-        <input class="form-control" v-model="step.step_count" name="step-count" type="number"/><br>
-        <label class="col-form-label">Date: </label>
-        <input class="form-control" v-model="step.dateEntry" name="dateEntry" type="text"/><br>
-      </form>
-      <dt v-if="step">
-        <br>
-        <a :href="`/users/${step.userId}`">View User Profile</a>
-      </dt>
+    <div class="card bg-light mb-3" v-if="!noStepFound">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-6"> Step Profile </div>
+          <div class="col" align="right">
+            <button rel="tooltip" title="Update"
+                    class="btn btn-info btn-simple btn-link"
+                    @click="updateStep()">
+              <i class="far fa-save" aria-hidden="true"></i>
+            </button>
+            <button rel="tooltip" title="Delete"
+                    class="btn btn-info btn-simple btn-link"
+                    @click="deleteStep()">
+              <i class="fas fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="input-step-id">Step ID</span>
+            </div>
+            <input type="number" class="form-control" v-model="step.id" name="step-id" readonly placeholder="StepId"/>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="input-step-id">User ID</span>
+            </div>
+            <input type="number" class="form-control" v-model="step.userId" name="step-userid" readonly placeholder="UserID"/>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="input-step-description">Step Count</span>
+            </div>
+            <input type="number" class="form-control" v-model="step.step_count" name="step-step_count"  placeholder="StepCount"/>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="input-step-date">Date Entered </span>
+            </div>
+            <input type="text" class="form-control" v-model="step.dateEntry" name="step-dateEntry"  placeholder="DateEntry"/>
+          </div>
+        </form>
+      </div>
     </div>
   </app-layout>
 </template>
