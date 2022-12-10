@@ -41,16 +41,16 @@ class JavalinConfig {
     private fun getRemoteAssignedPort(): Int {
         val remotePort = System.getenv("PORT")
 
-        /***/
+        /**
         // remote host
         return if (remotePort != null) {
             Integer.parseInt(remotePort)
         } else 7000
-
+        */
 
 
         // local host
-        //return 7000
+        return 7000
     }
 
     private fun registerRoutes(app: Javalin) {
@@ -75,6 +75,34 @@ class JavalinConfig {
                 get(VueComponent("<activities-overview></activities-overview>"))
                 path("{activity-id}"){
                     get(VueComponent("<activity-profile></activity-profile>"))
+                }
+            }
+
+            path("/steps"){
+                get(VueComponent("<steps-overview></steps-overview>"))
+                path("{step-id}"){
+                    get(VueComponent("<step-profile></step-profile>"))
+                }
+            }
+
+            path("/waters"){
+                get(VueComponent("<waters-overview></waters-overview>"))
+                path("{water-id}"){
+                    get(VueComponent("<water-profile></water-profile>"))
+                }
+            }
+
+            path("/sleeps"){
+                get(VueComponent("<sleeps-overview></sleeps-overview>"))
+                path("{sleep-id}"){
+                    get(VueComponent("<sleep-profile></sleep-profile>"))
+                }
+            }
+
+            path("/moods"){
+                get(VueComponent("<moods-overview></moods-overview>"))
+                path("{mood-id}"){
+                    get(VueComponent("<mood-profile></mood-profile>"))
                 }
             }
 
