@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.Disabled
 
 //retrieving some test data from Fixtures
 private val step1 = steps[0]
@@ -29,7 +30,7 @@ private val step2 = steps[1]
 private val step3 = steps[2]
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-//@Disabled
+@Disabled
 class StepControllerTest {
 
     private val db = DbConfig().getDbConnection()
