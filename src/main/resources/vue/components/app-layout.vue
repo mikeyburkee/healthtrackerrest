@@ -20,6 +20,18 @@
             <li class="nav-item">
               <a class="nav-link" href="/activities">Activities</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/steps">Steps</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/waters">Water</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/sleeps">Sleep</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/moods">Mood</a>
+            </li>
           </ul>
         </div>
       </nav>
