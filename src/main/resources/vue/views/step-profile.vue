@@ -1,5 +1,9 @@
 <template id="step-profile">
   <app-layout>
+    <div v-if="noStepFound">
+      <p> We're sorry, we were not able to retrieve this step entry.</p>
+      <p> View <a :href="'/steps'">all steps</a>.</p>
+    </div>
     <div class="card bg-light mb-3" v-if="!noStepFound">
       <div class="card-header">
         <div class="row">
@@ -54,14 +58,18 @@
 Vue.component("step-profile", {
   template: "#step-profile",
   data: () => ({
-    step: null
+    step: null,
+    noStepFound: false,
   }),
   created: function () {
     const stepId = this.$javalin.pathParams["step-id"];
     const url = `/api/steps/${stepId}`
     axios.get(url)
         .then(res => this.step = res.data)
-        .catch(() => alert("Error while fetching step" + stepId));
+        .catch(error => {
+          console.log("No step entry found for id passed in the path parameter: " + error)
+          this.noStepFound = true
+        })
   },
   methods: {
     updateStep: function () {
