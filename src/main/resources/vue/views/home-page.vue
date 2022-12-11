@@ -6,25 +6,25 @@
         <div class="card">
           <h5 class="card-header">Registered Users</h5>
           <div class="card-body">
-            <h5 class="card-title">{{users.length}} users</h5>
+            <h5 class="card-title">{{users.length}} Registered</h5>
             <a href="/users" class="btn btn-primary">More Details...</a>
           </div>
         </div>
       </div>
       <div class="col">
         <div class="card">
-          <h5 class="card-header">Total Activities</h5>
+          <h5 class="card-header">Activities</h5>
           <div class="card-body">
-            <h5 class="card-title">{{activities.length}} activities</h5>
+            <h5 class="card-title">{{activities.length}} Logged</h5>
             <a href="/activities" class="btn btn-primary">More Details...</a>
           </div>
         </div>
       </div>
       <div class="col">
         <div class="card">
-          <h5 class="card-header">Steps Logged</h5>
+          <h5 class="card-header">Daily Steps</h5>
           <div class="card-body">
-            <h5 class="card-title">{{steps.length}} steps</h5>
+            <h5 class="card-title">{{steps.length}} Logged</h5>
             <a href="/steps" class="btn btn-primary">More Details...</a>
           </div>
         </div>
@@ -33,27 +33,27 @@
     <div class="row">
       <div class="col">
         <div class="card">
-          <h5 class="card-header">Water Entries</h5>
+          <h5 class="card-header">Daily Water</h5>
           <div class="card-body">
-            <h5 class="card-title">{{waters.length}} waters</h5>
+            <h5 class="card-title">{{waters.length}} Logged</h5>
             <a href="/waters" class="btn btn-primary">More Details...</a>
           </div>
         </div>
       </div>
       <div class="col">
         <div class="card">
-          <h5 class="card-header">Mood Entries</h5>
+          <h5 class="card-header">Daily Mood</h5>
           <div class="card-body">
-            <h5 class="card-title">{{moods.length}} moods</h5>
+            <h5 class="card-title">{{moods.length}} Logged</h5>
             <a href="/moods" class="btn btn-primary">More Details...</a>
           </div>
         </div>
       </div>
       <div class="col">
         <div class="card">
-          <h5 class="card-header">Sleep Entries</h5>
+          <h5 class="card-header">Daily Sleep</h5>
           <div class="card-body">
-            <h5 class="card-title">{{sleeps.length}} sleeps</h5>
+            <h5 class="card-title">{{sleeps.length}} Logged</h5>
             <a href="/sleeps" class="btn btn-primary">More Details...</a>
           </div>
         </div>
