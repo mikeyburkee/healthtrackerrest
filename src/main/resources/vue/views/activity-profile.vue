@@ -1,5 +1,9 @@
 <template id="activity-profile">
   <app-layout>
+    <div v-if="noActivityFound">
+      <p> We're sorry, we were not able to retrieve this activity.</p>
+      <p> View <a :href="'/activities'">all activities</a>.</p>
+    </div>
     <div class="card bg-light mb-3" v-if="!noActivityFound">
       <div class="card-header">
         <div class="row">
@@ -72,14 +76,18 @@
 Vue.component("activity-profile", {
   template: "#activity-profile",
   data: () => ({
-    activity: null
+    activity: null,
+    noActivityFound: false,
   }),
   created: function () {
     const activityId = this.$javalin.pathParams["activity-id"];
     const url = `/api/activities/${activityId}`
     axios.get(url)
         .then(res => this.activity = res.data)
-        .catch(() => alert("Error while fetching activity" + activityId));
+        .catch(error => {
+          console.log("No activity found for id passed in the path parameter: " + error)
+          this.noActivityFound = true
+        })
   },
   methods: {
     updateActivity: function () {
