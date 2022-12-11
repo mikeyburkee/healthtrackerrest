@@ -30,6 +30,30 @@
           </div>
           <input type="email" class="form-control" v-model="formData.email" name="email" placeholder="Email"/>
         </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="input-user-height">Height</span>
+          </div>
+          <input type="number" class="form-control" v-model="formData.height" name="height" placeholder="Height"/>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="input-user-weight">Weight</span>
+          </div>
+          <input type="number" class="form-control" v-model="formData.weight" name="weight" placeholder="Weight"/>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="input-user-age">Age</span>
+          </div>
+          <input type="number" class="form-control" v-model="formData.age" name="age" placeholder="Age"/>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="input-user-gender">Gender</span>
+          </div>
+          <input type="text" class="form-control" v-model="formData.gender" name="gender" placeholder="Gender"/>
+        </div>
       </form>
       <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link" @click="addUser()">Add User</button>
     </div>
@@ -54,6 +78,7 @@
     </div>
   </app-layout>
 </template>
+
 <script>
 Vue.component("user-overview", {
   template: "#user-overview",
@@ -91,7 +116,11 @@ Vue.component("user-overview", {
     axios.post(url,
         {
           name: this.formData.name,
-          email: this.formData.email
+          email: this.formData.email,
+          weight: this.formData.weight,
+          height: this.formData.height,
+          age: this.formData.age,
+          gender: this.formData.gender
         })
         .then(response => {
           this.users.push(response.data)
