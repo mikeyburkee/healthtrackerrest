@@ -24,25 +24,25 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-step-id">Step ID</span>
             </div>
-            <input type="number" class="form-control" v-model="step.id" name="step-id" readonly placeholder="StepId"/>
+            <input type="number" class="form-control" v-model="step.id" name="id" readonly placeholder="StepId"/>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-step-id">User ID</span>
             </div>
-            <input type="number" class="form-control" v-model="step.userId" name="step-userid" readonly placeholder="UserID"/>
+            <input type="number" class="form-control" v-model="step.userId" name="userId" readonly placeholder="UserID"/>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-step-description">Step Count</span>
             </div>
-            <input type="number" class="form-control" v-model="step.step_count" name="step-step_count"  placeholder="StepCount"/>
+            <input type="number" class="form-control" v-model="step.step_count" name="step_count"  placeholder="StepCount"/>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-step-date">Date Entered </span>
             </div>
-            <input type="text" class="form-control" v-model="step.dateEntry" name="step-dateEntry"  placeholder="DateEntry"/>
+            <input type="text" class="form-control" v-model="step.dateEntry" name="dateEntry"  placeholder="DateEntry"/>
           </div>
         </form>
       </div>
@@ -62,6 +62,39 @@ Vue.component("step-profile", {
     axios.get(url)
         .then(res => this.step = res.data)
         .catch(() => alert("Error while fetching step" + stepId));
+  },
+  methods: {
+    updateStep: function () {
+      const stepId = this.$javalin.pathParams["step-id"];
+      const url = `/api/steps/${stepId}`
+      axios.patch(url,
+          {
+            userId: this.step.userId,
+            step_count: this.step.step_count,
+            dateEntry: this.step.dateEntry
+          })
+          .then(response =>
+              this.step.push(response.data))
+          .catch(error => {
+            console.log(error)
+          })
+      alert("Step Entry updated!")
+    },
+    deleteStep: function () {
+      if (confirm("Do you really want to delete?")) {
+        const stepId = this.$javalin.pathParams["step-id"];
+        const url = `/api/steps/${stepId}`
+        axios.delete(url)
+            .then(response => {
+              alert("Step deleted")
+              //display the /users endpoint
+              window.location.href = '/steps';
+            })
+            .catch(function (error) {
+              console.log(error)
+            });
+      }
+    }
   }
 });
 </script>

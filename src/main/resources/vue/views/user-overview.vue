@@ -122,9 +122,6 @@ Vue.component("user-overview", {
       }
 
     },
-    testFun: function (){
-      this.hideForm= !this.hideForm;
-    },
     addUser: function (){
       const url = `/api/users`;
       axios.post(url,
