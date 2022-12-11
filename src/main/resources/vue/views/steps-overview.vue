@@ -21,6 +21,7 @@
     </div>
   </app-layout>
 </template>
+
 <script>
 Vue.component("steps-overview", {
   template: "#steps-overview",
