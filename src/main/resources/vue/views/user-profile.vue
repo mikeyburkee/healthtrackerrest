@@ -111,7 +111,11 @@ Vue.component("user-profile", {
       axios.patch(url,
           {
             name: this.user.name,
-            email: this.user.email
+            email: this.user.email,
+            weight: this.user.weight,
+            height: this.user.height,
+            age: this.user.age,
+            gender: this.user.gender
           })
           .then(response =>
               this.user.push(response.data))
