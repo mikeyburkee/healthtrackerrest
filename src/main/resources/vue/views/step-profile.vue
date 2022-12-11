@@ -87,7 +87,7 @@ Vue.component("step-profile", {
         axios.delete(url)
             .then(response => {
               alert("Step deleted")
-              //display the /users endpoint
+              //display the /steps endpoint
               window.location.href = '/steps';
             })
             .catch(function (error) {
