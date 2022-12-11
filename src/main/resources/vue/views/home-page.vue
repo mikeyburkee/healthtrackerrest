@@ -20,6 +20,44 @@
           </div>
         </div>
       </div>
+      <div class="col">
+        <div class="card">
+          <h5 class="card-header">Steps Logged</h5>
+          <div class="card-body">
+            <h5 class="card-title">{{activities.length}} activities</h5>
+            <a href="/activities" class="btn btn-primary">More Details...</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <h5 class="card-header">Water Entries</h5>
+          <div class="card-body">
+            <h5 class="card-title">{{users.length}} users</h5>
+            <a href="/users" class="btn btn-primary">More Details...</a>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <h5 class="card-header">Mood Entries</h5>
+          <div class="card-body">
+            <h5 class="card-title">{{activities.length}} activities</h5>
+            <a href="/activities" class="btn btn-primary">More Details...</a>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <h5 class="card-header">Sleep Entries</h5>
+          <div class="card-body">
+            <h5 class="card-title">{{activities.length}} activities</h5>
+            <a href="/activities" class="btn btn-primary">More Details...</a>
+          </div>
+        </div>
+      </div>
     </div>
   </app-layout>
 </template>

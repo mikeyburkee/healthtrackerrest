@@ -42,6 +42,30 @@
             </div>
             <input type="email" class="form-control" v-model="user.email" name="email" placeholder="Email"/>
           </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="input-user-height">Height</span>
+            </div>
+            <input type="number" class="form-control" v-model="user.height" name="height" placeholder="Height"/>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="input-user-weight">Weight</span>
+            </div>
+            <input type="number" class="form-control" v-model="user.weight" name="weight" placeholder="Weight"/>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="input-user-gender">Gender</span>
+            </div>
+            <input type="text" class="form-control" v-model="user.gender" name="gender" placeholder="Gender"/>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="input-user-weight">Age</span>
+            </div>
+            <input type="number" class="form-control" v-model="user.age" name="age" placeholder="Age"/>
+          </div>
         </form>
       </div>
       <div class="card-footer text-left">
