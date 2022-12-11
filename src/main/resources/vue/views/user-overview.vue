@@ -1,5 +1,7 @@
 <template id="user-overview">
   <app-layout>
+
+    <!-- ************** TOGGLE BAR TO OPEN UP ADD USER FORM *************   -->
     <div class="card bg-light mb-3">
       <div class="card-header">
         <div class="row">
@@ -16,8 +18,10 @@
         </div>
       </div>
     </div>
+
+    <!-- ************** SECTION ADD USER FORM *************   -->
     <div class="card-body" :class="{ 'd-none': hideForm}">
-      <form id="addUser">
+      <form id="createUser">
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text" id="input-user-name">Name</span>
@@ -55,8 +59,13 @@
           <input type="text" class="form-control" v-model="formData.gender" name="gender" placeholder="Gender"/>
         </div>
       </form>
-      <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link" @click="addUser()">Add User</button>
+      <button rel="tooltip" title="createUser" class="btn btn-info btn-simple btn-link"
+              @click= "addUser()">
+        <i class="far fa-save" aria-hidden="true"></i>
+      </button>
     </div>
+
+    <!-- ************** SECTION TO LIST ALL USER *************   -->
     <div class="list-group list-group-flush">
       <div class="list-group-item d-flex align-items-start"
            v-for="(user,index) in users" v-bind:key="index">
@@ -95,40 +104,46 @@ Vue.component("user-overview", {
       axios.get("/api/users")
           .then(res => this.users = res.data)
           .catch(() => alert("Error while fetching users"));
-    }
-  },
-  deleteUser: function (user, index) {
-    if (confirm('Are you sure you want to delete this user? This action cannot be undone.', 'Warning')) {
-      //user confirmed delete
-      const userId = user.id;
-      const url = `/api/users/${userId}`;
-      axios.delete(url)
-          .then(response =>
-              //delete from the local state so Vue will reload list automatically
-              this.users.splice(index, 1).push(response.data))
-          .catch(function (error) {
+    },
+    deleteUser: function (user, index) {
+      if (confirm('Are you sure you want to delete this user? This action cannot be undone.', 'Warning')) {
+        //user confirmed delete
+        const userId = user.id;
+        const url = `/api/users/${userId}`;
+        axios.delete(url)
+            .then(response => {
+              alert("User deleted")
+              //display the /users endpoint
+              window.location.href = '/users';
+            })
+            .catch(function (error) {
+              console.log(error)
+            });
+      }
+
+    },
+    testFun: function (){
+      this.hideForm= !this.hideForm;
+    },
+    addUser: function (){
+      const url = `/api/users`;
+      axios.post(url,
+          {
+            name: this.formData.name,
+            email: this.formData.email,
+            weight: this.formData.weight,
+            height: this.formData.height,
+            age: this.formData.age,
+            gender: this.formData.gender
+          })
+          .then(response => {
+            this.users.push(response.data)
+            this.hideForm= true;
+          })
+          .catch(error => {
             console.log(error)
-          });
+          })
     }
-  },
-  addUser: function (){
-    const url = `/api/users`;
-    axios.post(url,
-        {
-          name: this.formData.name,
-          email: this.formData.email,
-          weight: this.formData.weight,
-          height: this.formData.height,
-          age: this.formData.age,
-          gender: this.formData.gender
-        })
-        .then(response => {
-          this.users.push(response.data)
-          this.hideForm= true;
-        })
-        .catch(error => {
-          console.log(error)
-        })
   }
 });
 </script>
