@@ -1,5 +1,6 @@
-<template id="activity-overview">
+<template id="activities-overview">
   <app-layout>
+    <!-- ************** TOGGLE BAR TO OPEN UP ADD STEP FORM *************   -->
     <div class="card bg-light mb-3">
       <div class="card-header">
         <div class="row">
@@ -16,6 +17,7 @@
         </div>
       </div>
     </div>
+
     <div class="card-body" :class="{ 'd-none': hideForm}">
       <form id="addActivity">
         <div class="input-group mb-3">
@@ -50,7 +52,7 @@
         </div>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="input-activity-started">Age</span>
+            <span class="input-group-text" id="input-activity-started">Started</span>
           </div>
           <input type="text" class="form-control" v-model="formData.started" name="started" placeholder="Started"/>
         </div>
@@ -61,7 +63,9 @@
       <div class="list-group-item d-flex align-items-start"
            v-for="(activity,index) in activities" v-bind:key="index">
         <div class="mr-auto p-2">
-          <span><a :href="`/activities/${activity.id}`">  ({{ activity.description }}{{ activity.duration }})</a></span>
+          <span><a :href="`/activities/${activity.id}`"> Activity ID: {{activity.id }}
+            ( Description: {{ activity.description }}, Duration: {{ activity.duration }})
+          </a></span>
         </div>
         <div class="p2">
           <a :href="`/activities/${activity.id}`">
@@ -80,8 +84,8 @@
 </template>
 
 <script>
-Vue.component("activity-overview", {
-  template: "#activity-overview",
+Vue.component("activities-overview", {
+  template: "#activities-overview",
   data: () => ({
     activities: [],
     formData: [],
@@ -95,40 +99,40 @@ Vue.component("activity-overview", {
       axios.get("/api/activities")
           .then(res => this.activities = res.data)
           .catch(() => alert("Error while fetching activities"));
-    }
-  },
-  deleteActivity: function (activity, index) {
-    if (confirm('Are you sure you want to delete this activity? This action cannot be undone.', 'Warning')) {
-      //user confirmed delete
-      const activityId = activity.id;
-      const url = `/api/activities/${activityId}`;
-      axios.delete(url)
-          .then(response =>
-              //delete from the local state so Vue will reload list automatically
-              this.activities.splice(index, 1).push(response.data))
-          .catch(function (error) {
+    },
+    deleteActivity: function (activity, index) {
+      if (confirm('Are you sure you want to delete this activity? This action cannot be undone.', 'Warning')) {
+        //user confirmed delete
+        const activityId = activity.id;
+        const url = `/api/activities/${activityId}`;
+        axios.delete(url)
+            .then(response =>
+                //delete from the local state so Vue will reload list automatically
+                this.activities.splice(index, 1).push(response.data))
+            .catch(function (error) {
+              console.log(error)
+            });
+      }
+    },
+    addActivity: function (){
+      const url = `/api/activities`;
+      axios.post(url,
+          {
+            description: this.formData.description,
+            duration: this.formData.duration,
+            calories: this.formData.calories,
+            rating: this.formData.rating,
+            userId: this.formData.userId,
+            started: this.formData.started
+          })
+          .then(response => {
+            this.activities.push(response.data)
+            this.hideForm= true;
+          })
+          .catch(error => {
             console.log(error)
-          });
+          })
     }
   },
-  addActivity: function (){
-    const url = `/api/activities`;
-    axios.post(url,
-        {
-          description: this.formData.description,
-          duration: this.formData.duration,
-          calories: this.formData.calories,
-          rating: this.formData.rating,
-          userId: this.formData.userId,
-          started: this.formData.started
-        })
-        .then(response => {
-          this.activities.push(response.data)
-          this.hideForm= true;
-        })
-        .catch(error => {
-          console.log(error)
-        })
-  }
 });
 </script>

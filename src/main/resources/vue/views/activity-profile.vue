@@ -80,6 +80,42 @@ Vue.component("activity-profile", {
     axios.get(url)
         .then(res => this.activity = res.data)
         .catch(() => alert("Error while fetching activity" + activityId));
+  },
+  methods: {
+    updateActivity: function () {
+      const activityId = this.$javalin.pathParams["activity-id"];
+      const url = `/api/activities/${activityId}`
+      axios.patch(url,
+          {
+            userId: this.activity.userId,
+            description: this.activity.description,
+            duration: this.activity.duration,
+            rating: this.activity.rating,
+            calories: this.activity.calories,
+            started: this.activity.started
+          })
+          .then(response =>
+              this.activity.push(response.data))
+          .catch(error => {
+            console.log(error)
+          })
+      alert("Activity updated!")
+    },
+    deleteActivity: function () {
+      if (confirm("Do you really want to delete?")) {
+        const activityId = this.$javalin.pathParams["activity-id"];
+        const url = `/api/activities/${activityId}`
+        axios.delete(url)
+            .then(response => {
+              alert("Activity deleted")
+              //display the /activities endpoint
+              window.location.href = '/activities';
+            })
+            .catch(function (error) {
+              console.log(error)
+            });
+      }
+    }
   }
 });
 </script>
