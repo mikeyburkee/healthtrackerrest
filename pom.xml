@@ -136,7 +136,18 @@
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>0.8.8</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/org.webjars.npm/chart.js -->
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>chart.js</artifactId>
+            <version>3.9.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.webjars.npm/vue-chartjs -->
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>vue-chartjs</artifactId>
+            <version>3.5.1</version>
+        </dependency>
     </dependencies>
 
 
