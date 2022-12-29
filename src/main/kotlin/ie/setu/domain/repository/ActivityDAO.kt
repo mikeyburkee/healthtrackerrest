@@ -15,6 +15,10 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class ActivityDAO {
 
     //Get all the activities in the database regardless of user id
+    /**
+     * Find all the [Activity] in the Activities table
+     * @return array list of Activities
+     */
     fun getAll(): List<Activity> {
         val activitiesList: ArrayList<Activity> = arrayListOf()
         transaction {
@@ -25,6 +29,10 @@ class ActivityDAO {
     }
 
     // Return ascending order of [sortParam] list
+    /**
+     * Find all the [Activity] in the Activities table by ascending
+     * @return array list of Activities
+     */
     fun getAllSortedAscending(sortParam: String): List<Activity> {
         val activitiesList: ArrayList<Activity> = arrayListOf()
         transaction {
@@ -41,6 +49,10 @@ class ActivityDAO {
     }
 
     // Return descending order of [sortParam] list
+    /**
+     * Find all the [Activity] in the Activities table by descending
+     * @return array list of Activities
+     */
     fun getAllSortedDescending(sortParam: String): List<Activity> {
         val activitiesList: ArrayList<Activity> = arrayListOf()
         transaction {
@@ -58,6 +70,10 @@ class ActivityDAO {
 
 
     //Find a specific activity by activity id
+    /**
+     * Find a [Activity] in the Activities table by ID
+     * @return the Activity
+     */
     fun findByActivityId(id: Int): Activity?{
         return transaction {
             Activities
@@ -68,6 +84,10 @@ class ActivityDAO {
     }
 
     //Find all activities for a specific user id
+    /**
+     * Find all [Activity] in the Activities table by user ID
+     * @return the list of Activities
+     */
     fun findByUserId(userId: Int): List<Activity>{
         return transaction {
             Activities
@@ -77,6 +97,10 @@ class ActivityDAO {
     }
 
     //Save an activity to the database
+    /**
+     * Adds a [Activity] to the Activities table
+     * @return the id of the Activity following the add
+     */
     fun save(activity: Activity): Int {
         return transaction {
             Activities.insert {
@@ -91,6 +115,10 @@ class ActivityDAO {
     }
 
     // update activity by activity id
+    /**
+     * Update a [Activity] in the Activities table
+     * @return the transaction status
+     */
     fun updateByActivityId(activityId: Int, activityToUpdate: Activity) : Int{
         return transaction {
             Activities.update ({
@@ -106,6 +134,10 @@ class ActivityDAO {
     }
 
     // delete activity by activity id
+    /**
+     * Delete a [Activity] from the Activties table by Activity ID
+     * @return the transaction status
+     */
     fun deleteByActivityId (activityId: Int): Int{
         return transaction{
             Activities.deleteWhere { Activities.id eq activityId }
@@ -113,6 +145,10 @@ class ActivityDAO {
     }
 
     // delete all activities by user id
+    /**
+     * Delete all [Activity] from the Activities table by user ID
+     * @return the transaction status
+     */
     fun deleteByUserId (userId: Int): Int{
         return transaction{
             Activities.deleteWhere { Activities.userId eq userId }
