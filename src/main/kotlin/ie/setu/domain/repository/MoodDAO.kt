@@ -16,6 +16,10 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class MoodDAO {
 
     //Get all the moods in the database regardless of user id
+    /**
+     * Find all the [Mood] in the Moods table
+     * @return array list of Moods
+     */
     fun getAll(): ArrayList<Mood> {
         val moodsList: ArrayList<Mood> = arrayListOf()
         transaction {
@@ -26,6 +30,10 @@ class MoodDAO {
     }
 
     //Find a specific activity by mood id
+    /**
+     * Find a [Mood] in the Moods table by ID
+     * @return the Mood
+     */
     fun findByMoodId(id: Int): Mood?{
         return transaction {
             Moods
@@ -36,6 +44,10 @@ class MoodDAO {
     }
 
     //Find all moods for a specific user id
+    /**
+     * Find all [Mood] in the Moods table by user ID
+     * @return the list of Mood
+     */
     fun findByUserId(userId: Int): List<Mood>{
         return transaction {
             Moods
@@ -45,6 +57,10 @@ class MoodDAO {
     }
 
     //Save a mood to the database
+    /**
+     * Adds a [Mood] to the Moods table
+     * @return the id of the Mood following the add
+     */
     fun save(mood: Mood): Int {
         return transaction {
             Moods.insert {
@@ -57,6 +73,10 @@ class MoodDAO {
     }
 
     // update a mood by mood id
+    /**
+     * Update a [Mood] in the Moods table
+     * @return the transaction status
+     */
     fun updateByMoodId(moodId: Int, moodToUpdate: Mood) : Int{
         return transaction {
             Moods.update ({
@@ -70,6 +90,10 @@ class MoodDAO {
     }
 
     // delete a mood by mood id
+    /**
+     * Delete a [Mood] from the Moods table by Mood ID
+     * @return the transaction status
+     */
     fun deleteByMoodId (moodId: Int): Int{
         return transaction{
             Moods.deleteWhere { Moods.id eq moodId }
@@ -77,7 +101,10 @@ class MoodDAO {
     }
 
     // delete all moods by user id
-
+    /**
+     * Delete all [Mood] from the Moods table by user ID
+     * @return the transaction status
+     */
     fun deleteByUserId (userId: Int): Int{
         return transaction{
             Moods.deleteWhere { Moods.userId eq userId }

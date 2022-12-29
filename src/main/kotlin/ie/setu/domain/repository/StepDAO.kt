@@ -17,6 +17,10 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class StepDAO {
 
     //Get all the steps logs in the database regardless of user id
+    /**
+     * Find all the [Step] in the Steps table
+     * @return array list of Steps
+     */
     fun getAll(): ArrayList<Step> {
         val stepssList: ArrayList<Step> = arrayListOf()
         transaction {
@@ -27,6 +31,10 @@ class StepDAO {
     }
 
     //Find a specific steps by steps id
+    /**
+     * Find a [Step] in the Steps table by step ID
+     * @return the Step
+     */
     fun findByStepId(id: Int): Step?{
         return transaction {
             Steps
@@ -37,6 +45,10 @@ class StepDAO {
     }
 
     //Find all stepss for a specific user id
+    /**
+     * Find all [Steps] in the Steps table by user ID
+     * @return the list of Steps
+     */
     fun findByUserId(userId: Int): List<Step>{
         return transaction {
             Steps
@@ -46,6 +58,10 @@ class StepDAO {
     }
 
     //Save a steps to the database
+    /**
+     * Adds a [Step] to the Steps table
+     * @return the id of the step following the add
+     */
     fun save(steps: Step): Int {
         return transaction {
             Steps.insert {
@@ -57,6 +73,10 @@ class StepDAO {
     }
 
     // update a steps log by steps id
+    /**
+     * Update a [Step] in the Steps table
+     * @return the transaction status
+     */
     fun updateByStepId(stepsId: Int, stepsToUpdate: Step) : Int{
         return transaction {
             Steps.update ({
@@ -69,6 +89,10 @@ class StepDAO {
     }
 
     // delete a steps log by steps id
+    /**
+     * Delete a [Step] from the Steps table by step ID
+     * @return the transaction status
+     */
     fun deleteByStepId (stepsId: Int): Int{
         return transaction{
             Steps.deleteWhere { Steps.id eq stepsId }
@@ -76,6 +100,10 @@ class StepDAO {
     }
 
     // delete steps logs by a user id
+    /**
+     * Delete all [Step] from the Steps table by user ID
+     * @return the transaction status
+     */
     fun deleteByUserId (userId: Int): Int{
         return transaction{
             Steps.deleteWhere { Steps.userId eq userId }
