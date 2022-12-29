@@ -131,12 +131,12 @@ class JavalinConfig {
                         delete(SleepController::deleteSleepByUserId) // api tester complete
                     }
                     path("waters"){
-                        get(WaterController::getWatersByUserId)
-                        delete(WaterController::deleteWaterByUserId)
+                        get(WaterController::getWatersByUserId) // api tester complete
+                        delete(WaterController::deleteWaterByUserId)// api tester complete
                     }
                     path("steps"){
-                        get(StepController::getStepsByUserId) //TODO api tester
-                        delete(StepController::deleteStepByUserId) //TODO api tester
+                        get(StepController::getStepsByUserId) // api tester complete
+                        delete(StepController::deleteStepByUserId) // api tester complete
                     }
                 }
                 path("/email/{email}"){
