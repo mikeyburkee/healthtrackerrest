@@ -2,7 +2,7 @@
 
 Health tracker rest application.
 
-The application consists of features.
+Users of the application can track health indicators. These health indicators include sleep, steps, activties, mood and water logs. Users can help track these to keep them accountable on their fitness and health journey. 
 
 There can be multiple users which in turn have multiple:
   Activities,
@@ -37,4 +37,13 @@ Users can log sleep:
   Duration (hours),
   Descrption,
   Wake up time.
+
+
+The project is hosted on railway and uses elephant sql as a database. These were used due to being free. It is a maven project and has all of its dependices and plugins available for viewing in the POM.xml
+
+The front end uses Vue and Bootstrap. 
+
+
+
+
 
